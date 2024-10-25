@@ -46,7 +46,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     i++
   }
 
-  const currentPhoto = reducedResults.find(
+  const currentPhoto: ImageProps = reducedResults.find(
     (img) => img.id === Number(context.params.photoId)
   )
   currentPhoto.blurDataUrl = await getBase64ImageUrl(currentPhoto)
@@ -58,7 +58,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   }
 }
 
-export async function getStaticPaths () {
+export async function getStaticPaths (): Promise<object> {
   const results = await cloudinary.v2.search
     .expression(`folder:${process.env.CLOUDINARY_FOLDER}/*`)
     .sort_by('public_id', 'desc')
