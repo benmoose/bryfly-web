@@ -1,10 +1,13 @@
 {
+  "name": "bryfly-web",
+  "author": "Ben Hadfield <benjohnhadfield@gmail.com>",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "standard components/**/*.js pages/**/*.js utils/**/*.js"
+    "lint": "ts-standard",
+    "fmt": "ts-standard --fix"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.4",
@@ -30,8 +33,12 @@
     "prettier-plugin-tailwindcss": "^0.1.13",
     "standard": "^17.1.2",
     "tailwindcss": "^3.2.1",
+    "ts-standard": "^12.0.2",
     "typescript": "4.8.4"
   },
-  "name": "bryfly-web",
-  "author": "Ben Hadfield <benjohnhadfield@gmail.com>"
+  "ts-standard": {
+    "ignore": [
+      "utils"
+    ]
+  }
 }
