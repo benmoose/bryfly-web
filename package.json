@@ -40,5 +40,8 @@
     "ignore": [
       "utils"
     ]
+  },
+  "engines": {
+    "node": "^23.1.0"
   }
 }

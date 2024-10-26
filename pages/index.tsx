@@ -27,15 +27,15 @@ export default function Home ({ images }: InferGetStaticPropsType<typeof getStat
   }, [photoId, lastViewedPhoto, setLastViewedPhoto])
 
   return (
-    <>
+    <div className='flex flex-col justify-items-stretch h-dvh'>
       <Head>
         <title>BryFly</title>
         <meta
           property='og:image'
-          content='https://nextjsconf-pics.vercel.app/og-image.png'
+          content=''
         />
       </Head>
-      <main className='mx-auto max-w-[1960px] p-4'>
+      <main className='mx-auto max-w-[1960px] p-4 flex-1'>
         {photoId && (
           <Modal
             images={images}
@@ -45,14 +45,11 @@ export default function Home ({ images }: InferGetStaticPropsType<typeof getStat
           />
         )}
         <div className='columns-1 gap-4 sm:columns-2 xl:columns-3 2xl:columns-4'>
-          <div className='after:content relative mb-5 flex h-[629px] flex-col items-center justify-end gap-4 overflow-hidden rounded-lg bg-white/10 px-6 pb-16 pt-64 text-center text-white shadow-highlight after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight lg:pt-0'>
-            <Logo width={286} />
-            <h1 className='mt-8 mb-4 text-base font-bold tracking-widest'>
-              &quot;browse me disco balls!&quot;
+          <div className='after:content relative mb-5 flex h-[419px] flex-col items-center justify-end gap-4 overflow-hidden rounded-lg bg-white/10 px-6 pb-16 pt-64 text-center text-white shadow-highlight after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight lg:pt-0'>
+            <Logo width={306} />
+            <h1 className='mt-0 mb-6 text-xl font-bold tracking-widest'>
+              Browse me disco balls
             </h1>
-            {/*<p className='max-w-[40ch] text-white/75 sm:max-w-[32ch]'>*/}
-            {/*  Bryony's balls blah blah blahblahblah blahblah b-blah blah.*/}
-            {/*</p>*/}
             <div className='z-10 mt-6'>
               <a
                 className='pointer mr-2 rounded-lg border border-white bg-transparent px-3 py-2 text-sm font-medium text-white transition hover:bg-white/10 hover:text-white md:mt-4'
@@ -66,11 +63,11 @@ export default function Home ({ images }: InferGetStaticPropsType<typeof getStat
                 className='pointer rounded-lg border border-white bg-gray-100 px-3 py-2 text-sm font-bold text-black transition hover:bg-white/10 hover:text-white md:mt-4'
                 href='/contact'
               >
-                I'm interested!
+                Get in touch
               </a>
             </div>
           </div>
-          {images.map(({ index, public_id, format, blurDataUrl }) => {
+          {images.map(({ id, public_id, format, blurDataUrl, ...rest }) => {
             return (
               <Link
                 key={index}
@@ -81,7 +78,7 @@ export default function Home ({ images }: InferGetStaticPropsType<typeof getStat
                 className='after:content group relative mb-5 block w-full cursor-zoom-in after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight'
               >
                 <Image
-                  alt='Bryfly image'
+                  alt='A BryFly image'
                   className='transform rounded-lg brightness-90 transition will-change-auto group-hover:brightness-110'
                   style={{ transform: 'translate3d(0, 0, 0)' }}
                   placeholder='blur'
@@ -99,10 +96,10 @@ export default function Home ({ images }: InferGetStaticPropsType<typeof getStat
           })}
         </div>
       </main>
-      <footer className='p-6 text-center text-white/40 sm:p-12'>
-        Made by Moose.
+      <footer className='p-4 text-center text-white/40 sm:p-8'>
+        Made by <a href='https://instagram.com/_benmoose' target='_blank' rel='noreferrer' className='font-medium text-white/50 hover:text-white/80 hover:underline'>Moose</a>.
       </footer>
-    </>
+    </div>
   )
 }
 
