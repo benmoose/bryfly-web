@@ -1,17 +1,19 @@
-import cloudinary from './cloudinary'
+import cloudinary, {APIResource, APIResult} from './cloudinary'
 
-let cachedResults
+let cachedResults: APIResult
 
-export default async function getResults () {
+export async function getResults (): Promise<APIResult> {
   if (!cachedResults) {
-    const fetchedResults = await cloudinary.v2.search
+    cachedResults = await cloudinary.v2.search
       .expression(`folder:${process.env.CLOUDINARY_FOLDER}/*`)
       .sort_by('public_id', 'desc')
-      .max_results(400)
+      .max_results(200)
       .execute()
-
-    cachedResults = fetchedResults
   }
 
   return cachedResults
+}
+
+export async function getByPublicId(publicId: string): Promise<APIResource> {
+  return await cloudinary.v2.api.resource(publicId)
 }

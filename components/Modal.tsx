@@ -17,7 +17,7 @@ export default function Modal ({
   const router = useRouter()
 
   const { photoId } = router.query
-  const index = Number(photoId)
+  const index = images.map(img => img?.public_id).indexOf(photoId.toString())
 
   const [direction, setDirection] = useState(0)
   const [curIndex, setCurIndex] = useState(index)
@@ -33,12 +33,13 @@ export default function Modal ({
     } else {
       setDirection(-1)
     }
+    const newImageId = images[newVal]?.public_id
     setCurIndex(newVal)
     router.push(
       {
-        query: { photoId: newVal }
+        query: { photoId: newImageId }
       },
-      `/p/${newVal}`,
+      `/p/${newImageId}`,
       { shallow: true }
     )
   }
@@ -72,7 +73,7 @@ export default function Modal ({
         animate={{ opacity: 1 }}
       />
       <SharedModal
-        index={curIndex}
+        activeIndex={curIndex}
         direction={direction}
         images={images}
         changePhotoId={changePhotoId}

@@ -8,3 +8,21 @@ cloudinary.v2.config({
 })
 
 export default cloudinary
+
+export interface APIResource {
+  public_id: string
+  url: string
+  secure_url: string
+  format: string
+  width: number
+  height: number
+  resource_type: string
+}
+
+export interface APIResult {
+  total_count: number
+  resources: APIResource[]
+  rate_limit_allowed: number
+  rate_limit_remaining: number
+  rate_limit_reset_at: string
+}
