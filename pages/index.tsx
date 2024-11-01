@@ -45,14 +45,14 @@ export default function Home ({ images }: InferGetStaticPropsType<typeof getStat
           />
         )}
         <div className='columns-1 gap-4 sm:columns-2 xl:columns-3 2xl:columns-4'>
-          <div className='after:content relative mb-5 flex h-[419px] flex-col items-center justify-end gap-4 overflow-hidden rounded-lg bg-white/10 px-6 pb-16 pt-64 text-center text-white shadow-highlight after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight lg:pt-0'>
+          <div className='after:content relative mb-5 flex h-[419px] lg:h-[440px] flex-col items-center justify-end gap-4 overflow-hidden rounded-lg bg-white/10 px-6 pb-20 pt-64 text-center text-white shadow-highlight after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight lg:pt-0'>
             <Logo width={306} />
-            <h1 className='mt-0 mb-6 text-xl font-bold tracking-widest'>
-              Browse me disco balls
+            <h1 className='mt-0 mb-6 text-xl lg:text-2xl font-bold tracking-wider'>
+              browse me disco balls
             </h1>
-            <div className='z-10 mt-6'>
+            <div className='z-10 mt-2 md:mt-6 text-base md:text-lg lg:text-xl'>
               <a
-                className='pointer mr-2 rounded-lg border border-white bg-transparent px-3 py-2 text-sm font-medium text-white transition hover:bg-white/10 hover:text-white md:mt-4'
+                className='pointer mr-2 rounded-lg border border-white/50 bg-transparent px-3 py-2 font-bold text-white/85 transition hover:bg-white/5 hover:border-white/100 hover:text-white md:mt-4'
                 href='https://www.instagram.com/bryfly2000/'
                 target='_blank'
                 rel='noreferrer'
@@ -60,10 +60,10 @@ export default function Home ({ images }: InferGetStaticPropsType<typeof getStat
                 Instagram
               </a>
               <a
-                className='pointer rounded-lg border border-white bg-gray-100 px-3 py-2 text-sm font-bold text-black transition hover:bg-white/10 hover:text-white md:mt-4'
+                className='pointer rounded-lg border border-white bg-gray-100 px-3 py-2 font-semibold text-black transition hover:border-cyan-200 hover:bg-cyan-50 md:mt-4'
                 href='/contact'
               >
-                Get in touch
+                Talk to me!
               </a>
             </div>
           </div>
