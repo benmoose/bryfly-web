@@ -4,6 +4,7 @@ import {APIResource} from "./cloudinary";
 export interface ImageProps extends APIResource {
   index?: number
   blurDataUrl?: string
+  context?: object
 }
 
 export interface SharedModalProps {

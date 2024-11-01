@@ -40,7 +40,7 @@ export default function Home ({ images }: InferGetStaticPropsType<typeof getStat
           <Modal
             images={images}
             onClose={() => {
-              setLastViewedPhoto(currentImage.index)
+              setLastViewedPhoto(currentImage?.index)
             }}
           />
         )}
@@ -67,7 +67,7 @@ export default function Home ({ images }: InferGetStaticPropsType<typeof getStat
               </a>
             </div>
           </div>
-          {images.map(({ id, public_id, format, blurDataUrl, ...rest }) => {
+          {images.map(({ public_id, url, blurDataUrl, index }) => {
             return (
               <Link
                 key={index}
@@ -83,7 +83,7 @@ export default function Home ({ images }: InferGetStaticPropsType<typeof getStat
                   style={{ transform: 'translate3d(0, 0, 0)' }}
                   placeholder='blur'
                   blurDataURL={blurDataUrl}
-                  src={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_720/${public_id}.${format}`}
+                  src={url}
                   width={720}
                   height={480}
                   sizes='(max-width: 640px) 100vw,
@@ -96,8 +96,8 @@ export default function Home ({ images }: InferGetStaticPropsType<typeof getStat
           })}
         </div>
       </main>
-      <footer className='p-4 text-center text-white/40 sm:p-8'>
-        Made by <a href='https://instagram.com/_benmoose' target='_blank' rel='noreferrer' className='font-medium text-white/50 hover:text-white/80 hover:underline'>Moose</a>.
+      <footer className='p-4 text-sm text-center text-white/35 sm:p-8 tracking-wide'>
+        made by&nbsp;<a href='https://instagram.com/_benmoose' target='_blank' rel='noreferrer' className='font-bold text-white/40 hover:text-white/50'>Moose</a>
       </footer>
     </div>
   )
