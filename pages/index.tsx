@@ -11,7 +11,7 @@ import getBase64ImageUrl from '../utils/generateBlurPlaceholder'
 import type { ImageProps } from '../utils/types'
 import { useLastViewedPhoto } from '../utils/useLastViewedPhoto'
 
-const Home: NextPage = ({ images }: { images: ImageProps[] }) => {
+const Home: NextPage = ({ images }: { images: object[] }) => {
   const router = useRouter()
   const { photoId } = router.query
   const [lastViewedPhoto, setLastViewedPhoto] = useLastViewedPhoto()
@@ -68,7 +68,6 @@ const Home: NextPage = ({ images }: { images: ImageProps[] }) => {
             </a>
           </div>
           {images.map(({ id, public_id, format, blurDataUrl, ...rest }) => {
-            console.log('>> props:', id, public_id, format, blurDataUrl, 'rest', rest)
             return (
               <Link
                 key={id}

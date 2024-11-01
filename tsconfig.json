@@ -16,6 +16,13 @@
     "strictNullChecks": false,
     "jsx": "preserve"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "./typings-custom/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
