@@ -103,7 +103,7 @@ export default function Home ({ images }: InferGetStaticPropsType<typeof getStat
   )
 }
 
-export const getStaticProps = (async (context) => {
+export const getStaticProps = (async () => {
   const results = await getResults()
   const blurUrls = await Promise.all(results.resources.map(async image => {
     return await getBase64ImageUrl(image)

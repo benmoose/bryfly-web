@@ -2,7 +2,6 @@ import type { InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from 'ne
 import Head from 'next/head'
 import Carousel from '../../components/Carousel'
 import { getResults } from '../../utils/cachedImages'
-import { APIResult } from '../../utils/cloudinary'
 import getBase64ImageUrl from '../../utils/generateBlurPlaceholder'
 import type { ImageProps } from '../../utils/types'
 
