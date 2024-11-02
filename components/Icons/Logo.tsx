@@ -1,13 +1,12 @@
 import Image from 'next/image'
+import BryFlyLogo from 'public/logo-3.png'
 
-export default function Logo ({ width }: { width: number }) {
+export default function Logo () {
   return (
     <Image
       priority
-      src='/logo.png'
-      alt='BryFl logo'
-      width={width}
-      height={100}
+      src={BryFlyLogo}
+      alt='BryFly logo'
     />
   )
 }

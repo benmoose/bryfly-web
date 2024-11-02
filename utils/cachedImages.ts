@@ -1,4 +1,4 @@
-import cloudinary, {APIResource, APIResult} from './cloudinary'
+import cloudinary, {APIResult} from './cloudinary'
 
 let cachedResults: APIResult
 
@@ -12,8 +12,4 @@ export async function getResults (): Promise<APIResult> {
   }
 
   return cachedResults
-}
-
-export async function getByPublicId(publicId: string): Promise<APIResource> {
-  return await cloudinary.v2.api.resource(publicId)
 }

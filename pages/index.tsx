@@ -46,7 +46,7 @@ export default function Home ({ images }: InferGetStaticPropsType<typeof getStat
         )}
         <div className='columns-1 gap-4 sm:columns-2 xl:columns-3 2xl:columns-4'>
           <div className='after:content relative mb-5 flex h-[419px] lg:h-[440px] flex-col items-center justify-end gap-4 overflow-hidden rounded-lg bg-white/10 px-6 pb-20 pt-64 text-center text-white shadow-highlight after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight lg:pt-0'>
-            <Logo width={306} />
+            <Logo />
             <h1 className='mt-0 mb-6 text-xl lg:text-2xl font-bold tracking-wider'>
               browse me disco balls
             </h1>
