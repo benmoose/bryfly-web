@@ -5,7 +5,7 @@ export default function Logo ({ width }: { width: number }) {
     <Image
       priority
       src='/logo.png'
-      alt='BryFl logo'
+      alt='BryFly logo'
       width={width}
       height={100}
     />
