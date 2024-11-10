@@ -1,3 +1,5 @@
+'use client'
+
 import {
   ArrowDownTrayIcon,
   ArrowTopRightOnSquareIcon,
@@ -159,7 +161,7 @@ export default function SharedModal ({
                 className='mx-auto mt-6 mb-6 flex aspect-[3/2] h-14'
               >
                 <AnimatePresence initial={false}>
-                  {filteredImages.map(({ index, public_id, url }) => (
+                  {filteredImages.map(({ index, public_id, secure_url }) => (
                     <motion.button
                       initial={{
                         width: '0%',
@@ -188,7 +190,7 @@ export default function SharedModal ({
                             ? 'brightness-110 hover:brightness-110'
                             : 'brightness-50 contrast-125 hover:brightness-75'
                         } h-full transform object-cover transition`}
-                        src={url}
+                        src={secure_url}
                       />
                     </motion.button>
                   ))}

@@ -11,7 +11,6 @@ export default cloudinary
 
 export interface APIResource {
   public_id: string
-  url: string
   secure_url: string
   format: string
   width: number

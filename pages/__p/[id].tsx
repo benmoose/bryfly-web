@@ -10,8 +10,8 @@ export default function Home ({ image, images }: InferGetStaticPropsType<typeof 
     <>
       <Head>
         <title>BryFly</title>
-        <meta property='og:image' content={image.url} />
-        <meta name='twitter:image' content={image.url} />
+        <meta property='og:image' content={image.secure_url} />
+        <meta name='twitter:image' content={image.secure_url} />
       </Head>
       <main className='mx-auto max-w-[1960px] p-4'>
         <Carousel images={images} image={image} index={image.index} />
@@ -33,7 +33,6 @@ export const getStaticProps = (async (context) => {
   }))
   const paramId = context.params.id as string
   const index = results.resources.findIndex(resource => resource.public_id === paramId)
-
   return { props: { images, image: images[index] } }
 }) satisfies GetStaticProps<{
   image: ImageProps
