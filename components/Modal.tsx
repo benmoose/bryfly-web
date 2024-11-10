@@ -1,9 +1,9 @@
 'use client'
 
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Dialog } from '@headlessui/react'
 import { motion } from 'framer-motion'
-import { useRouter } from 'next/router'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import useKeypress from 'react-use-keypress'
 import type { ImageProps } from '../utils/types'
 import SharedModal from './SharedModal'
@@ -15,17 +15,17 @@ export default function Modal ({
   images: ImageProps[]
   onClose?: () => void
 }) {
-  const overlayRef = useRef()
+  const searchParams = useSearchParams()
   const router = useRouter()
 
-  const { photoId } = router.query
-  const index = images.map(img => img?.public_id).indexOf(photoId.toString())
+  const id = searchParams.get('id')
+  const index = images.map(img => img?.public_id).indexOf(id)
 
   const [direction, setDirection] = useState(0)
   const [curIndex, setCurIndex] = useState(index)
 
   function handleClose () {
-    router.push('/', undefined, { shallow: true })
+    router.push('/')
     onClose()
   }
 
@@ -37,13 +37,7 @@ export default function Modal ({
     }
     const newImageId = images[newVal]?.public_id
     setCurIndex(newVal)
-    router.push(
-      {
-        query: { photoId: newImageId }
-      },
-      `/p/${newImageId}`,
-      { shallow: true }
-    )
+    router.push(`/?id=${newImageId}`)
   }
 
   useKeypress('ArrowRight', () => {
@@ -63,11 +57,11 @@ export default function Modal ({
       static
       open
       onClose={handleClose}
-      initialFocus={overlayRef}
+      // initialFocus={overlayRef}
       className='fixed inset-0 z-10 flex items-center justify-center'
     >
       <Dialog.Overlay
-        ref={overlayRef}
+        // ref={overlayRef}
         as={motion.div}
         key='backdrop'
         className='fixed inset-0 z-30 bg-black/70 backdrop-blur-2xl'

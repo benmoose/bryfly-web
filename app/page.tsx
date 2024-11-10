@@ -1,15 +1,8 @@
-import { useEffect, useRef } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
 import Modal from 'components/Modal'
 import Logo from 'components/Icons/Logo'
-import { useLastViewedPhoto } from '../utils/useLastViewedPhoto'
 import ImagesGrid from './images'
 
 export default function Page () {
-  const [lastViewedPhoto, setLastViewedPhoto] = useLastViewedPhoto()
-  const lastViewedPhotoRef = useRef<HTMLAnchorElement>(null)
-
   return (
     <div className='flex flex-col justify-items-stretch h-dvh'>
       <main className='mx-auto max-w-[1960px] p-4 flex-1'>

@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { useEffect, useRef } from 'react'
 import { ImageProps } from 'utils/types'
 import { fetchImages } from 'utils/cachedImages'
 
