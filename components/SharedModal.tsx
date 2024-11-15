@@ -1,5 +1,3 @@
-'use client'
-
 import {
   ArrowDownTrayIcon,
   ArrowTopRightOnSquareIcon,
@@ -12,9 +10,20 @@ import { AnimatePresence, motion, MotionConfig } from 'framer-motion'
 import Image from 'next/image'
 import { useState } from 'react'
 import { useSwipeable } from 'react-swipeable'
-import { variants } from '../utils/animationVariants'
-import downloadPhoto from '../utils/downloadPhoto'
-import type { SharedModalProps } from '../utils/types'
+import { variants } from 'utils/animationVariants'
+import downloadPhoto from 'utils/downloadPhoto'
+import { ImageProps } from 'utils/types'
+import cloudinary from 'utils/cloudinary'
+
+interface Props {
+  activeIndex: number
+  images: ImageProps[]
+  currentPhoto?: ImageProps
+  changePhotoId: (newVal: number) => void
+  closeModal: () => void
+  navigation: boolean
+  direction?: number
+}
 
 export default function SharedModal ({
   activeIndex,
@@ -24,13 +33,12 @@ export default function SharedModal ({
   navigation,
   currentPhoto,
   direction
-}: SharedModalProps) {
+}: Props) {
   const [loaded, setLoaded] = useState(false)
-
-  const imageIds = images.map(({ public_id }) => public_id).filter(Boolean)
-  const filteredImages = images?.filter(image =>
+  const imageIds = images.map(image => image.public_id)
+  const filteredImages = images?.filter(image => (
     imageIds.slice(activeIndex - 15, activeIndex + 15).includes(image.public_id)
-  )
+  ))
   const currentImage = images ? images[activeIndex] : currentPhoto
 
   const handlers = useSwipeable({
@@ -48,11 +56,10 @@ export default function SharedModal ({
   })
 
   return (
-    <MotionConfig
-      transition={{
-        x: { type: 'spring', stiffness: 300, damping: 30 },
-        opacity: { duration: 0.2 }
-      }}
+    <MotionConfig transition={{
+      x: { type: 'spring', stiffness: 300, damping: 30 },
+      opacity: { duration: 0.2 }
+    }}
     >
       <div
         className='relative z-50 flex aspect-[3/2] w-full max-w-7xl items-center wide:h-full xl:taller-than-854:h-auto'
@@ -72,14 +79,18 @@ export default function SharedModal ({
                 className='absolute'
               >
                 <Image
-                  src={`https://res.cloudinary.com/${
-                    process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
-                  }/image/upload/c_scale,${navigation ? 'w_1280' : 'w_1920'}/${currentImage.public_id}.${currentImage.format}`}
+                  src={cloudinary.url(currentImage.public_id, {
+                    transformation: [
+                      { crop: 'scale', width: navigation ? 1280 : 1920 },
+                      { quality: 'auto' },
+                      { fetch_format: 'auto' }
+                    ]
+                  })}
                   width={navigation ? 1280 : 1920}
                   height={navigation ? 853 : 1280}
-                  priority
-                  alt='BryFly abstract mirror image'
+                  alt="Image of one of BryFly's balls"
                   onLoad={() => setLoaded(true)}
+                  priority
                 />
               </motion.div>
             </AnimatePresence>
@@ -143,12 +154,8 @@ export default function SharedModal ({
                   className='rounded-full bg-black/50 p-2 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white'
                 >
                   {navigation
-                    ? (
-                      <XMarkIcon className='h-5 w-5' />
-                      )
-                    : (
-                      <ArrowUturnLeftIcon className='h-5 w-5' />
-                      )}
+                    ? <XMarkIcon className='h-5 w-5' />
+                    : <ArrowUturnLeftIcon className='h-5 w-5' />}
                 </button>
               </div>
             </div>

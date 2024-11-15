@@ -6,15 +6,14 @@ import { useRouter } from 'next/router'
 import { useEffect, useRef } from 'react'
 import Logo from '../components/Icons/Logo'
 import Modal from '../components/Modal'
-import getBase64ImageUrl from '../utils/generateBlurPlaceholder'
 import type { ImageProps } from '../utils/types'
-import { useLastViewedPhoto } from '../utils/useLastViewedPhoto'
-import { getResults } from '../utils/cachedImages'
+import { useLastViewedImage } from 'utils/useLastViewedImage'
+import { getImages } from '../utils/cachedImages'
 
 export default function Home ({ images }: InferGetStaticPropsType<typeof getStaticProps>) {
   const router = useRouter()
   const { photoId } = router.query
-  const [lastViewedPhoto, setLastViewedPhoto] = useLastViewedPhoto()
+  const [lastViewedPhoto, setLastViewedPhoto] = useLastViewedImage()
   const lastViewedPhotoRef = useRef<HTMLAnchorElement>(null)
   const currentImage = images.find(img => img.public_id === photoId)
 
@@ -39,9 +38,9 @@ export default function Home ({ images }: InferGetStaticPropsType<typeof getStat
         {photoId && (
           <Modal
             images={images}
-            onClose={() => {
-              setLastViewedPhoto(currentImage?.index)
-            }}
+            // onClose={() => {
+            //   setLastViewedPhoto(currentImage?.index)
+            // }}
           />
         )}
         <div className='columns-1 gap-4 sm:columns-2 xl:columns-3 2xl:columns-4'>
@@ -67,7 +66,7 @@ export default function Home ({ images }: InferGetStaticPropsType<typeof getStat
               </a>
             </div>
           </div>
-          {images.map(({ public_id, url, blurDataUrl, index }) => {
+          {images.map(({ public_id, secure_url, blurDataUrl, index }) => {
             return (
               <Link
                 key={index}
@@ -83,7 +82,7 @@ export default function Home ({ images }: InferGetStaticPropsType<typeof getStat
                   style={{ transform: 'translate3d(0, 0, 0)' }}
                   placeholder='blur'
                   blurDataURL={blurDataUrl}
-                  src={url}
+                  src={secure_url}
                   width={720}
                   height={480}
                   sizes='(max-width: 640px) 100vw,
@@ -104,18 +103,11 @@ export default function Home ({ images }: InferGetStaticPropsType<typeof getStat
 }
 
 export const getStaticProps = (async () => {
-  const results = await getResults()
-  const blurUrls = await Promise.all(results.resources.map(async image => {
-    return await getBase64ImageUrl(image)
-  }))
-
+  const images = await getImages()
   return {
     props: {
-      images: results.resources.map((resource, index) => ({
-        ...resource,
-        index,
-        url: resource.secure_url,
-        blurDataUrl: blurUrls[index]
+      images: images.map((image, index) => ({
+        ...image, index
       }))
     }
   }

@@ -1,9 +1,8 @@
 import type { InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from 'next'
 import Head from 'next/head'
-import Carousel from '../../components/Carousel'
-import { getResults } from '../../utils/cachedImages'
-import getBase64ImageUrl from '../../utils/generateBlurPlaceholder'
-import type { ImageProps } from '../../utils/types'
+import Carousel from 'components/Carousel'
+import { getImages } from 'utils/cachedImages'
+import type { ImageProps } from 'utils/types'
 
 export default function Home ({ image, images }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
@@ -21,30 +20,26 @@ export default function Home ({ image, images }: InferGetStaticPropsType<typeof 
 }
 
 export const getStaticProps = (async (context) => {
-  const results = await getResults()
-  const blurUrls = await Promise.all(results.resources.map(async image => {
-    return await getBase64ImageUrl(image)
-  }))
-  const images = results.resources.map((resource, index) => ({
-    ...resource,
-    index,
-    url: resource.secure_url,
-    blurDataUrl: blurUrls[index]
-  }))
+  const images = await getImages()
   const paramId = context.params.id as string
-  const index = results.resources.findIndex(resource => resource.public_id === paramId)
-  return { props: { images, image: images[index] } }
+  const index = images.findIndex(image => image.public_id === paramId)
+  return {
+    props: {
+      images,
+      image: images[index]
+    }
+  }
 }) satisfies GetStaticProps<{
   image: ImageProps
   images: ImageProps[]
 }>
 
 export const getStaticPaths = (async () => {
-  const results = await getResults()
+  const images = await getImages()
 
   return {
-    paths: results.resources.map(res => ({
-      params: { id: res.public_id }
+    paths: images.map(image => ({
+      params: { id: image.public_id }
     })),
     fallback: false
   }

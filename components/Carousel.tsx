@@ -4,22 +4,20 @@ import Image from 'next/image'
 import { redirect } from 'next/navigation'
 import useKeypress from 'react-use-keypress'
 import type { ImageProps } from 'utils/types'
-import { useLastViewedPhoto } from 'utils/useLastViewedPhoto'
+import { useLastViewedImage } from 'utils/useLastViewedImage'
 import SharedModal from './SharedModal'
 
-export default function Carousel ({
-  index,
-  image,
-  images
-}: {
+interface Props {
   index: number
   image: ImageProps
   images: ImageProps[]
-}) {
-  const [, setLastViewedPhoto] = useLastViewedPhoto()
+}
+
+export default function Carousel ({ index, image, images }: Props) {
+  const [, setLastViewedImage] = useLastViewedImage()
 
   function closeModal () {
-    setLastViewedPhoto(image.public_id)
+    setLastViewedImage(image.public_id)
     redirect('/')
   }
 
@@ -34,13 +32,13 @@ export default function Carousel ({
   return (
     <div className='fixed inset-0 flex items-center justify-center'>
       <button
-        className='absolute inset-0 z-30 cursor-default bg-black backdrop-blur-2xl'
         onClick={closeModal}
+        className='absolute inset-0 z-30 cursor-default bg-black backdrop-blur-2xl'
       >
         <Image
           src={image.blurDataUrl}
+          alt=''
           className='pointer-events-none h-full w-full'
-          alt='blurred background'
           fill
           priority
         />

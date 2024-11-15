@@ -3,21 +3,15 @@
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Dialog } from '@headlessui/react'
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import useKeypress from 'react-use-keypress'
-import type { ImageProps } from '../utils/types'
+import type { ImageProps } from 'utils/types'
 import SharedModal from './SharedModal'
 
-export default function Modal ({
-  images,
-  onClose
-}: {
-  images: ImageProps[]
-  onClose?: () => void
-}) {
-  const searchParams = useSearchParams()
+export default function Modal ({ images }: { images: ImageProps[] }) {
+  const overlayRef = useRef()
   const router = useRouter()
-
+  const searchParams = useSearchParams()
   const id = searchParams.get('id')
   const index = images.map(img => img?.public_id).indexOf(id)
 
@@ -26,7 +20,6 @@ export default function Modal ({
 
   function handleClose () {
     router.push('/')
-    onClose()
   }
 
   function changePhotoId (newVal: number) {
@@ -57,11 +50,11 @@ export default function Modal ({
       static
       open
       onClose={handleClose}
-      // initialFocus={overlayRef}
+      initialFocus={overlayRef}
       className='fixed inset-0 z-10 flex items-center justify-center'
     >
       <Dialog.Overlay
-        // ref={overlayRef}
+        ref={overlayRef}
         as={motion.div}
         key='backdrop'
         className='fixed inset-0 z-30 bg-black/70 backdrop-blur-2xl'
@@ -72,6 +65,7 @@ export default function Modal ({
         activeIndex={curIndex}
         direction={direction}
         images={images}
+        currentPhoto={images[index]}
         changePhotoId={changePhotoId}
         closeModal={handleClose}
         navigation

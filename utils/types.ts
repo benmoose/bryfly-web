@@ -1,18 +1,19 @@
 /* eslint-disable no-unused-vars */
-import {APIResource} from "./cloudinary";
-
-export interface ImageProps extends APIResource {
+export interface ImageProps extends CloudinaryResource {
   index?: number
   blurDataUrl?: string
-  context?: object
 }
 
-export interface SharedModalProps {
-  activeIndex: number
-  images?: ImageProps[]
-  currentPhoto?: ImageProps
-  changePhotoId: (newVal: number) => void
-  closeModal: () => void
-  navigation: boolean
-  direction?: number
+interface CloudinaryResource extends CloudinaryId{
+  format: string
+  width: number
+  height: number
+  resource_type: string
+  secure_url: string
+  display_name?: string
+}
+
+export interface CloudinaryId {
+  public_id: string
+  asset_id?: string
 }

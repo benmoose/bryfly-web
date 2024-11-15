@@ -1,14 +1,14 @@
+import { getImages } from 'utils/cachedImages'
 import Carousel from 'components/Carousel'
-import { getResults, fetchImages } from 'utils/cachedImages'
 
 export async function generateStaticParams () {
-  const { resources } = await getResults()
-  return resources.map(res => ({ id: res.public_id }))
+  const images = await getImages()
+  return images.map(image => ({ id: image.public_id }))
 }
 
 export default async function Page ({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const images = await fetchImages()
+  const images = await getImages()
   const index = images.findIndex(image => image.public_id === id)
   return (
     <main className='mx-auto max-w-[1960px] p-4'>
