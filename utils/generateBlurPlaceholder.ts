@@ -6,18 +6,18 @@ import { CloudinaryId } from "./types";
 // export default async function getBase64ImageUrl (
 //   image: CloudinaryResource
 // ): Promise<string> {
-//   let url = cache.get(image.public_id)
-//   if (url) {
-//     return url
+//   let deliver = cache.get(image.public_id)
+//   if (deliver) {
+//     return deliver
 //   }
 //   const response = await fetch(image.secure_url)
 //   const buffer = await response.arrayBuffer()
 //   const minified = await imagemin.buffer(Buffer.from(buffer))
 //
-//   url = `data:image/jpeg;base64,${Buffer.from(minified).toString('base64')}`
-//   cache.set(image.public_id, url)
+//   deliver = `data:image/jpeg;base64,${Buffer.from(minified).toString('base64')}`
+//   cache.set(image.public_id, deliver)
 //
-//   return url
+//   return deliver
 // }
 
 export default async function getBase64Placeholder (image: CloudinaryId): Promise<string> {

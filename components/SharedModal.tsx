@@ -12,13 +12,13 @@ import { useState } from 'react'
 import { useSwipeable } from 'react-swipeable'
 import { variants } from 'utils/animationVariants'
 import downloadPhoto from 'utils/downloadPhoto'
-import { ImageProps } from 'utils/types'
-import cloudinary from 'utils/cloudinary'
+import { Image as ImageT } from 'services/cloudinary-client/resources'
+import { url } from 'services/cloudinary-client/deliver'
 
 interface Props {
   activeIndex: number
-  images: ImageProps[]
-  currentPhoto?: ImageProps
+  images: ImageT[]
+  currentPhoto?: ImageT
   changePhotoId: (newVal: number) => void
   closeModal: () => void
   navigation: boolean
@@ -79,13 +79,7 @@ export default function SharedModal ({
                 className='absolute'
               >
                 <Image
-                  src={cloudinary.url(currentImage.public_id, {
-                    transformation: [
-                      { crop: 'scale', width: navigation ? 1280 : 1920 },
-                      { quality: 'auto' },
-                      { fetch_format: 'auto' }
-                    ]
-                  })}
+                  src={url({ src: currentImage.public_id, width: navigation ? 1280 : 1920 })}
                   width={navigation ? 1280 : 1920}
                   height={navigation ? 853 : 1280}
                   alt="Image of one of BryFly's balls"
@@ -127,7 +121,7 @@ export default function SharedModal ({
               <div className='absolute top-0 right-0 flex items-center gap-2 p-3 text-white'>
                 {navigation && (
                   <a
-                    href={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/${currentImage.public_id}.${currentImage.format}`}
+                    href={url({ src: currentImage.public_id, width: currentImage.width })}
                     className='rounded-full bg-black/50 p-2 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white'
                     target='_blank'
                     title='Open fullsize version'
@@ -137,11 +131,7 @@ export default function SharedModal ({
                   </a>
                 )}
                 <button
-                  onClick={() =>
-                    downloadPhoto(
-                      `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/${currentImage.public_id}.${currentImage.format}`,
-                      `${activeIndex}.jpg`
-                    )}
+                  onClick={() => downloadPhoto(currentImage.secure_url, currentImage.public_id)}
                   className='rounded-full bg-black/50 p-2 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white'
                   title='Download fullsize version'
                 >
@@ -175,7 +165,7 @@ export default function SharedModal ({
                         x: `${Math.max((activeIndex - 1) * -100, 15 * -100)}%`
                       }}
                       animate={{
-                        scale: index === activeIndex ? 1.25 : 1,
+                        scale: public_id === currentImage.public_id ? 1.25 : 1,
                         width: '100%',
                         x: `${Math.max(activeIndex * -100, 15 * -100)}%`
                       }}
@@ -183,7 +173,7 @@ export default function SharedModal ({
                       onClick={() => changePhotoId(index)}
                       key={public_id}
                       className={`relative inline-block w-full shrink-0 transform-gpu overflow-hidden focus:outline-none ${
-                          index === activeIndex
+                        public_id === currentImage.public_id
                           ? 'z-20 rounded-md shadow shadow-black/50'
                           : 'z-10'
                       } ${index === 0 ? 'rounded-l-md' : ''} ${index === images.length - 1 ? 'rounded-r-md' : ''}`}
@@ -193,7 +183,7 @@ export default function SharedModal ({
                         width={180}
                         height={120}
                         className={`${
-                            index === activeIndex
+                          public_id === currentImage.public_id
                             ? 'brightness-110 hover:brightness-110'
                             : 'brightness-50 contrast-125 hover:brightness-75'
                         } h-full transform object-cover transition`}

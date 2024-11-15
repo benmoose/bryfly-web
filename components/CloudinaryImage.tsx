@@ -6,7 +6,7 @@ import type { ImageProps } from 'utils/types'
 
 function cloudinaryLoader ({ src, width }: ImageLoaderProps) {
   return `https://res.cloudinary.com/benmoose/image/upload/f_auto,q_auto,w_${width},c_auto/${src}`
-  // return cloudinary.url(src, {
+  // return cloudinary.deliver(src, {
   //   transformation: [
   //     {width, gravity: "auto", crop: "auto"},
   //     {quality: "auto"},

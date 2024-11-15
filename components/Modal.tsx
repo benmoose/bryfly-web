@@ -5,10 +5,10 @@ import { Dialog } from '@headlessui/react'
 import { motion } from 'framer-motion'
 import { useState, useRef } from 'react'
 import useKeypress from 'react-use-keypress'
-import type { ImageProps } from 'utils/types'
 import SharedModal from './SharedModal'
+import type { Image } from 'services/cloudinary-client/resources'
 
-export default function Modal ({ images }: { images: ImageProps[] }) {
+export default function Modal ({ images }: { images: Image[] }) {
   const overlayRef = useRef()
   const router = useRouter()
   const searchParams = useSearchParams()

@@ -3,14 +3,14 @@
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
 import useKeypress from 'react-use-keypress'
-import type { ImageProps } from 'utils/types'
+import type { Image as ImageT } from 'services/cloudinary-client/resources'
 import { useLastViewedImage } from 'utils/useLastViewedImage'
 import SharedModal from './SharedModal'
 
 interface Props {
   index: number
-  image: ImageProps
-  images: ImageProps[]
+  image: ImageT
+  images: ImageT[]
 }
 
 export default function Carousel ({ index, image, images }: Props) {
@@ -36,7 +36,7 @@ export default function Carousel ({ index, image, images }: Props) {
         className='absolute inset-0 z-30 cursor-default bg-black backdrop-blur-2xl'
       >
         <Image
-          src={image.blurDataUrl}
+          src={image.placeholder_url}
           alt=''
           className='pointer-events-none h-full w-full'
           fill

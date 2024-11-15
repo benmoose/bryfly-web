@@ -1,16 +1,18 @@
 import Link from 'next/link'
-import { getImages } from 'utils/cachedImages'
+import { allImages } from 'services/cloudinary-client/resources'
 import Modal from 'components/Modal'
 import Logo from 'components/Icons/Logo'
 import CloudinaryImage from 'components/CloudinaryImage'
+import { Suspense } from "react"
 
 export default async function Page () {
-  const images = await getImages()
-
+  const images = await allImages()
   return (
     <div className='flex flex-col justify-items-stretch h-dvh'>
       <main className='mx-auto max-w-[1960px] p-4 flex-1'>
-        <Modal images={images} />
+        <Suspense>
+          <Modal images={images} />
+        </Suspense>
         <div className='columns-1 gap-4 sm:columns-2 xl:columns-3 2xl:columns-4'>
           <div className='after:content relative mb-5 flex h-[419px] lg:h-[440px] flex-col items-center justify-end gap-4 overflow-hidden rounded-lg bg-white/10 px-6 pb-20 pt-64 text-center text-white shadow-highlight after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight lg:pt-0'>
             <Logo />
@@ -36,7 +38,7 @@ export default async function Page () {
           </div>
           {images.map(image => (
             <Link
-              key={image.asset_id || image.public_id}
+              key={image.public_id}
               href={`/?id=${image.public_id}`}
               as={`/p/${image.public_id}`}
               shallow
@@ -46,7 +48,7 @@ export default async function Page () {
                 public_id={image.public_id}
                 width={image.width}
                 height={image.height}
-                blurDataUrl={image.blurDataUrl}
+                blurDataUrl={image.placeholder_url}
               />
             </Link>
           ))}
