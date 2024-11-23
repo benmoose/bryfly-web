@@ -19,14 +19,14 @@ const allResources = async () => {
 }
 
 export interface Image {
-  index?: number
-  public_id: string
+  id: string
+  index: number
+  publicId: string
   width: number
   height: number
-  resource_type: string
-  placeholder_url: string
-  secure_url: string
-  format: string
+  resourceType: string
+  placeholderUrl: string
+  secureUrl: string
 }
 
 export const allImages = cache(async () => {
@@ -34,9 +34,13 @@ export const allImages = cache(async () => {
   const placeholders = await Promise.all(res.resources.map(placeholderUrl))
   return res.resources
     .filter(resource => resource.resource_type === 'image')
-    .map((image, i): Image => ({
+    .map(({ asset_id, public_id, secure_url, resource_type, ...image }, i): Image => ({
       ...image,
       index: i,
-      placeholder_url: placeholders[i]
+      id: asset_id,
+      publicId: public_id,
+      secureUrl: secure_url,
+      resourceType: resource_type,
+      placeholderUrl: placeholders[i]
     }))
 })

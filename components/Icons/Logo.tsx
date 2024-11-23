@@ -6,7 +6,8 @@ export default function Logo () {
     <Image
       priority
       src={BryFlyLogo}
-      alt='BryFly logo'
+      alt='BryFly!'
+      className='max-w-96'
     />
   )
 }

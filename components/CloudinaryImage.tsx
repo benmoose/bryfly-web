@@ -2,40 +2,43 @@
 
 import Image from 'next/image'
 import type { ImageLoaderProps } from 'next/image'
-import type { ImageProps } from 'utils/types'
+import type { Image as ImageT } from 'services/cloudinary-client/resources'
+import { url, thumbnailUrl } from 'services/cloudinary-client/deliver'
 
 function cloudinaryLoader ({ src, width }: ImageLoaderProps) {
-  return `https://res.cloudinary.com/benmoose/image/upload/f_auto,q_auto,w_${width},c_auto/${src}`
-  // return cloudinary.deliver(src, {
-  //   transformation: [
-  //     {width, gravity: "auto", crop: "auto"},
-  //     {quality: "auto"},
-  //     {fetch_format: "auto"},
-  //   ]
-  // })
+  return url(src, width)
 }
 
-export default function CloudinaryImage ({
-  public_id,
-  width,
-  height,
-  blurDataUrl
-}: Pick<ImageProps, 'public_id' | 'width' | 'height' | 'blurDataUrl'>) {
+function cloudinaryThumbnailLoader ({ src }: ImageLoaderProps) {
+  return thumbnailUrl(src)
+}
+
+type ImageProps = Pick<ImageT, 'publicId' | 'width' | 'height' | 'placeholderUrl'> & {
+  alt: string
+  thumbnail?: boolean
+  priority?: boolean
+  fill?: boolean
+  className?: string
+  style?: object
+  sizes?: string
+  onLoad?: () => void
+}
+
+export default function CloudinaryImage ({ publicId, placeholderUrl, thumbnail, width, height, ...props }: ImageProps) {
   return (
     <Image
-      src={public_id}
+      fill={!!props.fill}
+      priority={!!props.priority}
+      src={publicId}
       width={width}
       height={height}
-      alt={public_id}
-      blurDataURL={blurDataUrl}
+      loader={thumbnail ? cloudinaryThumbnailLoader : cloudinaryLoader}
+      blurDataURL={placeholderUrl}
       placeholder='blur'
-      loader={cloudinaryLoader}
-      className='transform rounded-lg brightness-90 transition will-change-auto group-hover:brightness-110'
-      style={{ transform: 'translate3d(0, 0, 0)' }}
-      sizes='(max-width: 640px) 100vw,
-                  (max-width: 1280px) 50vw,
-                  (max-width: 1536px) 33vw,
-                  25vw'
+      style={props.style}
+      className={props.className}
+      sizes={props.sizes}
+      alt={props.alt}
     />
   )
 }

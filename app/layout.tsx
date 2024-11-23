@@ -7,10 +7,11 @@ export const metadata: Metadata = {
   description: 'Browse the best disco balls...'
 }
 
-export default function RootLayout ({ children }: { children: React.ReactNode }) {
+export default function RootLayout ({ children, modal }: { children: React.ReactNode, modal: React.ReactNode }) {
   return (
     <html lang='en'>
-      <body className='bg-black antialiased'>
+      <body className='bg-black antialiased h-dvh'>
+        {modal}
         {children}
         <Analytics />
       </body>

@@ -1,59 +1,78 @@
+'use client'
+
+import { useState } from 'react'
 import {
   ArrowDownTrayIcon,
   ArrowTopRightOnSquareIcon,
-  ArrowUturnLeftIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
   XMarkIcon
 } from '@heroicons/react/24/outline'
-import { AnimatePresence, motion, MotionConfig } from 'framer-motion'
-import Image from 'next/image'
-import { useState } from 'react'
+import { AnimatePresence, motion, MotionConfig } from 'motion/react'
 import { useSwipeable } from 'react-swipeable'
-import { variants } from 'utils/animationVariants'
-import downloadPhoto from 'utils/downloadPhoto'
+import downloadImage from 'utils/downloadPhoto'
 import { Image as ImageT } from 'services/cloudinary-client/resources'
 import { url } from 'services/cloudinary-client/deliver'
+import CloudinaryImage from 'components/CloudinaryImage'
+
+const NAV_THUMBNAILS = 20
 
 interface Props {
-  activeIndex: number
-  images: ImageT[]
-  currentPhoto?: ImageT
-  changePhotoId: (newVal: number) => void
+  images?: ImageT[]
+  activeImage?: ImageT
+  changePhoto: (newIndex: number) => void
   closeModal: () => void
   navigation: boolean
   direction?: number
 }
 
 export default function SharedModal ({
-  activeIndex,
   images,
-  changePhotoId,
+  changePhoto,
   closeModal,
   navigation,
-  currentPhoto,
+  activeImage,
   direction
 }: Props) {
   const [loaded, setLoaded] = useState(false)
-  const imageIds = images.map(image => image.public_id)
-  const filteredImages = images?.filter(image => (
-    imageIds.slice(activeIndex - 15, activeIndex + 15).includes(image.public_id)
-  ))
-  const currentImage = currentPhoto
+  const activeIndex = activeImage.index
+  const adjacentImages = images.slice(
+    Math.max(activeIndex - NAV_THUMBNAILS / 2, 0),
+    Math.min(activeIndex + NAV_THUMBNAILS / 2, images.length)
+  )
 
-  const handlers = useSwipeable({
+  const swipeHandlers = {
     onSwipedLeft: () => {
       if (activeIndex < images?.length - 1) {
-        changePhotoId(activeIndex + 1)
+        changePhoto(activeIndex + 1)
       }
     },
     onSwipedRight: () => {
       if (activeIndex > 0) {
-        changePhotoId(activeIndex - 1)
+        changePhoto(activeIndex - 1)
       }
     },
     trackMouse: true
-  })
+  }
+
+  const variants = {
+    enter: (direction: number) => {
+      return {
+        x: direction > 0 ? 1000 : -1000,
+        opacity: 0
+      }
+    },
+    center: {
+      x: 0,
+      opacity: 1
+    },
+    exit: (direction: number) => {
+      return {
+        x: direction < 0 ? 1000 : -1000,
+        opacity: 0
+      }
+    }
+  }
 
   return (
     <MotionConfig transition={{
@@ -63,28 +82,29 @@ export default function SharedModal ({
     >
       <div
         className='relative z-50 flex aspect-[3/2] w-full max-w-7xl items-center wide:h-full xl:taller-than-854:h-auto'
-        {...handlers}
+        {...useSwipeable(swipeHandlers)}
       >
         {/* Main image */}
-        <div className='w-full overflow-hidden'>
+        <div className='w-full overflow-hidden rounded-lg'>
           <div className='relative flex aspect-[3/2] items-center justify-center'>
             <AnimatePresence initial={false} custom={direction}>
               <motion.div
                 key={activeIndex}
                 custom={direction}
                 variants={variants}
-                initial='enter'
                 animate='center'
+                initial='enter'
                 exit='exit'
                 className='absolute'
               >
-                <Image
-                  src={url({ src: currentImage.public_id, width: navigation ? 1280 : 1920 })}
+                <CloudinaryImage
+                  {...activeImage}
+                  priority
                   width={navigation ? 1280 : 1920}
                   height={navigation ? 853 : 1280}
-                  alt="Image of one of BryFly's balls"
                   onLoad={() => setLoaded(true)}
-                  priority
+                  className='relative'
+                  alt="Image of one of BryFly's balls."
                 />
               </motion.div>
             </AnimatePresence>
@@ -102,16 +122,16 @@ export default function SharedModal ({
                     <button
                       className='absolute left-3 top-[calc(50%-16px)] rounded-full bg-black/50 p-3 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white focus:outline-none'
                       style={{ transform: 'translate3d(0, 0, 0)' }}
-                      onClick={() => changePhotoId(activeIndex - 1)}
+                      onClick={() => changePhoto(activeIndex - 1)}
                     >
                       <ChevronLeftIcon className='h-6 w-6' />
                     </button>
                   )}
                   {activeIndex + 1 < images.length && (
                     <button
+                      onClick={() => changePhoto(activeIndex + 1)}
                       className='absolute right-3 top-[calc(50%-16px)] rounded-full bg-black/50 p-3 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white focus:outline-none'
                       style={{ transform: 'translate3d(0, 0, 0)' }}
-                      onClick={() => changePhotoId(activeIndex + 1)}
                     >
                       <ChevronRightIcon className='h-6 w-6' />
                     </button>
@@ -121,7 +141,7 @@ export default function SharedModal ({
               <div className='absolute top-0 right-0 flex items-center gap-2 p-3 text-white'>
                 {navigation && (
                   <a
-                    href={url({ src: currentImage.public_id, width: currentImage.width })}
+                    href={url(activeImage.publicId, activeImage.width, activeImage.height)}
                     className='rounded-full bg-black/50 p-2 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white'
                     target='_blank'
                     title='Open fullsize version'
@@ -131,9 +151,9 @@ export default function SharedModal ({
                   </a>
                 )}
                 <button
-                  onClick={() => downloadPhoto(currentImage.secure_url, currentImage.public_id)}
-                  className='rounded-full bg-black/50 p-2 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white'
                   title='Download fullsize version'
+                  className='rounded-full bg-black/50 p-2 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white'
+                  onClick={() => downloadImage(activeImage)}
                 >
                   <ArrowDownTrayIcon className='h-5 w-5' />
                 </button>
@@ -143,9 +163,10 @@ export default function SharedModal ({
                   onClick={() => closeModal()}
                   className='rounded-full bg-black/50 p-2 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white'
                 >
-                  {navigation
-                    ? <XMarkIcon className='h-5 w-5' />
-                    : <ArrowUturnLeftIcon className='h-5 w-5' />}
+                  <XMarkIcon className='h-5 w-5' />
+                  {/* {navigation */}
+                  {/*  ? <XMarkIcon className='h-5 w-5' /> */}
+                  {/*  : <ArrowUturnLeftIcon className='h-5 w-5' />} */}
                 </button>
               </div>
             </div>
@@ -155,39 +176,40 @@ export default function SharedModal ({
             <div className='fixed inset-x-0 bottom-0 z-40 overflow-hidden bg-gradient-to-b from-black/0 to-black/60'>
               <motion.div
                 initial={false}
-                className='mx-auto mt-6 mb-6 flex aspect-[3/2] h-14'
+                className='mx-auto mt-6 mb-6 flex aspect-square h-14'
               >
                 <AnimatePresence initial={false}>
-                  {filteredImages.map(({ index, public_id, secure_url }) => (
+                  {adjacentImages.map(thumbnail => (
                     <motion.button
                       initial={{
                         width: '0%',
                         x: `${Math.max((activeIndex - 1) * -100, 15 * -100)}%`
                       }}
                       animate={{
-                        scale: public_id === currentImage.public_id ? 1.25 : 1,
+                        scale: thumbnail.id === activeImage.id ? 1.25 : 1,
                         width: '100%',
                         x: `${Math.max(activeIndex * -100, 15 * -100)}%`
                       }}
+                      key={thumbnail.id}
                       exit={{ width: '0%' }}
-                      onClick={() => changePhotoId(index)}
-                      key={public_id}
+                      onClick={() => changePhoto(thumbnail.index)}
                       className={`relative inline-block w-full shrink-0 transform-gpu overflow-hidden focus:outline-none ${
-                        public_id === currentImage.public_id
+                        thumbnail.id === activeImage.id
                           ? 'z-20 rounded-md shadow shadow-black/50'
                           : 'z-10'
-                      } ${index === 0 ? 'rounded-l-md' : ''} ${index === images.length - 1 ? 'rounded-r-md' : ''}`}
+                      } ${thumbnail.index === 0 ? 'rounded-l-md' : ''} ${thumbnail.index === images.length - 1 ? 'rounded-r-md' : ''}`}
                     >
-                      <Image
-                        alt='small photos on the bottom'
+                      <CloudinaryImage
+                        {...thumbnail}
+                        thumbnail
                         width={180}
                         height={120}
+                        alt='Navigation thumbnail.'
                         className={`${
-                          public_id === currentImage.public_id
+                          thumbnail.id === activeImage.id
                             ? 'brightness-110 hover:brightness-110'
                             : 'brightness-50 contrast-125 hover:brightness-75'
                         } h-full transform object-cover transition`}
-                        src={secure_url}
                       />
                     </motion.button>
                   ))}

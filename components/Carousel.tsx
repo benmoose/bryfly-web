@@ -1,28 +1,28 @@
 'use client'
 
 import Image from 'next/image'
-import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import useKeypress from 'react-use-keypress'
 import type { Image as ImageT } from 'services/cloudinary-client/resources'
-import { useLastViewedImage } from 'utils/useLastViewedImage'
+// import { useLastViewedImage } from 'utils/useLastViewedImage'
 import SharedModal from './SharedModal'
 
 interface Props {
-  index: number
   image: ImageT
   images: ImageT[]
 }
 
-export default function Carousel ({ index, image, images }: Props) {
-  const [, setLastViewedImage] = useLastViewedImage()
+export default function Carousel ({ image, images }: Props) {
+  const router = useRouter()
+  // const [, setLastViewedImage] = useLastViewedImage()
 
   function closeModal () {
-    setLastViewedImage(image.public_id)
-    redirect('/')
+    // setLastViewedImage(image.index)
+    router.push(`/#i${image.index}`)
   }
 
-  function changePhotoId (newVal: number) {
-    return newVal
+  function setActiveIndex (i: number) {
+    return i
   }
 
   useKeypress('Escape', () => {
@@ -32,24 +32,23 @@ export default function Carousel ({ index, image, images }: Props) {
   return (
     <div className='fixed inset-0 flex items-center justify-center'>
       <button
-        onClick={closeModal}
         className='absolute inset-0 z-30 cursor-default bg-black backdrop-blur-2xl'
+        onClick={closeModal}
       >
         <Image
-          src={image.placeholder_url}
-          alt=''
-          className='pointer-events-none h-full w-full'
-          fill
           priority
+          fill
+          src={image.placeholderUrl}
+          className='pointer-events-none h-full w-full'
+          alt='Blurry background image.'
         />
       </button>
       <SharedModal
-        activeIndex={index}
+        navigation
         images={images}
-        currentPhoto={image}
-        changePhotoId={changePhotoId}
+        activeImage={image}
+        changePhoto={setActiveIndex}
         closeModal={closeModal}
-        navigation={false}
       />
     </div>
   )

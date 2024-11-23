@@ -1,3 +1,5 @@
+import type { Image as ImageT } from 'services/cloudinary-client/resources'
+
 function forceDownload (blobUrl: string, filename: string) {
   const a = document.createElement('a')
   a.download = filename
@@ -7,8 +9,8 @@ function forceDownload (blobUrl: string, filename: string) {
   a.remove()
 }
 
-export default function downloadPhoto (url: string, filename: string) {
-  fetch(url, {
+export default function downloadImage ({ id, secureUrl }: ImageT) {
+  fetch(secureUrl, {
     headers: new Headers({
       Origin: location.origin
     }),
@@ -17,7 +19,7 @@ export default function downloadPhoto (url: string, filename: string) {
     .then(async (response) => await response.blob())
     .then((blob) => {
       const blobUrl = window.URL.createObjectURL(blob)
-      forceDownload(blobUrl, filename)
+      forceDownload(blobUrl, id)
     })
-    .catch((e) => console.error(e))
+    .catch(console.error)
 }
