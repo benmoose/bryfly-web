@@ -3,7 +3,7 @@ import { allImages } from 'services/cloudinary-client/resources'
 import Modal from 'components/Modal'
 import Logo from 'components/Icons/Logo'
 import CloudinaryImage from 'components/CloudinaryImage'
-import { Suspense } from "react"
+import { Suspense } from 'react'
 
 export default async function Page () {
   const images = await allImages()

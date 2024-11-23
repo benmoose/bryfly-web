@@ -18,10 +18,6 @@ export default function Modal ({ images }: { images: Image[] }) {
   const [direction, setDirection] = useState(0)
   const [curIndex, setCurIndex] = useState(index)
 
-  function handleClose () {
-    router.push('/')
-  }
-
   function changePhotoId (newVal: number) {
     if (newVal > index) {
       setDirection(1)
@@ -44,6 +40,14 @@ export default function Modal ({ images }: { images: Image[] }) {
       changePhotoId(index - 1)
     }
   })
+
+  if (!id) {
+    return null
+  }
+
+  function handleClose () {
+    router.push('/')
+  }
 
   return (
     <Dialog

@@ -39,7 +39,7 @@ export default function SharedModal ({
   const filteredImages = images?.filter(image => (
     imageIds.slice(activeIndex - 15, activeIndex + 15).includes(image.public_id)
   ))
-  const currentImage = images ? images[activeIndex] : currentPhoto
+  const currentImage = currentPhoto
 
   const handlers = useSwipeable({
     onSwipedLeft: () => {
