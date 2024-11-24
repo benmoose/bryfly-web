@@ -1,8 +1,10 @@
 import Link from 'next/link'
-import CloudinaryImage from 'components/CloudinaryImage'
-import type { Image } from 'services/cloudinary-client/resources'
+import { RemoteImage } from 'app/ui/remote-image'
+import { getImages } from 'services/cloudinary/resources'
 
-export default function Portfolio ({ images }: { images: Image[] }) {
+export default async function ImageGrid () {
+  const images = await getImages()
+
   return images.map(({ id, index, ...image }) => (
     <Link
       key={id}
@@ -10,12 +12,12 @@ export default function Portfolio ({ images }: { images: Image[] }) {
       href={`/p/${index}`}
       className='after:content group relative mb-5 block w-full cursor-zoom-in after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight'
     >
-      <CloudinaryImage
-        publicId={image.publicId}
+      <RemoteImage
+        src={image.publicId}
         width={image.width}
         height={image.height}
-        placeholderUrl={image.placeholderUrl}
-        alt=''
+        blurDataURL={image.placeholderUrl}
+        alt='...'
         className='transform rounded-lg brightness-90 transition will-change-auto group-hover:brightness-110'
         style={{ transform: 'translate3d(0, 0, 0)' }}
         sizes='(max-width: 640px) 100vw,

@@ -6,9 +6,9 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'res.cloudinary.com',
-        port: '',
-        pathname: '/benmoose/image/upload/**'
+        hostname: process.env.NEXT_PUBLIC_CLOUDINARY_DELIVERY_HOST as string,
+        pathname: `/abc/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/**`,
+        port: ''
       }
     ]
   }

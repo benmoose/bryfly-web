@@ -1,16 +1,14 @@
-import { allImages } from 'services/cloudinary-client/resources'
-import Logo from 'components/Icons/Logo'
-import Portfolio from './portfolio'
+import Logo from 'app/ui/Logo'
+import ImageGrid from './imageGrid'
 
 export default async function Page () {
-  const images = await allImages()
-
   return (
     <>
       <main className='mx-auto max-w-[1960px] p-4 w-full'>
         <div className='columns-1 gap-4 sm:columns-2 xl:columns-3 2xl:columns-4'>
-          <BrandBlock />
-          <Portfolio images={images} />
+          <BryFlyTitle />
+
+          <ImageGrid />
         </div>
       </main>
       <Footer />
@@ -18,7 +16,7 @@ export default async function Page () {
   )
 }
 
-function BrandBlock () {
+function BryFlyTitle () {
   return (
     <div
       className='after:content relative mb-5 flex h-[380px] lg:h-[430px] 2xl:h-[392px] flex-col items-center justify-end gap-4 overflow-hidden rounded-lg bg-white/10 px-6 pb-20 pt-64 text-center text-white shadow-highlight after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight lg:pt-0'
@@ -40,7 +38,7 @@ function BrandBlock () {
           className='pointer rounded-lg border border-white bg-gray-100 px-3 py-2 font-semibold text-black transition hover:border-cyan-200 hover:bg-cyan-50 md:mt-4'
           href='/contact'
         >
-          Get in touch
+          Get in touch!
         </a>
       </nav>
     </div>

@@ -1,4 +1,4 @@
-import type { Image as ImageT } from 'services/cloudinary-client/resources'
+import type { DomainImage as ImageT } from 'services/cloudinary/resources'
 
 function forceDownload (blobUrl: string, filename: string) {
   const a = document.createElement('a')

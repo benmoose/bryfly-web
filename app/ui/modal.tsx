@@ -1,6 +1,6 @@
 'use client'
 
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import { Dialog, DialogBackdrop, DialogTitle, DialogPanel } from '@headlessui/react'
 import { AnimatePresence, motion } from 'motion/react'
 
