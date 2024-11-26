@@ -1,8 +1,7 @@
-'use client'
-
 import type { ImageLoaderProps } from 'next/image'
 import { Cloudinary } from '@cloudinary/url-gen'
 import { scale, thumbnail } from '@cloudinary/url-gen/actions/resize'
+import { name } from '@cloudinary/url-gen/actions/namedTransformation'
 import { autoGravity } from '@cloudinary/url-gen/qualifiers/gravity'
 
 const client = new Cloudinary({
@@ -10,14 +9,13 @@ const client = new Cloudinary({
   url: { secure: true }
 })
 
-export function optimisedLoader ({ src, width, ...rest }: ImageLoaderProps) {
+export function optimisedLoader ({ src, width }: ImageLoaderProps) {
   return client
     .image(src)
-    .resize(
-      scale()
-        .width(width))
+    .namedTransformation(
+      name(`${width}w`))
     .format('auto')
-    .quality(rest.quality || 'auto')
+    .setDeliveryType('private')
     .toURL()
 }
 
@@ -26,10 +24,11 @@ export function thumbnailLoader ({ src }: ImageLoaderProps) {
     .image(src)
     .resize(
       thumbnail()
-        .width(200)
-        .height(200)
+        .width(128)
+        .height(128)
         .gravity(autoGravity()))
     .format('auto')
     .quality('auto:eco')
+    .setDeliveryType('private')
     .toURL()
 }

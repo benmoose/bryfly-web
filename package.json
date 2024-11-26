@@ -2,6 +2,10 @@
   "name": "bryfly-web",
   "author": "Ben Hadfield <benjohnhadfield@gmail.com>",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benmoose/bryfly-web.git"
+  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",

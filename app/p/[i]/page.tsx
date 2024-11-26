@@ -1,10 +1,7 @@
-import { notFound } from 'next/navigation'
 import Image from 'next/image'
-import { getImages } from 'services/cloudinary/resources'
-// import ImageCarousel from "app/ui/image-carousel"
-// import SharedModal from "components/SharedModal"
-// import Carousel from 'components/Carousel'
+import { notFound } from 'next/navigation'
 import { RemoteImage } from 'app/ui/remote-image'
+import { getImages } from 'services/cloudinary'
 
 export async function generateStaticParams () {
   const images = await getImages()
@@ -14,7 +11,8 @@ export async function generateStaticParams () {
 }
 
 export default async function Page ({ params }: { params: Promise<{ i: number }> }) {
-  const [index, images] = await Promise.all([params.then(({ i }) => i), getImages()])
+  const images = await getImages()
+  const index = await params.then(params => params.i)
 
   if (!images[index]) {
     return notFound()
@@ -28,7 +26,6 @@ export default async function Page ({ params }: { params: Promise<{ i: number }>
         <Image
           fill
           priority
-          sizes='100vw'
           src={placeholderUrl}
           className='object-fill'
           alt=''
@@ -37,18 +34,18 @@ export default async function Page ({ params }: { params: Promise<{ i: number }>
 
       <div className='flex items-center z-50 w-full h-full p-2 md:p-4 lg:mx-8'>
         <div
-          className='flex items-center justify-center mx-auto max-h-full max-w-full lg:max-w-screen-lg 2xl:max-w-screen-xl overflow-hidden rounded-lg bg-black/20 shadow-2xl'
+          className='flex items-center justify-center max-h-full max-w-screen-2xl overflow-hidden rounded-lg bg-black/20 shadow-2xl'
         >
           <RemoteImage
             priority
-            alt='...'
+            alt=''
             src={publicId}
             width={width}
             height={height}
             placeholder='blur'
             blurDataURL={placeholderUrl}
             className='object-contain'
-            sizes='(max-width: 1024px) 100vw, (max-width: 1560px) 1200px, 1024px'
+            sizes='(max-width: 1536px) 100vw, 1536px'
           />
           {/*  style={{maxInlineSize: "100%", blockSize: "auto"}} */}
         </div>
