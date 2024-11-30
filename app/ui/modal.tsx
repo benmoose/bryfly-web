@@ -1,13 +1,14 @@
 'use client'
 
+import React from 'react'
 import { useRouter } from 'next/navigation'
 import { Dialog, DialogBackdrop, DialogTitle, DialogPanel } from '@headlessui/react'
 import { AnimatePresence, motion } from 'motion/react'
 
-export default function Modal ({ children, index }: { children: React.ReactNode, index: number }) {
+export default function Modal ({ children, index }: { children: React.ReactNode, index: number }): React.ReactElement {
   const router = useRouter()
 
-  function onClose () {
+  function onClose (): void {
     router.push(`/#i${index}`)
   }
 
