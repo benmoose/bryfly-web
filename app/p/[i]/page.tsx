@@ -1,24 +1,23 @@
+import React from 'react'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import { RemoteImage } from 'app/ui/remote-image'
+import { CloudinaryImage } from 'app/ui/remote-image'
 import { getImages } from 'services/cloudinary'
 
-export async function generateStaticParams () {
+export async function generateStaticParams (): Promise<Array<{ i: string }>> {
   const images = await getImages()
   return images.map(image => ({
     i: `${image.index}`
   }))
 }
 
-export default async function Page ({ params }: { params: Promise<{ i: number }> }) {
+export default async function Page ({ params }: { params: Promise<{ i: number }> }): Promise<React.ReactElement> {
   const images = await getImages()
   const index = await params.then(params => params.i)
 
-  if (!images[index]) {
+  if (index >= images.length) {
     return notFound()
   }
-
-  const { publicId, width, height, placeholderUrl } = images[index]
 
   return (
     <div className='absolute inset-0 h-auto max-h-dvh flex items-center justify-center'>
@@ -26,7 +25,7 @@ export default async function Page ({ params }: { params: Promise<{ i: number }>
         <Image
           fill
           priority
-          src={placeholderUrl}
+          src={images[index].placeholderUrl}
           className='object-fill'
           alt=''
         />
@@ -34,16 +33,12 @@ export default async function Page ({ params }: { params: Promise<{ i: number }>
 
       <div className='flex items-center z-50 w-full h-full p-2 md:p-4 lg:mx-8'>
         <div
-          className='flex items-center justify-center max-h-full max-w-screen-2xl overflow-hidden rounded-lg bg-black/20 shadow-2xl'
+          className='flex items-center justify-center max-h-full max-w-screen-2xl
+            overflow-hidden rounded-lg bg-black/20 shadow-2xl'
         >
-          <RemoteImage
+          <CloudinaryImage
             priority
-            alt=''
-            src={publicId}
-            width={width}
-            height={height}
-            placeholder='blur'
-            blurDataURL={placeholderUrl}
+            image={images[index]}
             className='object-contain'
             sizes='(max-width: 1536px) 100vw, 1536px'
           />
@@ -72,14 +67,4 @@ export default async function Page ({ params }: { params: Promise<{ i: number }>
       {/* </div> */}
     </div>
   )
-
-  // return <ImageCarousel images={images} index={index} />
-
-  // const image = images[+index]
-  //
-  // return (
-  //   <main className='mx-auto max-w-[1960px] p-4'>
-  //     <Carousel images={images} image={image}/>
-  //   </main>
-  // )
 }

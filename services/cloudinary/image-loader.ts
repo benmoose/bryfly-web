@@ -1,6 +1,6 @@
 import type { ImageLoaderProps } from 'next/image'
 import { Cloudinary } from '@cloudinary/url-gen'
-import { scale, thumbnail } from '@cloudinary/url-gen/actions/resize'
+import { thumbnail } from '@cloudinary/url-gen/actions/resize'
 import { name } from '@cloudinary/url-gen/actions/namedTransformation'
 import { autoGravity } from '@cloudinary/url-gen/qualifiers/gravity'
 
@@ -9,7 +9,7 @@ const client = new Cloudinary({
   url: { secure: true }
 })
 
-export function optimisedLoader ({ src, width }: ImageLoaderProps) {
+export function optimisedLoader ({ src, width }: ImageLoaderProps): string {
   return client
     .image(src)
     .namedTransformation(
@@ -19,7 +19,7 @@ export function optimisedLoader ({ src, width }: ImageLoaderProps) {
     .toURL()
 }
 
-export function thumbnailLoader ({ src }: ImageLoaderProps) {
+export function thumbnailLoader ({ src }: ImageLoaderProps): string {
   return client
     .image(src)
     .resize(

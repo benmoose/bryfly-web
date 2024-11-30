@@ -1,8 +1,10 @@
+import React from 'react'
+import Link from 'next/link'
 import Logo from 'app/ui/logo'
-import { prefetchImages } from 'services/cloudinary'
-import ImageGrid from './imageGrid'
+import { prefetchImages, getImages } from 'services/cloudinary'
+import { CloudinaryImage } from 'app/ui/remote-image'
 
-function BryFlyTitle () {
+function BryFlyTitle(): React.ReactElement {
   return (
     <div
       className='after:content relative mb-5 flex h-[380px] lg:h-[430px] 2xl:h-[392px]
@@ -38,22 +40,44 @@ function BryFlyTitle () {
   )
 }
 
-export default async function Page () {
-  prefetchImages()
+export default async function Page(): Promise<React.ReactElement> {
+  void prefetchImages()
+
   return (
     <>
       <main className='mx-auto max-w-[1960px] p-4 w-full'>
         <section className='columns-1 gap-4 sm:columns-2 xl:columns-3 2xl:columns-4'>
           <BryFlyTitle />
-          <ImageGrid />
+
+          {(await getImages()).map(({id, index, ...image}) => (
+            <Link
+              key={id} id={`i${index}`} href={`/p/${index}`}
+              className='after:content group relative mb-5 block w-full cursor-zoom-in
+                    after:pointer-events-none after:absolute after:inset-0 after:rounded-lg
+                    after:shadow-highlight'
+            >
+              <CloudinaryImage
+                image={image}
+                className='transform rounded-lg brightness-90 transition will-change-auto group-hover:brightness-110'
+                style={{transform: 'translate3d(0, 0, 0)'}}
+                sizes='(max-width: 640px) 100vw,
+                  (max-width: 1280px) 50vw,
+                  (max-width: 1536px) 33vw,
+                  (max-width: 1960px) 25vw,
+                  490px'
+              />
+            </Link>
+          ))}
         </section>
       </main>
 
       <footer className='p-4 text-sm text-center text-white/35 sm:p-8 tracking-wide'>
-        made by <a
+        made by{' '}
+        <a
           href='https://instagram.com/_benmoose' target='_blank' rel='noreferrer'
           className='font-bold text-white/40 hover:text-white/50'
-                >Moose
+        >
+          Moose
         </a>
       </footer>
     </>

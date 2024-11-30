@@ -1,7 +1,8 @@
+import React from 'react'
 import Image from 'next/image'
 import BryFlyLogo from 'public/logo-3.png'
 
-export default function Logo () {
+export default function Logo (): React.ReactElement {
   return (
     <Image
       priority
