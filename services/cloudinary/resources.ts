@@ -1,7 +1,7 @@
 import { cache } from 'react'
 import type { ResourceApiResponse } from 'cloudinary'
 import { v2 as cloudinary } from 'cloudinary'
-import { DomainImage } from './types'
+import { DomainImage, DomainImageIterable } from './types'
 
 const HERO_FOLDER = process.env.CLOUDINARY_HERO_FOLDER as string
 
@@ -28,20 +28,12 @@ async function resourcesByFolder (folder: string): Promise<APIResource[]> {
     .then(response => response.resources)
 }
 
-async function getHeroImages (): Promise<DomainImage[]> {
+async function getHeroImages (): Promise<DomainImageIterable[]> {
   const images = (await resourcesByFolder(HERO_FOLDER))
     .filter(resource => resource.resource_type === 'image')
 
   const blurDataUrls = await Promise.all(
-    images.map(
-      async (image) => {
-        const url = cloudinary.url(image.public_id, { transformation: ['placeholder_blur'], type: 'private' })
-        return await fetch(url, { cache: 'force-cache', next: { revalidate: false } })
-          .then(async res => await res.arrayBuffer())
-          .then(buf => Buffer.from(buf).toString('base64'))
-          .then(data => `data:image/webp;base64,${data}`)
-      }
-    )
+    images.map(async image => await blurDataUrl(image.public_id))
   )
 
   return images
@@ -62,6 +54,33 @@ async function getHeroImages (): Promise<DomainImage[]> {
 
 export const getImages = cache(getHeroImages)
 
-export const prefetchImages: () => void = () => {
+export const prefetchHeroImages: () => void = () => {
   void getImages()
+}
+
+async function _getImage (publicId: string): Promise<DomainImage> {
+  const image: APIResource = await cloudinary.api.resource(publicId, { context: true, resource_type: 'image' })
+  const placeholderUrl = await blurDataUrl(publicId)
+  return {
+    id: `h-${image.asset_id ?? image.public_id}`,
+    publicId: image.public_id,
+    secureUrl: image.secure_url,
+    resourceType: 'image',
+    createdAt: image.created_at,
+    width: image.width,
+    height: image.height,
+    format: image.format,
+    context: image.context,
+    placeholderUrl
+  }
+}
+
+export const getImage = cache(_getImage)
+
+async function blurDataUrl (publicId: string): Promise<string> {
+  const url = cloudinary.url(publicId, { transformation: ['placeholder_blur'], type: 'private' })
+  return await fetch(url, { cache: 'force-cache', next: { revalidate: false } })
+    .then(async res => await res.arrayBuffer())
+    .then(buf => Buffer.from(buf).toString('base64'))
+    .then(data => `data:image/webp;base64,${data}`)
 }

@@ -1,10 +1,10 @@
-import React from 'react'
 import Link from 'next/link'
+import React from 'react'
 import Logo from 'app/ui/logo'
-import { prefetchImages, getImages } from 'services/cloudinary'
 import { CloudinaryImage } from 'app/ui/remote-image'
+import { prefetchHeroImages, getImages } from 'services/cloudinary'
 
-function BryFlyTitle(): React.ReactElement {
+function BryFlyTitle (): React.ReactElement {
   return (
     <div
       className='after:content relative mb-5 flex h-[380px] lg:h-[430px] 2xl:h-[392px]
@@ -40,8 +40,8 @@ function BryFlyTitle(): React.ReactElement {
   )
 }
 
-export default async function Page(): Promise<React.ReactElement> {
-  void prefetchImages()
+export default async function Page (): Promise<React.ReactElement> {
+  void prefetchHeroImages()
 
   return (
     <>
@@ -49,9 +49,9 @@ export default async function Page(): Promise<React.ReactElement> {
         <section className='columns-1 gap-4 sm:columns-2 xl:columns-3 2xl:columns-4'>
           <BryFlyTitle />
 
-          {(await getImages()).map(({id, index, ...image}) => (
+          {(await getImages()).map(({ id, index, ...image }) => (
             <Link
-              key={id} id={`i${index}`} href={`/p/${index}`}
+              key={id} id={`i${index}`} href={`/p/${index}`} scroll={false}
               className='after:content group relative mb-5 block w-full cursor-zoom-in
                     after:pointer-events-none after:absolute after:inset-0 after:rounded-lg
                     after:shadow-highlight'
@@ -59,7 +59,7 @@ export default async function Page(): Promise<React.ReactElement> {
               <CloudinaryImage
                 image={image}
                 className='transform rounded-lg brightness-90 transition will-change-auto group-hover:brightness-110'
-                style={{transform: 'translate3d(0, 0, 0)'}}
+                style={{ transform: 'translate3d(0, 0, 0)' }}
                 sizes='(max-width: 640px) 100vw,
                   (max-width: 1280px) 50vw,
                   (max-width: 1536px) 33vw,

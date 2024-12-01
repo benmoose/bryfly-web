@@ -1,6 +1,5 @@
 import React from 'react'
 import Image from 'next/image'
-import { notFound } from 'next/navigation'
 import { CloudinaryImage } from 'app/ui/remote-image'
 import { getImages } from 'services/cloudinary'
 
@@ -11,13 +10,13 @@ export async function generateStaticParams (): Promise<Array<{ i: string }>> {
   }))
 }
 
-export default async function Page ({ params }: { params: Promise<{ i: number }> }): Promise<React.ReactElement> {
+export default async function Page ({
+  params
+}: {
+  params: Promise<{ i: number }>
+}): Promise<React.ReactElement> {
   const images = await getImages()
   const index = await params.then(params => params.i)
-
-  if (index >= images.length) {
-    return notFound()
-  }
 
   return (
     <div className='absolute inset-0 h-auto max-h-dvh flex items-center justify-center'>
@@ -42,7 +41,6 @@ export default async function Page ({ params }: { params: Promise<{ i: number }>
             className='object-contain'
             sizes='(max-width: 1536px) 100vw, 1536px'
           />
-          {/*  style={{maxInlineSize: "100%", blockSize: "auto"}} */}
         </div>
       </div>
 

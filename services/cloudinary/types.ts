@@ -1,6 +1,5 @@
 export interface DomainImage {
   id: string
-  index: number
   publicId: string
   secureUrl: string
   resourceType: 'image'
@@ -8,5 +7,10 @@ export interface DomainImage {
   width: number
   height: number
   format: string
+  createdAt: string
   context?: object
+}
+
+export interface DomainImageIterable extends DomainImage {
+  index: number
 }
