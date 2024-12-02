@@ -43,26 +43,6 @@ export default async function Page ({
           />
         </div>
       </div>
-
-      {/* <div className="flex flex-wrap mt-8 bg-amber-50 max-w-screen-md"> */}
-      {/*  { */}
-      {/*    images.map(({id, publicId, ...image}) => ( */}
-      {/*      <div key={id} className="w-40 h-40 m-1 inline-block box-content border border-yellow-300"> */}
-      {/*        <Thumbnail */}
-      {/*          key={id} */}
-      {/*          alt='Lil thumbnail' */}
-      {/*          src={publicId} */}
-      {/*          width={image.width} */}
-      {/*          height={image.height} */}
-      {/*          blurDataURL={image.placeholderUrl} */}
-      {/*          placeholder='blur' */}
-      {/*          sizes="200px" */}
-      {/*          className="object-contain" */}
-      {/*        /> */}
-      {/*      </div> */}
-      {/*    )) */}
-      {/*  } */}
-      {/* </div> */}
     </div>
   )
 }

@@ -58,7 +58,8 @@ export default async function Page (): Promise<React.ReactElement> {
             >
               <CloudinaryImage
                 image={image}
-                className='transform rounded-lg brightness-90 transition will-change-auto group-hover:brightness-110'
+                className='transform rounded-lg brightness-90 transition will-change-auto
+                  group-hover:brightness-110'
                 style={{ transform: 'translate3d(0, 0, 0)' }}
                 sizes='(max-width: 640px) 100vw,
                   (max-width: 1280px) 50vw,
