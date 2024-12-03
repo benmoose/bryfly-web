@@ -59,6 +59,7 @@ export const prefetchHeroImages: () => void = () => {
 }
 
 async function _getImage (publicId: string): Promise<DomainImage> {
+  console.count('_getImage')
   const image: APIResource = await cloudinary.api.resource(publicId, { context: true, resource_type: 'image' })
   const placeholderUrl = await blurDataUrl(publicId)
   return {

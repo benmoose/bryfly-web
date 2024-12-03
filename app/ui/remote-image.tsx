@@ -12,8 +12,15 @@ type RemoteImageProps = { image: FetchableImage } & Partial<ImageProps>
 export function CloudinaryImage ({ image, ...props }: RemoteImageProps): React.ReactElement {
   return (
     <Image
-      {...props} src={image.publicId} width={image.width} height={image.height}
-      blurDataURL={image.placeholderUrl} placeholder='blur' loader={optimisedLoader} alt='optimised image'
+      {...props}
+      src={image.publicId}
+      loader={optimisedLoader}
+      // src={optimisedLoader({src: image.publicId, width: 828})}
+      width={image.width}
+      height={image.height}
+      blurDataURL={image.placeholderUrl}
+      placeholder='blur'
+      alt='optimised image'
     />
   )
 }
