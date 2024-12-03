@@ -3,6 +3,7 @@ import React from 'react'
 import Logo from 'app/ui/logo'
 import { CloudinaryImage } from 'app/ui/remote-image'
 import { prefetchHeroImages, getImages } from 'services/cloudinary'
+import { lora } from 'app/ui/font'
 
 function BryFlyTitle (): React.ReactElement {
   return (
@@ -13,14 +14,18 @@ function BryFlyTitle (): React.ReactElement {
         fter:absolute after:inset-0 after:rounded-lg after:shadow-highlight lg:pt-0'
     >
       <Logo />
-      <h1 className='mt-0 mb-6 text-xl lg:text-2xl font-bold tracking-wider'>
-        browse me disco balls
+      <h1
+        style={lora.style}
+        className='mt-0 mb-4 text-3xl sm:text-xl md:text-2xl lg:text-3xl xl:text-2xl
+            uppercase tracking-wider'
+      >
+        Browse me disco balls
       </h1>
-      <div className='z-10 mt-2 md:mt-6 text-base md:text-md'>
+      <div className='z-10 text-base mt-6'>
         <a
-          className='pointer mr-2 rounded-lg border border-white/15 bg-transparent px-3 py-2
-           font-bold text-white/85 transition hover:bg-white/5 hover:border-white/60
-            hover:text-white md:mt-4'
+          className='pointer border border-white/15 bg-transparent px-3 py-2
+           font-semibold text-white/85 transition hover:bg-white/5 hover:border-white/60
+            hover:text-white'
           href='https://www.instagram.com/bryfly2000'
           target='_blank'
           rel='noreferrer'
@@ -28,12 +33,11 @@ function BryFlyTitle (): React.ReactElement {
           Instagram
         </a>
         <a
-          className='pointer rounded-lg border border-white bg-gray-100 px-3 py-2
-            font-semibold text-black transition hover:border-cyan-200 hover:bg-cyan-50
-            md:mt-4'
+          className='pointer border border-white bg-gray-100 px-5 py-2
+            font-bold text-black transition hover:border-cyan-200 hover:bg-cyan-50'
           href='https://github.com/benmoose/bryfly-web'
         >
-          Get in touch!
+          Contact!
         </a>
       </div>
     </div>
