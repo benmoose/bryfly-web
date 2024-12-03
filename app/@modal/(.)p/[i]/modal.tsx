@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { AnimatePresence, motion } from 'motion/react'
 import { DomainImageIterable } from 'services/cloudinary/types'
-// import PrimaryImage from 'app/ui/primary-image'
 import { CloudinaryImage } from 'app/ui/remote-image'
 
 const animations = {
@@ -58,7 +57,7 @@ export default function Modal ({ images, index }: {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className='fixed inset-0 bg-black/20 backdrop-blur'
+        className='fixed inset-0 bg-black/70 backdrop-blur'
       />
       <div
         className='fixed flex inset-0 w-screen justify-center'
@@ -67,10 +66,10 @@ export default function Modal ({ images, index }: {
           as={motion.div}
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className='mx-10 flex pointer-events-none'
+          className='mx-0 flex flex-col pointer-events-none'
         >
           <div
-            className='relative flex flex-col my-12 max-h-full justify-center max-w-screen-lg'
+            className='relative flex flex-col my-0 max-h-full justify-center max-w-screen-lg'
           >
             <AnimatePresence initial={false} custom={direction}>
               <motion.div
@@ -80,7 +79,7 @@ export default function Modal ({ images, index }: {
                 animate='center'
                 exit='exit'
                 custom={direction}
-                className='flex flex-col max-h-full'
+                className='flex flex-col max-h-full items-center'
               >
                 <CloudinaryImage
                   priority
@@ -89,17 +88,17 @@ export default function Modal ({ images, index }: {
                   style={{ flex: 0 }}
                   sizes='(max-width: 1024px) 100vw, 1024px'
                 />
-                <div className='pointer-events-auto'>
-                  <button
-                    className='text-white text-2xl font-bold'
-                    onClick={() => navigate(activeIndex + 1)}
-                    type='button'
-                  >
-                    Next
-                  </button>
-                </div>
               </motion.div>
             </AnimatePresence>
+          </div>
+          <div className='flex pointer-events-auto'>
+            <button
+              className='text-white text-2xl font-bold'
+              onClick={() => navigate(activeIndex + 1)}
+              type='button'
+            >
+              Next
+            </button>
           </div>
         </DialogPanel>
       </div>
