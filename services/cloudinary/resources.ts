@@ -1,7 +1,6 @@
+import { type ResourceApiResponse, v2 as cloudinary } from 'cloudinary'
 import { cache } from 'react'
-import type { ResourceApiResponse } from 'cloudinary'
-import { v2 as cloudinary } from 'cloudinary'
-import { DomainImage, DomainImageIterable } from './types'
+import type { IImage, Indexable, PublicId, Resource } from './types'
 
 const HERO_FOLDER = process.env.CLOUDINARY_HERO_FOLDER as string
 
@@ -17,39 +16,102 @@ type APIResource = ResourceApiResponse['resources'][number] & {
   asset_id?: string
 }
 
-async function resourcesByFolder (folder: string): Promise<APIResource[]> {
-  // assume no pagination, for now...
-  return await cloudinary.api.resources_by_asset_folder(folder, {
+async function resourcesByFolder (folder: string): Promise<Resource[]> {
+  // TODO: assume no pagination, for now...
+  const response = await cloudinary.api.resources_by_asset_folder(folder, {
     context: true,
     direction: 'desc',
     image_metadata: true,
     max_results: 250
   })
-    .then(response => response.resources)
+  return response.resources.map(
+    ({ format, context, ...res }: APIResource): Resource => ({
+      key: res.asset_id ?? res.public_id,
+      publicId: res.public_id as PublicId,
+      assetId: res.asset_id,
+      resourceType: res.resource_type,
+      secureUrl: res.secure_url,
+      createdAt: res.created_at,
+      context,
+      format,
+      ...res
+    })
+  )
 }
 
-async function getHeroImages (): Promise<DomainImageIterable[]> {
-  const images = (await resourcesByFolder(HERO_FOLDER))
-    .filter(resource => resource.resource_type === 'image')
+class ResourceSet<T extends Resource> {
+  readonly order: PublicId[]
+  readonly repo: { [id: PublicId]: Indexable<T> }
+
+  constructor (resources: T[]) {
+    this.order = resources.map((img) => img.publicId)
+    this.repo = resources.reduce(
+      (repo, res, i) => ({
+        ...repo,
+        [res.publicId]: { ...res, index: i }
+      }),
+      {}
+    )
+  }
+
+  resources (this: ResourceSet<T>): ReadonlyArray<Indexable<T>> {
+    const arr = this.order.map((id) => this.repo[id])
+    return Object.freeze(arr)
+  }
+
+  byPublicId (this: ResourceSet<T>, id: PublicId): Readonly<T> | null {
+    const res = this.repo[id]
+    return Object.freeze(res)
+  }
+
+  byIndex (this: ResourceSet<T>, index: number): Readonly<T> | null {
+    const id = this.order[index]
+    return Object.freeze(this.repo[id])
+  }
+}
+
+async function getImageSet (): Promise<ResourceSet<IImage>> {
+  const images = (await resourcesByFolder(HERO_FOLDER)).filter(isImageResource)
+  const placeholderUrls = await Promise.all(
+    images.map(async (img) => await base64Placeholder(img.publicId))
+  )
+  return new ResourceSet<IImage>(
+    images.map((image, i) => ({
+      ...image,
+      placeholderUrl: placeholderUrls[i]
+    }))
+  )
+}
+
+export const getHeroImageSet = cache(getImageSet)
+
+export const prefetchHeroImageSet = (): void => {
+  void getHeroImageSet()
+}
+
+async function getHeroImages (): Promise<Array<Indexable<IImage>>> {
+  const images = (await resourcesByFolder(HERO_FOLDER)).filter(isImageResource)
 
   const blurDataUrls = await Promise.all(
-    images.map(async image => await blurDataUrl(image.public_id))
+    images.map(async (image) => await base64Placeholder(image.publicId))
   )
 
-  return images
-    .map(({ format, context, width, height, ...image }, i) => ({
+  return images.map(({ format, context, width, height, ...image }, i) => {
+    const cimg = {
+      key: image.assetId ?? image.publicId,
       index: i,
-      id: `h-${image.asset_id ?? image.public_id}`,
-      publicId: image.public_id,
-      secureUrl: image.secure_url,
-      resourceType: 'image',
+      publicId: image.publicId,
+      secureUrl: image.secureUrl,
+      resourceType: 'image' as const,
       placeholderUrl: blurDataUrls[i],
-      createdAt: image.created_at,
+      createdAt: image.createdAt,
       width,
       height,
       format,
       context
-    }))
+    }
+    return cimg as Indexable<IImage>
+  })
 }
 
 export const getImages = cache(getHeroImages)
@@ -58,30 +120,43 @@ export const prefetchHeroImages: () => void = () => {
   void getImages()
 }
 
-async function _getImage (publicId: string): Promise<DomainImage> {
-  console.count('_getImage')
-  const image: APIResource = await cloudinary.api.resource(publicId, { context: true, resource_type: 'image' })
-  const placeholderUrl = await blurDataUrl(publicId)
-  return {
-    id: `h-${image.asset_id ?? image.public_id}`,
-    publicId: image.public_id,
+async function _getImage (publicId: PublicId): Promise<IImage> {
+  const image: APIResource = await cloudinary.api.resource(publicId, {
+    context: true,
+    resource_type: 'image'
+  })
+  const placeholderUrl = await base64Placeholder(publicId)
+  const cimg = {
+    publicId,
+    placeholderUrl,
+    key: image.asset_id ?? image.public_id,
     secureUrl: image.secure_url,
-    resourceType: 'image',
+    resourceType: 'image' as const,
     createdAt: image.created_at,
     width: image.width,
     height: image.height,
     format: image.format,
-    context: image.context,
-    placeholderUrl
+    context: image.context
   }
+  return cimg as IImage
 }
 
 export const getImage = cache(_getImage)
 
-async function blurDataUrl (publicId: string): Promise<string> {
-  const url = cloudinary.url(publicId, { transformation: ['placeholder_blur'], type: 'private' })
-  return await fetch(url, { cache: 'force-cache', next: { revalidate: false } })
-    .then(async res => await res.arrayBuffer())
-    .then(buf => Buffer.from(buf).toString('base64'))
-    .then(data => `data:image/webp;base64,${data}`)
+const base64Placeholder = cache(async (publicId: PublicId): Promise<string> => {
+  const url = cloudinary.url(publicId, {
+    transformation: ['placeholder_blur'],
+    type: 'private'
+  })
+  const res = await fetch(url, {
+    cache: 'force-cache',
+    next: { revalidate: 3600 }
+  })
+  const buf = await res.arrayBuffer()
+  const data = Buffer.from(buf).toString('base64')
+  return `data:image/webp;base64,${data}`
+})
+
+function isImageResource (rr: Resource): rr is IImage {
+  return rr.resourceType === 'image'
 }

@@ -1,11 +1,11 @@
 'use client'
 
+import * as Cdn from 'app/ui/remote-image'
+import { AnimatePresence, motion, MotionConfig } from 'motion/react'
 import Image from 'next/image'
 import React from 'react'
-import { CloudinaryImage } from 'app/ui/remote-image'
-import { DomainImageIterable } from 'services/cloudinary/types'
 import { useSwipeable } from 'react-swipeable'
-import { AnimatePresence, MotionConfig, motion } from 'motion/react'
+import { IImage } from 'services/cloudinary/types'
 
 const animations = {
   enter: (direction: number) => {
@@ -33,7 +33,7 @@ export default function PrimaryImage ({
   direction
 }: {
   index: number
-  images: DomainImageIterable[]
+  images: IImage[]
   setActiveIndex: (i: number) => void
   requestClose: () => void
   direction: number | undefined
@@ -53,10 +53,11 @@ export default function PrimaryImage ({
   })
 
   return (
-    <MotionConfig transition={{
-      x: { type: 'spring', stiffness: 300, damping: 30 },
-      opacity: { duration: 0.19 }
-    }}
+    <MotionConfig
+      transition={{
+        x: { type: 'spring', stiffness: 300, damping: 30 },
+        opacity: { duration: 0.19 }
+      }}
     >
       <div
         className='absolute inset-0 h-auto max-h-dvh flex items-center justify-center'
@@ -76,7 +77,7 @@ export default function PrimaryImage ({
           <div className='relative flex items-center justify-center w-full h-full max-h-full max-w-screen-2xl'>
             <AnimatePresence initial={false} custom={direction}>
               <motion.div
-                key={images[index].id}
+                key={images[index].key}
                 variants={animations}
                 initial='enter'
                 animate='center'
@@ -84,11 +85,12 @@ export default function PrimaryImage ({
                 custom={direction}
                 className='absolute overflow-hidden rounded-lg  shadow-2xl'
               >
-                <CloudinaryImage
+                <Cdn.Responsive
                   priority
                   image={images[index]}
                   className='object-contain'
                   sizes='(max-width: 1536px) 100vw, 1536px'
+                  alt='Todo...'
                 />
               </motion.div>
             </AnimatePresence>
