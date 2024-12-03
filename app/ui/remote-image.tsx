@@ -1,30 +1,46 @@
 'use client'
 
-import React from 'react'
-import Image from 'next/image'
 import type { ImageProps } from 'next/image'
-import { optimisedLoader, thumbnailLoader } from 'services/cloudinary/image-loader'
-import type { DomainImage } from 'services/cloudinary/types'
+import Image from 'next/image'
+import React from 'react'
+import {
+  optimisedLoader,
+  thumbnailLoader
+} from 'services/cloudinary/image-loader'
+import type { IImage } from 'services/cloudinary/types'
 
-type FetchableImage = Pick<DomainImage, 'publicId' | 'width' | 'height' | 'placeholderUrl'>
-type RemoteImageProps = { image: FetchableImage } & Partial<ImageProps>
+interface CdnProps
+  extends Omit<
+  ImageProps,
+  'loader' | 'src' | 'width' | 'height' | 'placeholder' | 'blurDataURL'
+  > {
+  image: IImage
+}
 
-export function CloudinaryImage ({ image, ...props }: RemoteImageProps): React.ReactElement {
+export function Responsive ({ image, ...props }: CdnProps): React.ReactElement {
   return (
     <Image
       {...props}
       src={image.publicId}
       loader={optimisedLoader}
-      // src={optimisedLoader({src: image.publicId, width: 828})}
       width={image.width}
       height={image.height}
       blurDataURL={image.placeholderUrl}
       placeholder='blur'
-      alt='optimised image'
     />
   )
 }
 
-export function Thumbnail (props: ImageProps): React.ReactElement {
-  return <Image {...props} loader={thumbnailLoader} sizes='128w' alt='thumbnail' />
+export function Thumbnail ({ image, ...props }: CdnProps): React.ReactElement {
+  return (
+    <Image
+      {...props}
+      fill
+      src={image.publicId}
+      loader={thumbnailLoader}
+      width={128}
+      height={128}
+      sizes='128w'
+    />
+  )
 }

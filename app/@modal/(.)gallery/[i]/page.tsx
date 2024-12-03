@@ -1,5 +1,5 @@
 import React from 'react'
-import { getImages } from 'services/cloudinary'
+import { getHeroImageSet } from 'services/cloudinary'
 import Modal from './modal'
 
 export default async function Page ({
@@ -7,10 +7,8 @@ export default async function Page ({
 }: {
   params: Promise<{ i: string }>
 }): Promise<React.ReactElement> {
+  const imageSet = await getHeroImageSet()
   const { i } = await params
-  const images = await getImages()
 
-  return (
-    <Modal index={Number(i)} images={images} />
-  )
+  return <Modal index={Number(i)} images={imageSet.resources()} />
 }
