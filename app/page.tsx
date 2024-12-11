@@ -1,9 +1,11 @@
 import Link from 'next/link'
 import React from 'react'
 import Logo from 'app/ui/logo'
-import { CloudinaryImage } from 'app/ui/remote-image'
-import { lora } from 'app/ui/font'
-import { getImages } from 'services/cloudinary'
+import * as Cdn from 'app/ui/remote-image'
+import { concertOne } from 'app/ui/font'
+import { getHeroImageSet } from 'services/cloudinary'
+
+export const revalidate = 600
 
 function BryFlyTitle (): React.ReactElement {
   return (
@@ -15,7 +17,7 @@ function BryFlyTitle (): React.ReactElement {
     >
       <Logo />
       <h1
-        style={lora.style}
+        style={concertOne.style}
         className='mt-0 mb-4 text-3xl sm:text-xl md:text-2xl lg:text-3xl xl:text-2xl
             uppercase tracking-wider'
       >
@@ -44,7 +46,7 @@ function BryFlyTitle (): React.ReactElement {
   )
 }
 
-function Footer(): React.ReactElement {
+function Footer (): React.ReactElement {
   return (
     <footer className='p-4 text-sm text-center text-white/35 sm:p-8 tracking-wide'>
       made by{' '}
@@ -60,21 +62,27 @@ function Footer(): React.ReactElement {
   )
 }
 
-export default async function Page(): Promise<React.ReactElement> {
+export default async function Page (): Promise<React.ReactElement> {
+  const imageSet = await getHeroImageSet()
+
   return (
     <>
       <main className='mx-auto max-w-[1960px] p-4 w-full'>
-        <section className='columns-1 gap-4 sm:columns-2 xl:columns-3 2xl:columns-4'>
-          <BryFlyTitle/>
+        <div className='columns-1 gap-4 sm:columns-2 xl:columns-3 2xl:columns-4'>
+          <BryFlyTitle />
 
-          {(await getImages()).map(({id, index, ...image}) => (
+          {imageSet.resources().map((image) => (
             <Link
-              key={id} id={`i${index}`} href={`/p/${index}`} scroll={false}
+              key={image.key}
+              id={image.key}
+              href={`/gallery/${image.index}`}
+              scroll={false}
               className='after:content group relative mb-5 block w-full cursor-zoom-in
                     after:pointer-events-none after:absolute after:inset-0 after:rounded-xl
                     after:shadow-highlight'
             >
-              <CloudinaryImage
+              <Cdn.Responsive
+                priority
                 image={image}
                 className='transform rounded-xl brightness-90 transition will-change-auto
                   group-hover:brightness-110'
@@ -84,12 +92,13 @@ export default async function Page(): Promise<React.ReactElement> {
                   (max-width: 1536px) 33vw,
                   (max-width: 1960px) 25vw,
                   490px'
+                alt=''
               />
             </Link>
           ))}
-        </section>
+        </div>
       </main>
-      <Footer/>
+      <Footer />
     </>
   )
 }

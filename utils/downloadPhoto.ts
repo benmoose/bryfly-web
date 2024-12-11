@@ -1,4 +1,4 @@
-import type { DomainImage } from 'services/cloudinary/types'
+import type { IImage } from 'services/cloudinary/types'
 
 function forceDownload (blobUrl: string, filename: string) {
   const a = document.createElement('a')
@@ -9,7 +9,7 @@ function forceDownload (blobUrl: string, filename: string) {
   a.remove()
 }
 
-export default function downloadImage({id, secureUrl}: DomainImage) {
+export default function downloadImage({id, secureUrl}: IImage) {
   fetch(secureUrl, {
     headers: new Headers({
       Origin: location.origin

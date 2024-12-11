@@ -5,10 +5,10 @@ const inter = Inter({
   display: 'swap'
 })
 
-const lora = Concert_One({
+const concertOne = Concert_One({
   subsets: ['latin'],
   display: 'block',
   weight: '400'
 })
 
-export { lora, inter }
+export { concertOne, inter }
