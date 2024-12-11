@@ -4,12 +4,10 @@ import Image from 'next/image'
 import { getHeroImageSet } from 'services/cloudinary'
 import { notFound } from 'next/navigation'
 
-// Invalidate at most once every 10 minutes.
-export const revalidate = 600
-
 // Only params from generateStaticParams() are pre-rendered.
 // Requesting a path that has not been generated are served 404.
 export const dynamicParams = false
+export const dynamic = 'force-static'
 
 export async function generateStaticParams (): Promise<Array<{ i: string }>> {
   const imageSet = await getHeroImageSet()

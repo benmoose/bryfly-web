@@ -24,8 +24,25 @@ export default function RootLayout ({
       <body className='bg-black antialiased'>
         {modal}
         {children}
+        <Footer />
         <Analytics />
       </body>
     </html>
+  )
+}
+
+function Footer (): React.ReactElement {
+  return (
+    <footer className='p-4 text-sm text-center text-white/35 sm:p-8 tracking-wide'>
+      made by{' '}
+      <a
+        href='https://instagram.com/_benmoose'
+        target='_blank'
+        rel='noreferrer'
+        className='font-bold text-white/40 hover:text-white/50'
+      >
+        Moose
+      </a>
+    </footer>
   )
 }
