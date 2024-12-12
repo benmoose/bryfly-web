@@ -8,8 +8,9 @@ export default function Loading () {
         {Array.from(Array(7)).map((_, i) => (
           <div
             key={i}
-            className='w-full aspect-video break-inside-avoid-column rounded-lg
-              bg-gradient-to-br from-slate-800 to-slate-900/60  mb-4'
+            className={`w-full aspect-video break-inside-avoid-column rounded-lg
+              bg-gradient-to-br from-slate-800 to-slate-900/60  mb-4
+              animate-pulse delay-[${11 + 73 * i}ms]`}
           />
         ))}
       </div>
