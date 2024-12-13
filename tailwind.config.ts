@@ -4,14 +4,19 @@ const config: Config = {
   future: {
     hoverOnlyWhenSupported: true
   },
-  content: ['./app/**/*.{js,ts,jsx,tsx}', './services/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './services/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
   theme: {
     extend: {
-      boxShadow: {
-        highlight: 'inset 0 0 0 1px rgba(255, 255, 255, 0.05)'
-      }
+      colors: {
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+      },
     }
-  }
+  },
+  plugins: [],
 }
 
 export default config
