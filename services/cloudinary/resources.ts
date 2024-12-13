@@ -1,6 +1,6 @@
 import { type ResourceApiResponse, v2 as cloudinary } from 'cloudinary'
 import { cache } from 'react'
-import type { IImage, Indexable, PublicId, Resource } from './types'
+import type { IImage, Indexable, IResource, PublicId } from './types'
 
 const HERO_FOLDER = process.env.CLOUDINARY_HERO_FOLDER as string
 
@@ -16,7 +16,7 @@ type APIResource = ResourceApiResponse['resources'][number] & {
   asset_id?: string
 }
 
-async function resourcesByFolder (folder: string): Promise<Resource[]> {
+async function resourcesByFolder (folder: string): Promise<IResource[]> {
   // TODO: assume no pagination, for now...
   const response = await cloudinary.api.resources_by_asset_folder(folder, {
     context: true,
@@ -25,21 +25,22 @@ async function resourcesByFolder (folder: string): Promise<Resource[]> {
     max_results: 250
   })
   return response.resources.map(
-    ({ format, context, ...res }: APIResource): Resource => ({
+    ({ format, context, version, ...res }: APIResource): IResource => ({
       key: res.asset_id ?? res.public_id,
       publicId: res.public_id as PublicId,
-      assetId: res.asset_id,
+      assetId: res.asset_id as string,
       resourceType: res.resource_type,
       secureUrl: res.secure_url,
       createdAt: res.created_at,
       context,
       format,
+      version,
       ...res
     })
   )
 }
 
-class ResourceSet<T extends Resource> {
+class ResourceSet<T extends IResource> {
   readonly order: PublicId[]
   readonly repo: { [id: PublicId]: Indexable<T> }
 
@@ -70,7 +71,7 @@ class ResourceSet<T extends Resource> {
   }
 }
 
-async function getImageSet (): Promise<ResourceSet<IImage>> {
+async function _getHeroImageSet (): Promise<ResourceSet<IImage>> {
   const images = (await resourcesByFolder(HERO_FOLDER)).filter(isImageResource)
   const placeholderUrls = await Promise.all(
     images.map(async (img) => await base64Placeholder(img.publicId))
@@ -78,12 +79,13 @@ async function getImageSet (): Promise<ResourceSet<IImage>> {
   return new ResourceSet<IImage>(
     images.map((image, i) => ({
       ...image,
+      aspectRatio: aspectRatio(image),
       placeholderUrl: placeholderUrls[i]
     }))
   )
 }
 
-export const getHeroImageSet = cache(getImageSet)
+export const getHeroImageSet = cache(_getHeroImageSet)
 
 export const prefetchHeroImageSet = (): void => {
   void getHeroImageSet()
@@ -91,7 +93,6 @@ export const prefetchHeroImageSet = (): void => {
 
 async function getHeroImages (): Promise<Array<Indexable<IImage>>> {
   const images = (await resourcesByFolder(HERO_FOLDER)).filter(isImageResource)
-
   const blurDataUrls = await Promise.all(
     images.map(async (image) => await base64Placeholder(image.publicId))
   )
@@ -105,6 +106,7 @@ async function getHeroImages (): Promise<Array<Indexable<IImage>>> {
       resourceType: 'image' as const,
       placeholderUrl: blurDataUrls[i],
       createdAt: image.createdAt,
+      aspectRatio: aspectRatio({ width, height }),
       width,
       height,
       format,
@@ -135,6 +137,7 @@ async function _getImage (publicId: PublicId): Promise<IImage> {
     createdAt: image.created_at,
     width: image.width,
     height: image.height,
+    aspectRatio: aspectRatio(image),
     format: image.format,
     context: image.context
   }
@@ -154,6 +157,18 @@ const base64Placeholder = cache(async (publicId: PublicId): Promise<string> => {
   return `data:image/webp;base64,${data}`
 })
 
-function isImageResource (rr: Resource): rr is IImage {
+function isImageResource (rr: IResource): rr is IImage {
   return rr.resourceType === 'image'
+}
+
+function aspectRatio ({
+  width,
+  height
+}: {
+  width: number
+  height: number
+}): [number, number] {
+  const gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b))
+  const factor = gcd(width, height)
+  return [width / factor, height / factor]
 }

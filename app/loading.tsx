@@ -1,6 +1,7 @@
+import { ReactElement } from 'react'
 import BryFlyHero from 'app/ui/bryfly-hero'
 
-export default function Loading () {
+export default function Loading (): ReactElement {
   return (
     <main className='mx-auto max-w-[1960px] p-4 w-full'>
       <div className='gap-4 columns-1 sm:columns-2 xl:columns-3 2xl:columns-4'>
@@ -8,7 +9,7 @@ export default function Loading () {
         {Array.from(Array(7)).map((_, i) => (
           <div
             key={i}
-            className={`w-full aspect-video break-inside-avoid-column rounded-lg
+            className={`w-full aspect-w-16 aspect-h-9 break-inside-avoid-column rounded-lg
               bg-gradient-to-br from-slate-800 to-slate-900/60  mb-4
               animate-pulse delay-[${11 + 73 * i}ms]`}
           />

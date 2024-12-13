@@ -1,30 +1,12 @@
 'use client'
 
 import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { Dialog, DialogPanel, DialogBackdrop } from '@headlessui/react'
-import { AnimatePresence, motion } from 'motion/react'
+import { ArrowLeftIcon, ArrowRightIcon, LinkIcon, XMarkIcon } from '@heroicons/react/24/solid'
+import { motion } from 'motion/react'
 import * as Cdn from 'app/ui/remote-image'
 import type { IImage, Indexable } from 'services/cloudinary/types'
-
-const animations = {
-  enter: (direction: number) => {
-    return {
-      x: direction > 0 ? 1000 : -1000,
-      opacity: 0
-    }
-  },
-  center: {
-    x: 0,
-    opacity: 1
-  },
-  exit: (direction: number) => {
-    return {
-      x: direction < 0 ? 1000 : -1000,
-      opacity: 0
-    }
-  }
-}
 
 enum Direction {
   NEXT,
@@ -39,11 +21,18 @@ export default function Modal ({
   index: number
 }): React.ReactElement {
   const router = useRouter()
+  const pathname = usePathname()
   const [activeIndex, setActiveIndex] = useState(index)
-  const [direction, setDirection] = useState<Direction>()
+  const [, setDirection] = useState<Direction>()
+  const [shareUrlLoading, setShareUrlLoading] = useState(false)
 
   function onClose (): void {
     router.push('/', { scroll: false })
+  }
+
+  async function copyShareUrl (): Promise<void> {
+    const shareUrl = new URL(`${location.origin}/${pathname}`)
+    return await navigator.clipboard.writeText(shareUrl.href)
   }
 
   function navigate (newIndex: number): void {
@@ -56,38 +45,70 @@ export default function Modal ({
     router.push(`/gallery/${newIndex}`, { scroll: false })
   }
 
+  const [ratioWidth, ratioHeight] = images[index].aspectRatio
+  const ratioOk = ratioWidth <= 16 && ratioWidth > 0 && ratioHeight <= 16 && ratioHeight > 0
+  const ratioClassName = ratioOk ? `aspect-[${ratioWidth}/${ratioHeight}]` : ''
+
   return (
     <Dialog static open transition onClose={onClose} className='relative z-50'>
-      <DialogBackdrop as={motion.div} initial={{ opacity: 0 }} animate={{ opacity: 1 }} className='fixed inset-0 bg-black/80' />
-      <div className='fixed flex flex-col items-center justify-center inset-0 w-full p-4'>
+      <DialogBackdrop
+        as={motion.div}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, transition: { duration: 0.21 } }}
+        className='fixed inset-0 bg-black/85 backdrop-blur'
+      />
+      <div
+        className='fixed flex flex-col justify-center items-center inset-0 w-full cursor-zoom-out
+        p-2 sm:p-4 md:px-16 md:py-8'
+      >
         <DialogPanel
           as={motion.div}
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className='flex items-center justify-center max-h-full max-w-screen-xl pointer-events-none'
+          initial={{ opacity: 0, scale: 0.86 }}
+          animate={{ opacity: 1, scale: 1, transition: { duration: 0.21 } }}
+          className='relative flex items-center justify-center max-w-screen-xl max-h-full cursor-default'
         >
           <Cdn.Responsive
             priority
             image={images[index]}
-            className='max-h-full w-fit h-fit object-contain rounded-lg pointer-events-auto'
+            className={`max-h-full w-fit rounded-lg ${ratioClassName}`}
             sizes='(max-width: 1280px) 100vw, 1280px'
             alt=''
           />
         </DialogPanel>
-        <div className='absolute shrink-0 bottom-4 flex gap-4'>
+        <div className='absolute top-4 right-4 flex gap-3 text-slate-200'>
           <button
-            className='text-white text-xl pointer-events-auto'
+            className='opacity-40 hover:opacity-100 scale-95 hover:scale-100 text-lg duration-100 transition-opacity'
+            onClick={() => {
+              setShareUrlLoading(true)
+              void copyShareUrl()
+                .catch(err => console.error('error copying share url', err))
+                .finally(() => setShareUrlLoading(false))
+            }}
+            aria-busy={shareUrlLoading}
+          >
+            <LinkIcon className='inline-block size-6' />
+          </button>
+          <button
+            className='opacity-40 hover:opacity-100 scale-95 hover:scale-100 text-lg duration-100 transition-opacity'
+            onClick={onClose}
+          >
+            <XMarkIcon className='inline-block size-7' />
+          </button>
+        </div>
+        <div className='fixed flex justify-between items-center w-full px-6 sm:px-8 md:px-4 xl:px-10 text-slate-200'>
+          <button
+            className='opacity-40 hover:opacity-100 scale-95 hover:scale-100 text-xl duration-100 transition-opacity'
             onClick={() => navigate(activeIndex - 1)}
             type='button'
           >
-            Prev
+            <ArrowLeftIcon className='size-9' />
           </button>
           <button
-            className='text-white text-xl pointer-events-auto'
+            className='opacity-40 hover:opacity-100 scale-95 hover:scale-100 text-xl duration-100 transition-opacity'
             onClick={() => navigate(activeIndex + 1)}
             type='button'
           >
-            Next
+            <ArrowRightIcon className='size-9' />
           </button>
         </div>
       </div>

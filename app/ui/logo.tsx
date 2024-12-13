@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
-import BryFlyLogo from 'public/logo-3.png'
+import BryFlyLogo from 'public/bryfly-logo.png'
 
 export default function Logo (): React.ReactElement {
   return (
