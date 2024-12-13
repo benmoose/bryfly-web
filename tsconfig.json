@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "ES2017",
     "lib": [
       "dom",
       "dom.iterable",
@@ -9,16 +9,14 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
-    "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "incremental": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "strictNullChecks": true,
     "jsx": "preserve",
+    "incremental": true,
     "baseUrl": ".",
     "plugins": [
       {
@@ -29,12 +27,9 @@
   "include": [
     "**/*.ts",
     "**/*.tsx",
+    ".next/types/**/*.ts",
     "./typings-custom/**/*.ts",
-    "next-env.d.ts",
-    ".next/types/**/*.ts"
+    "next-env.d.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "utils"
-  ]
+  "exclude": ["node_modules"]
 }

@@ -9,15 +9,11 @@ import {
 } from 'services/cloudinary/image-loader'
 import type { IImage } from 'services/cloudinary/types'
 
-interface CdnProps
-  extends Omit<
-  ImageProps,
-  'loader' | 'src' | 'width' | 'height' | 'placeholder' | 'blurDataURL'
-  > {
+interface CdnProps extends Omit<ImageProps, 'loader' | 'src' | 'width' | 'height' | 'placeholder' | 'blurDataURL'> {
   image: IImage
 }
 
-export function Responsive ({ image, ...props }: CdnProps): React.ReactElement {
+export function Responsive ({ image, alt, ...props }: CdnProps): React.ReactElement {
   return (
     <Image
       {...props}
@@ -27,11 +23,12 @@ export function Responsive ({ image, ...props }: CdnProps): React.ReactElement {
       height={image.height}
       blurDataURL={image.placeholderUrl}
       placeholder='blur'
+      alt={alt ?? ''}
     />
   )
 }
 
-export function Thumbnail ({ image, ...props }: CdnProps): React.ReactElement {
+export function Thumbnail ({ image, alt, ...props }: CdnProps): React.ReactElement {
   return (
     <Image
       {...props}
@@ -41,6 +38,7 @@ export function Thumbnail ({ image, ...props }: CdnProps): React.ReactElement {
       width={128}
       height={128}
       sizes='128w'
+      alt={alt ?? ''}
     />
   )
 }
