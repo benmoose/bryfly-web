@@ -10,8 +10,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint:ci": "next lint --strict",
-    "lint": "next lint --strict --fix"
+    "lint:ci": "next lint --quiet",
+    "lint": "next lint --fix"
   },
   "dependencies": {
     "@cloudinary/url-gen": "^1.21.0",

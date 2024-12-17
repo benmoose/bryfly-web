@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { Dialog, DialogPanel, DialogBackdrop } from '@headlessui/react'
 import { ArrowLeftIcon, ArrowRightIcon, LinkIcon, XMarkIcon } from '@heroicons/react/24/solid'
@@ -30,9 +30,9 @@ export default function Modal ({
     router.push('/', { scroll: false })
   }
 
-  async function copyShareUrl (): Promise<void> {
+  function copyShareUrl (): Promise<void> {
     const shareUrl = new URL(`${location.origin}/${pathname}`)
-    return await navigator.clipboard.writeText(shareUrl.href)
+    return navigator.clipboard.writeText(shareUrl.href)
   }
 
   function navigate (newIndex: number): void {
@@ -67,23 +67,27 @@ export default function Modal ({
           animate={{ opacity: 1, scale: 1, transition: { duration: 0.21 } }}
           className='relative flex items-center justify-center max-w-screen-xl max-h-full cursor-default'
         >
-          <Cdn.Responsive
-            priority
-            image={images[index]}
-            className={`max-h-full w-fit rounded-lg ${ratioClassName}`}
-            sizes='(max-width: 1280px) 100vw, 1280px'
-            alt=''
-          />
+          <Suspense fallback={<Loading ratioClassName={ratioClassName} />}>
+            <Cdn.Responsive
+              priority
+              image={images[index]}
+              className={`max-h-full w-fit rounded-lg ${ratioClassName}`}
+              sizes='(max-width: 1280px) 100vw, 1280px'
+              alt=''
+            />
+          </Suspense>
         </DialogPanel>
         <div className='absolute top-4 right-4 flex gap-3 text-slate-200'>
           <button
             className='opacity-40 hover:opacity-100 scale-95 hover:scale-100 text-lg duration-100 transition-opacity'
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation()
               setShareUrlLoading(true)
               void copyShareUrl()
                 .catch(err => console.error('error copying share url', err))
                 .finally(() => setShareUrlLoading(false))
             }}
+            disabled={shareUrlLoading}
             aria-busy={shareUrlLoading}
           >
             <LinkIcon className='inline-block size-6' />
@@ -98,14 +102,20 @@ export default function Modal ({
         <div className='fixed flex justify-between items-center w-full px-6 sm:px-8 md:px-4 xl:px-10 text-slate-200'>
           <button
             className='opacity-40 hover:opacity-100 scale-95 hover:scale-100 text-xl duration-100 transition-opacity'
-            onClick={() => navigate(activeIndex - 1)}
+            onClick={(e) => {
+              e.stopPropagation()
+              navigate(activeIndex - 1)
+            }}
             type='button'
           >
             <ArrowLeftIcon className='size-9' />
           </button>
           <button
             className='opacity-40 hover:opacity-100 scale-95 hover:scale-100 text-xl duration-100 transition-opacity'
-            onClick={() => navigate(activeIndex + 1)}
+            onClick={(e) => {
+              e.stopPropagation()
+              navigate(activeIndex + 1)
+            }}
             type='button'
           >
             <ArrowRightIcon className='size-9' />
@@ -114,4 +124,8 @@ export default function Modal ({
       </div>
     </Dialog>
   )
+}
+
+function Loading ({ ratioClassName }: { ratioClassName: string }) {
+  return <div className={`max-h-full w-fit rounded-lg bg-white/50 ${ratioClassName}`}/>
 }

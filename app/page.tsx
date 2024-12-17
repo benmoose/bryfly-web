@@ -19,8 +19,7 @@ export default async function Page (): Promise<React.ReactElement> {
             href={`/gallery/${image.index}`}
             scroll={false}
             className='after:content group relative mb-5 block w-full cursor-zoom-in
-                  after:pointer-events-none after:absolute after:inset-0 after:rounded-xl
-                  after:shadow-highlight'
+              after:pointer-events-none after:absolute after:inset-0 after:rounded-xl'
           >
             <Cdn.Responsive
               priority
