@@ -4,12 +4,10 @@ import type {
   VideoFormat as ApiVideoFormat
 } from 'cloudinary'
 
-export type PublicId = string & { __brand: 'cloudinary.public_id' }
-
 interface IResourceCommon {
   readonly key: string
   readonly assetId: string
-  readonly publicId: PublicId
+  readonly publicId: string
   readonly resourceType: ApiResourceType
   readonly format: string
   readonly secureUrl: string

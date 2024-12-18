@@ -7,23 +7,20 @@ import { notFound } from 'next/navigation'
 // Only params from generateStaticParams() are pre-rendered.
 // Requesting a path that has not been generated are served 404.
 export const dynamicParams = false
-export const dynamic = 'force-static'
 
-export async function generateStaticParams (): Promise<Array<{ i: string }>> {
+export async function generateStaticParams (): Promise<Array<{ publicId: string }>> {
   const imageSet = await getHeroImageSet()
-  return imageSet.order.map((_, index) => ({
-    i: String(index)
-  }))
+  return imageSet.order.map(publicId => ({ publicId }))
 }
 
 export default async function Page ({
   params
 }: {
-  params: Promise<{ i: string }>
+  params: Promise<{ publicId: string }>
 }): Promise<React.ReactElement> {
   const imageSet = await getHeroImageSet()
-  const index = await params.then((params) => Number(params.i))
-  const image = imageSet.byIndex(index)
+  const pid = (await params).publicId
+  const image = imageSet.byPublicId(pid)
 
   if (image == null) {
     return notFound()

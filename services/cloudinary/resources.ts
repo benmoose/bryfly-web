@@ -1,6 +1,6 @@
-import { type ResourceApiResponse, v2 as cloudinary } from "cloudinary";
-import { cache } from "react";
-import type { IImage, Indexable, IResource, PublicId } from "./types";
+import { type ResourceApiResponse, v2 as cloudinary } from 'cloudinary'
+import { cache } from 'react'
+import type { IImage, Indexable, IResource } from './types'
 
 const HERO_FOLDER = process.env.CLOUDINARY_HERO_FOLDER as string;
 
@@ -27,7 +27,7 @@ async function resourcesByFolder(folder: string): Promise<IResource[]> {
   return response.resources.map(
     ({ format, context, version, ...res }: APIResource): IResource => ({
       key: res.asset_id ?? res.public_id,
-      publicId: res.public_id as PublicId,
+      publicId: res.public_id,
       assetId: res.asset_id as string,
       resourceType: res.resource_type,
       secureUrl: res.secure_url,
@@ -41,15 +41,15 @@ async function resourcesByFolder(folder: string): Promise<IResource[]> {
 }
 
 class ResourceSet<T extends IResource> {
-  readonly order: PublicId[];
-  readonly repo: { [id: PublicId]: Indexable<T> };
+  readonly order: string[];
+  readonly repo: { [pid: string]: Indexable<T> };
 
   constructor(resources: T[]) {
     this.order = resources.map((img) => img.publicId);
     this.repo = resources.reduce(
-      (repo, res, i) => ({
+      (repo, res, index) => ({
         ...repo,
-        [res.publicId]: { ...res, index: i },
+        [res.publicId]: { ...res, index },
       }),
       {},
     );
@@ -60,19 +60,18 @@ class ResourceSet<T extends IResource> {
     return Object.freeze(arr);
   }
 
-  byPublicId(this: ResourceSet<T>, id: PublicId): Readonly<T> | null {
+  byPublicId(this: ResourceSet<T>, id: string): Readonly<Indexable<T>> | null {
     const res = this.repo[id];
-    return Object.freeze(res);
+    return res ? Object.freeze(res) : null;
   }
 
-  byIndex(this: ResourceSet<T>, index: number): Readonly<T> | null {
-    const id = this.order[index];
-    return Object.freeze(this.repo[id]);
+  byIndex(this: ResourceSet<T>, index: number): Readonly<Indexable<T>> | null {
+    const obj = this.repo[this.order[index]];
+    return obj ? Object.freeze(obj) : null;
   }
 }
 
 async function _getHeroImageSet(): Promise<ResourceSet<IImage>> {
-  console.log("called _getHeroImageSet");
   const images = (await resourcesByFolder(HERO_FOLDER)).filter(isImageResource);
   const placeholderUrls = await Promise.all(
     images.map(async (img) => await base64Placeholder(img.publicId)),
@@ -123,7 +122,7 @@ export const prefetchHeroImages: () => void = () => {
   void getImages();
 };
 
-async function _getImage(publicId: PublicId): Promise<IImage> {
+async function _getImage(publicId: string): Promise<IImage> {
   const image: APIResource = await cloudinary.api.resource(publicId, {
     context: true,
     resource_type: "image",
@@ -147,7 +146,7 @@ async function _getImage(publicId: PublicId): Promise<IImage> {
 
 export const getImage = cache(_getImage);
 
-const base64Placeholder = cache(async (publicId: PublicId): Promise<string> => {
+const base64Placeholder = cache(async (publicId: string): Promise<string> => {
   const url = cloudinary.url(publicId, {
     transformation: ["placeholder_blur"],
     type: "private",

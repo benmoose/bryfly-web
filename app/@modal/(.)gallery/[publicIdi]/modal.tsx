@@ -1,38 +1,30 @@
-'use client'
-
 import React, { Suspense, useState } from 'react'
-import { useRouter, usePathname } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { Dialog, DialogPanel, DialogBackdrop } from '@headlessui/react'
 import { ArrowLeftIcon, ArrowRightIcon, LinkIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import { motion } from 'motion/react'
 import * as Cdn from 'app/ui/remote-image'
-import type { IImage, Indexable } from 'services/cloudinary/types'
+import { getHeroImageSet } from 'services/cloudinary'
 
 enum Direction {
   NEXT,
   PREV,
 }
 
-export default function Modal ({
-  images,
-  index
-}: {
-  images: ReadonlyArray<Indexable<IImage>>
-  index: number
-}): React.ReactElement {
+export default function Modal ({ publicId }: { publicId: string }) {
   const router = useRouter()
-  const pathname = usePathname()
-  const [activeIndex, setActiveIndex] = useState(index)
+  const [activeIndex, setActiveIndex] = useState(image.index)
   const [, setDirection] = useState<Direction>()
-  const [shareUrlLoading, setShareUrlLoading] = useState(false)
+
+  const imageSet = await getHeroImageSet()
+  const image = imageSet.byPublicId(publicId)
+
+  if (!image) {
+    return null
+  }
 
   function onClose (): void {
     router.push('/', { scroll: false })
-  }
-
-  function copyShareUrl (): Promise<void> {
-    const shareUrl = new URL(`${location.origin}/${pathname}`)
-    return navigator.clipboard.writeText(shareUrl.href)
   }
 
   function navigate (newIndex: number): void {
@@ -45,7 +37,13 @@ export default function Modal ({
     router.push(`/gallery/${newIndex}`, { scroll: false })
   }
 
-  const [ratioWidth, ratioHeight] = images[index].aspectRatio
+  function copyShareUrl (): Promise<void> {
+    const { origin, pathname } = location
+    const shareUrl = new URL(origin + pathname)
+    return navigator.clipboard.writeText(shareUrl.href)
+  }
+
+  const [ratioWidth, ratioHeight] = image.aspectRatio
   const ratioOk = ratioWidth <= 16 && ratioWidth > 0 && ratioHeight <= 16 && ratioHeight > 0
   const ratioClassName = ratioOk ? `aspect-[${ratioWidth}/${ratioHeight}]` : ''
 
@@ -70,7 +68,7 @@ export default function Modal ({
           <Suspense fallback={<Loading ratioClassName={ratioClassName} />}>
             <Cdn.Responsive
               priority
-              image={images[index]}
+              image={image}
               className={`max-h-full w-fit rounded-lg ${ratioClassName}`}
               sizes='(max-width: 1280px) 100vw, 1280px'
               alt=''
@@ -82,13 +80,9 @@ export default function Modal ({
             className='opacity-40 hover:opacity-100 scale-95 hover:scale-100 text-lg duration-100 transition-opacity'
             onClick={(e) => {
               e.stopPropagation()
-              setShareUrlLoading(true)
               void copyShareUrl()
                 .catch(err => console.error('error copying share url', err))
-                .finally(() => setShareUrlLoading(false))
             }}
-            disabled={shareUrlLoading}
-            aria-busy={shareUrlLoading}
           >
             <LinkIcon className='inline-block size-6' />
           </button>

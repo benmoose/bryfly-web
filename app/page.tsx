@@ -16,7 +16,7 @@ export default async function Page (): Promise<React.ReactElement> {
           <Link
             key={image.key}
             id={image.key}
-            href={`/gallery/${image.index}`}
+            href={`/gallery/${image.publicId}`}
             scroll={false}
             className='after:content group relative mb-5 block w-full cursor-zoom-in
               after:pointer-events-none after:absolute after:inset-0 after:rounded-xl'
