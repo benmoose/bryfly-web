@@ -18,9 +18,9 @@ export default function BryFlyHeroBox (): React.ReactElement {
       >
         Browse me disco balls
       </h1>
-      <div className='z-10 text-base mt-6'>
+      <div className='flex items-center z-10 text-base mt-3 gap-2'>
         <a
-          className='pointer border border-white/15 bg-transparent px-3 py-2
+          className='pointer border border-white/15 bg-transparent px-3 py-2 rounded
            font-semibold text-white/85 transition hover:bg-white/5 hover:border-white/60
             hover:text-white'
           href='https://www.instagram.com/bryfly2000'
@@ -30,8 +30,8 @@ export default function BryFlyHeroBox (): React.ReactElement {
           Instagram
         </a>
         <a
-          className='pointer border border-white bg-gray-100 px-5 py-2
-            font-bold text-black transition hover:border-cyan-200 hover:bg-cyan-50'
+          className='pointer border border-white bg-cyan-50 px-5 py-2 rounded
+            font-bold text-black transition hover:border-cyan-200 hover:bg-pink-50'
           href='https://github.com/benmoose/bryfly-web'
         >
           Contact!

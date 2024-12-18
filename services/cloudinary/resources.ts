@@ -1,8 +1,6 @@
-import { type ResourceApiResponse, v2 as cloudinary } from "cloudinary";
-import { cache } from "react";
-import type { IImage, Indexable, IResource, PublicId } from "./types";
-
-const HERO_FOLDER = process.env.CLOUDINARY_HERO_FOLDER as string;
+import { v2 as cloudinary } from 'cloudinary'
+import { cache } from 'react'
+import type { IAPIResource, IImage, Indexable, IResource } from './types'
 
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -12,9 +10,32 @@ cloudinary.config({
   urlAnalytics: false,
 });
 
-type APIResource = ResourceApiResponse["resources"][number] & {
-  asset_id?: string;
-};
+const base64Placeholder = cache(async (publicId: string): Promise<string> => {
+  const url = cloudinary.url(publicId, {
+    transformation: ["placeholder_blur"],
+    type: "private",
+  });
+  const res = await fetch(url);
+  const buf = await res.arrayBuffer();
+  const data = Buffer.from(buf).toString("base64");
+  return `data:image/webp;base64,${data}`;
+});
+
+function isImageResource(resource: IResource): resource is IImage {
+  return resource.resourceType === "image";
+}
+
+function aspectRatio({
+  width,
+  height,
+}: {
+  width: number;
+  height: number;
+}): [number, number] {
+  const gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b));
+  const factor = gcd(width, height);
+  return [width / factor, height / factor];
+}
 
 async function resourcesByFolder(folder: string): Promise<IResource[]> {
   // TODO: assume no pagination, for now...
@@ -25,9 +46,9 @@ async function resourcesByFolder(folder: string): Promise<IResource[]> {
     max_results: 250,
   });
   return response.resources.map(
-    ({ format, context, version, ...res }: APIResource): IResource => ({
+    ({ format, context, version, ...res }: IAPIResource): IResource => ({
       key: res.asset_id ?? res.public_id,
-      publicId: res.public_id as PublicId,
+      publicId: res.public_id,
       assetId: res.asset_id as string,
       resourceType: res.resource_type,
       secureUrl: res.secure_url,
@@ -41,90 +62,65 @@ async function resourcesByFolder(folder: string): Promise<IResource[]> {
 }
 
 class ResourceSet<T extends IResource> {
-  readonly order: PublicId[];
-  readonly repo: { [id: PublicId]: Indexable<T> };
+  readonly order: string[];
+  readonly repo: { [pid: string]: Indexable<T> };
 
   constructor(resources: T[]) {
     this.order = resources.map((img) => img.publicId);
     this.repo = resources.reduce(
-      (repo, res, i) => ({
+      (repo, res, index) => ({
         ...repo,
-        [res.publicId]: { ...res, index: i },
+        [res.publicId]: { ...res, index },
       }),
       {},
     );
   }
 
-  resources(this: ResourceSet<T>): ReadonlyArray<Indexable<T>> {
+  all(this: ResourceSet<T>): ReadonlyArray<Indexable<T>> {
     const arr = this.order.map((id) => this.repo[id]);
     return Object.freeze(arr);
   }
 
-  byPublicId(this: ResourceSet<T>, id: PublicId): Readonly<T> | null {
-    const res = this.repo[id];
-    return Object.freeze(res);
-  }
-
-  byIndex(this: ResourceSet<T>, index: number): Readonly<T> | null {
-    const id = this.order[index];
-    return Object.freeze(this.repo[id]);
+  get(this: ResourceSet<T>, key: string | number): Readonly<Indexable<T>> | null {
+    const res = typeof(key) === 'string' ? this.repo[key] : this.repo[this.order[key]];
+    return res ? Object.freeze(res) : null;
   }
 }
 
-async function _getHeroImageSet(): Promise<ResourceSet<IImage>> {
-  console.log("called _getHeroImageSet");
-  const images = (await resourcesByFolder(HERO_FOLDER)).filter(isImageResource);
+export type IImageSet = Array<Indexable<IImage>>
+// export type IImageSet = ResourceSet<IImage>
+
+async function _getHeroImageSet(): Promise<IImageSet> {
+  console.count("_getHeroImageSet()")
+  const images = (await resourcesByFolder(`${process.env.CLOUDINARY_HERO_FOLDER}`))
+    .filter(isImageResource);
   const placeholderUrls = await Promise.all(
     images.map(async (img) => await base64Placeholder(img.publicId)),
   );
-  return new ResourceSet<IImage>(
-    images.map((image, i) => ({
-      ...image,
-      aspectRatio: aspectRatio(image),
-      placeholderUrl: placeholderUrls[i],
-    })),
-  );
+  return images.map((image, i) => ({
+    ...image,
+    index: i,
+    aspectRatio: aspectRatio(image),
+    placeholderUrl: placeholderUrls[i],
+  }))
+  // return new ResourceSet<IImage>(
+  //   images.map((image, i) => ({
+  //     ...image,
+  //     aspectRatio: aspectRatio(image),
+  //     placeholderUrl: placeholderUrls[i],
+  //   })),
+  // );
 }
 
-export const getHeroImageSet = cache(_getHeroImageSet);
+export const getHeroImageSet = cache(_getHeroImageSet)
+// export const getHeroImageSet = _getHeroImageSet
 
 export const prefetchHeroImageSet = (): void => {
   void getHeroImageSet();
 };
 
-async function getHeroImages(): Promise<Array<Indexable<IImage>>> {
-  const images = (await resourcesByFolder(HERO_FOLDER)).filter(isImageResource);
-  const blurDataUrls = await Promise.all(
-    images.map(async (image) => await base64Placeholder(image.publicId)),
-  );
-
-  return images.map(({ format, context, width, height, ...image }, i) => {
-    const cimg = {
-      key: image.assetId ?? image.publicId,
-      index: i,
-      publicId: image.publicId,
-      secureUrl: image.secureUrl,
-      resourceType: "image" as const,
-      placeholderUrl: blurDataUrls[i],
-      createdAt: image.createdAt,
-      aspectRatio: aspectRatio({ width, height }),
-      width,
-      height,
-      format,
-      context,
-    };
-    return cimg as Indexable<IImage>;
-  });
-}
-
-export const getImages = cache(getHeroImages);
-
-export const prefetchHeroImages: () => void = () => {
-  void getImages();
-};
-
-async function _getImage(publicId: PublicId): Promise<IImage> {
-  const image: APIResource = await cloudinary.api.resource(publicId, {
+async function _getImage(publicId: string): Promise<IImage> {
+  const image: IAPIResource = await cloudinary.api.resource(publicId, {
     context: true,
     resource_type: "image",
   });
@@ -146,30 +142,3 @@ async function _getImage(publicId: PublicId): Promise<IImage> {
 }
 
 export const getImage = cache(_getImage);
-
-const base64Placeholder = cache(async (publicId: PublicId): Promise<string> => {
-  const url = cloudinary.url(publicId, {
-    transformation: ["placeholder_blur"],
-    type: "private",
-  });
-  const res = await fetch(url);
-  const buf = await res.arrayBuffer();
-  const data = Buffer.from(buf).toString("base64");
-  return `data:image/webp;base64,${data}`;
-});
-
-function isImageResource(rr: IResource): rr is IImage {
-  return rr.resourceType === "image";
-}
-
-function aspectRatio({
-  width,
-  height,
-}: {
-  width: number;
-  height: number;
-}): [number, number] {
-  const gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b));
-  const factor = gcd(width, height);
-  return [width / factor, height / factor];
-}
