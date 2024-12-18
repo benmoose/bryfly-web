@@ -11,8 +11,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint:ci": "next lint --quiet",
-    "lint": "next lint --fix"
+    "lint": "next lint --fix",
+    "lint:ci": "next lint --quiet"
   },
   "dependencies": {
     "@cloudinary/url-gen": "^1.21.0",
