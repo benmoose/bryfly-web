@@ -1,13 +1,27 @@
 import { Analytics } from '@vercel/analytics/react'
-import { inter } from 'app/ui/font'
-import './styles.css'
-import type { Metadata } from 'next'
 import React from 'react'
+import type { Metadata, Viewport } from 'next'
+import { inter } from 'app/ui/font'
 import { prefetchHeroImageSet } from 'services/cloudinary'
+import './styles.css'
 
 export const metadata: Metadata = {
   title: 'BryFly',
-  description: 'Bespoke disco balls.'
+  description: 'Bespoke disco balls.',
+  keywords: ['disco', 'balls', 'sculpture', 'portfolio', 'projects', 'gallery', 'artist', 'london'],
+  creator: 'Ben Hadfield',
+  openGraph: {
+    title: 'BryFly: Bespoke Disco Balls',
+    siteName: 'BryFly: Bespoke Disco Balls',
+    description: "Official BryFly portfolio site showcasing previous work."
+  }
+}
+
+export const viewport: Viewport = {
+  colorScheme: 'dark',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
 }
 
 export default function RootLayout ({

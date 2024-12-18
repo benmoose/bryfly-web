@@ -7,6 +7,8 @@
       "esnext"
     ],
     "allowJs": true,
+    "allowImportingTsExtensions": true,
+    "allowArbitraryExtensions": true,
     "skipLibCheck": true,
     "strict": true,
     "strictNullChecks": true,
@@ -30,7 +32,6 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "./typings-custom/**/*.ts",
     "next-env.d.ts"
   ],
   "exclude": ["node_modules"]

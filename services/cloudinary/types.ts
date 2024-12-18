@@ -1,8 +1,13 @@
 import type {
   ImageFormat as ApiImageFormat,
+  ResourceApiResponse,
   ResourceType as ApiResourceType,
   VideoFormat as ApiVideoFormat
 } from 'cloudinary'
+
+export type IAPIResource = ResourceApiResponse["resources"][number] & {
+  asset_id?: string;
+};
 
 interface IResourceCommon {
   readonly key: string
@@ -21,6 +26,12 @@ interface ResourceType<Type extends ApiResourceType> extends IResourceCommon {
   readonly resourceType: Type
 }
 
+export type IResource = ResourceType<ApiResourceType>
+
+export type Indexable<T extends IResourceCommon> = T & {
+  readonly index: number
+}
+
 export interface IImage extends ResourceType<'image'> {
   placeholderUrl: string
   readonly width: number
@@ -31,10 +42,4 @@ export interface IImage extends ResourceType<'image'> {
 
 export interface IVideo extends ResourceType<'video'> {
   readonly format: ApiVideoFormat
-}
-
-export type IResource = ResourceType<ApiResourceType>
-
-export type Indexable<T extends IResourceCommon> = T & {
-  readonly index: number
 }
