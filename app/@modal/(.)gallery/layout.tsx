@@ -24,22 +24,25 @@ export default function Layout ({ children }: { children: react.ReactElement }) 
       />
       <div
         className="fixed flex flex-col justify-center items-center inset-0 w-full cursor-zoom-out
-          p-2 sm:p-4 md:px-16 md:py-8"
+          px-4 py-16 sm:px-6 md:px-16"
       >
         {children}
-        <div className="absolute top-4 right-4 flex gap-3 text-slate-200 z-50">
+        <div
+          className="absolute flex top-0 h-16 max-w-screen-xl w-full justify-end items-center gap-4 text-lg text-slate-200
+            z-50 pr-6"
+        >
           <button
-            className="opacity-40 hover:opacity-100 scale-95 hover:scale-100 text-lg duration-100 transition-opacity"
+            className="opacity-60 hover:opacity-100 scale-95 hover:scale-100 duration-100 transition-opacity"
             onClick={(e) => {
               e.stopPropagation()
               void copyShareUrl()
                 .catch(err => console.error('error copying share url', err))
             }}
           >
-            <LinkIcon className="inline-block size-6"/>
+            <LinkIcon className="inline-block items-baseline size-6"/>
           </button>
           <button
-            className="opacity-40 hover:opacity-100 scale-95 hover:scale-100 text-lg duration-100 transition-opacity"
+            className="opacity-60 hover:opacity-100 scale-95 hover:scale-100 duration-100 transition-opacity"
             onClick={close}
           >
             <XMarkIcon className="inline-block size-7"/>

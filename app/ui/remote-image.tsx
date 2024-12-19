@@ -7,7 +7,7 @@ import {
   optimisedLoader,
   thumbnailLoader
 } from 'lib/cloudinary/image-loader'
-import type { IImage } from 'lib/cloudinary/types'
+import type { Image as IImage } from 'lib/cloudinary'
 
 interface CdnProps extends Omit<ImageProps, 'loader' | 'src' | 'width' | 'height' | 'placeholder' | 'blurDataURL'> {
   image: IImage
