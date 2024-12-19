@@ -68,22 +68,20 @@ class ResourceSet<T extends IResource> {
   constructor(resources: T[]) {
     this.order = resources.map((img) => img.publicId);
     this.repo = resources.reduce(
-      (repo, res, index) => ({
+      (repo, res) => ({
         ...repo,
-        [res.publicId]: { ...res, index },
+        [res.publicId]: res,
       }),
       {},
     );
   }
 
   all(this: ResourceSet<T>): ReadonlyArray<Indexable<T>> {
-    const arr = this.order.map((id) => this.repo[id]);
-    return Object.freeze(arr);
+    return this.order.map((id) => this.repo[id]);
   }
 
-  get(this: ResourceSet<T>, key: string | number): Readonly<Indexable<T>> | null {
-    const res = typeof(key) === 'string' ? this.repo[key] : this.repo[this.order[key]];
-    return res ? Object.freeze(res) : null;
+  get(this: ResourceSet<T>, key: string | number): Readonly<Indexable<T>> {
+    return typeof(key) === 'string' ? this.repo[key] : this.repo[this.order[key]];
   }
 }
 
@@ -113,7 +111,6 @@ async function _getHeroImageSet(): Promise<IImageSet> {
 }
 
 export const getHeroImageSet = cache(_getHeroImageSet)
-// export const getHeroImageSet = _getHeroImageSet
 
 export const prefetchHeroImageSet = (): void => {
   void getHeroImageSet();
