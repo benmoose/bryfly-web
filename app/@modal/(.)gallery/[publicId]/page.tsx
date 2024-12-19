@@ -1,6 +1,6 @@
 import react, {Suspense} from 'react'
 import {Responsive} from 'app/ui/remote-image'
-import { getHeroImageSet } from 'services/cloudinary'
+import { getHeroImages } from 'lib/cloudinary'
 import Modal from './modal'
 
 export const dynamic = "force-dynamic"
@@ -11,11 +11,11 @@ export default async function Page ({
   params: Promise<{ publicId: string }>
 }): Promise<react.ReactElement> {
   const { publicId } = await params
-  const heroImageSet = getHeroImageSet()
+  const heroImageSet = getHeroImages()
 
   return (
     <Suspense fallback={<Loading />}>
-      <Modal publicId={publicId} imageSetStream={heroImageSet}>
+      <Modal publicId={publicId} imagesPromise={heroImageSet}>
         <BigImage publicId={publicId} />
       </Modal>
     </Suspense>
@@ -23,7 +23,7 @@ export default async function Page ({
 }
 
 async function BigImage ({ publicId }: { publicId: string }) {
-  const imageSet = await getHeroImageSet()
+  const imageSet = await getHeroImages()
   const image = imageSet.find(img => img.publicId === publicId)
 
   if (!image) {
@@ -43,5 +43,8 @@ async function BigImage ({ publicId }: { publicId: string }) {
 }
 
 function Loading () {
-  return <div className='max-h-full min-h-1 animate-pulse w-fit rounded-lg bg-orange-300/90 aspect-[3/2]' />
+  return <div className='relative flex items-center justify-center max-w-screen-lg
+    max-h-full cursor-default animate-pulse w-full rounded-lg bg-gradient-to-tr
+    from-slate-600/20 to-slate-300/5
+    aspect-[3/2]' />
 }

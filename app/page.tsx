@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React, {Suspense} from 'react'
 import * as Cdn from 'app/ui/remote-image'
-import { getHeroImageSet } from 'services/cloudinary'
+import { getHeroImages } from 'lib/cloudinary'
 import Logo from 'app/ui/logo.tsx'
 import { concertOne } from 'app/ui/font.ts'
 
@@ -45,7 +45,7 @@ function BryFlyHeroBox (): React.ReactElement {
 }
 
 export default async function Page (): Promise<React.ReactElement> {
-  const imageSet = getHeroImageSet()
+  const imageSet = getHeroImages()
 
   return (
     <main className='mx-auto max-w-[1960px] p-4 w-full'>
@@ -55,7 +55,7 @@ export default async function Page (): Promise<React.ReactElement> {
           {(await imageSet).map((image) => (
             <Link
               key={image.key}
-              id={image.key}
+              id={`i${image.index}`}
               href={`/gallery/${image.publicId}`}
               scroll={false}
               className='after:content group relative mb-5 block w-full cursor-zoom-in

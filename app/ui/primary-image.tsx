@@ -5,7 +5,7 @@ import { AnimatePresence, motion, MotionConfig } from 'motion/react'
 import Image from 'next/image'
 import React from 'react'
 import { useSwipeable } from 'react-swipeable'
-import { IImage } from 'services/cloudinary/types'
+import type { Image as IImage } from 'lib/cloudinary'
 
 const animations = {
   enter: (direction: number) => {

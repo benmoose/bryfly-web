@@ -6,8 +6,8 @@ import React from 'react'
 import {
   optimisedLoader,
   thumbnailLoader
-} from 'services/cloudinary/image-loader'
-import type { IImage } from 'services/cloudinary/types'
+} from 'lib/cloudinary/image-loader'
+import type { IImage } from 'lib/cloudinary/types'
 
 interface CdnProps extends Omit<ImageProps, 'loader' | 'src' | 'width' | 'height' | 'placeholder' | 'blurDataURL'> {
   image: IImage

@@ -4,18 +4,15 @@ import { DialogPanel } from '@headlessui/react'
 import React, { useState, use } from 'react'
 import { motion } from 'motion/react'
 import { useRouter } from 'next/navigation'
-import { ArrowLeftIcon, ArrowRightIcon, LinkIcon, XMarkIcon } from '@heroicons/react/24/solid'
-import type { IImageSet } from 'services/cloudinary'
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/solid'
+import type { Images } from 'lib/cloudinary'
 
-enum Direction {
-  NEXT,
-  PREV,
-}
+enum Direction { PREV, NEXT}
 
 export default function Modal (
-  { publicId, imageSetStream, children }: { publicId: string, imageSetStream: Promise<IImageSet>, children: React.ReactNode }
+  { publicId, imagesPromise, children }: { publicId: string, imagesPromise: Promise<Images>, children: React.ReactNode }
 ) {
-  const imageSet = use(imageSetStream)
+  const imageSet = use(imagesPromise)
   const image = imageSet.find(img => img.publicId === publicId)
 
   const [activeIndex, _setActiveIndex] = useState(image?.index)
@@ -45,11 +42,6 @@ export default function Modal (
     router.push(`/gallery/${publicId}`, { scroll: false })
   }
 
-  function copyShareUrl (): Promise<void> {
-    const { origin, pathname } = location
-    return navigator.clipboard.writeText(origin + pathname)
-  }
-
   return (
     <>
       <DialogPanel
@@ -60,24 +52,6 @@ export default function Modal (
       >
         {children}
       </DialogPanel>
-      <div className="absolute top-4 right-4 flex gap-3 text-slate-200 z-50">
-        <button
-          className="opacity-40 hover:opacity-100 scale-95 hover:scale-100 text-lg duration-100 transition-opacity"
-          onClick={(e) => {
-            e.stopPropagation()
-            void copyShareUrl()
-              .catch(err => console.error('error copying share url', err))
-          }}
-        >
-          <LinkIcon className="inline-block size-6"/>
-        </button>
-        <button
-          className="opacity-40 hover:opacity-100 scale-95 hover:scale-100 text-lg duration-100 transition-opacity"
-          onClick={close}
-        >
-          <XMarkIcon className="inline-block size-7"/>
-        </button>
-      </div>
       <div
         className="fixed flex justify-between items-center w-full px-6 sm:px-8 md:px-4 xl:px-10 text-slate-200 z-50">
         <button

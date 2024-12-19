@@ -2,7 +2,6 @@ import { Analytics } from '@vercel/analytics/react'
 import React from 'react'
 import type { Metadata, Viewport } from 'next'
 import { inter } from 'app/ui/font'
-import { prefetchHeroImageSet } from 'services/cloudinary'
 import './styles.css'
 
 export const metadata: Metadata = {
@@ -31,8 +30,6 @@ export default function RootLayout ({
   children: React.ReactNode
   modal: React.ReactNode
 }): React.ReactElement {
-  void prefetchHeroImageSet()
-
   return (
     <html lang='en' className={inter.className}>
       <body className='bg-black antialiased'>

@@ -1,7 +1,7 @@
 import * as Cdn from 'app/ui/remote-image'
 import React from 'react'
 import Image from 'next/image'
-import { getHeroImageSet } from 'services/cloudinary'
+import { getHeroImages } from 'lib/cloudinary'
 import { notFound } from 'next/navigation'
 
 // Only params from generateStaticParams() are pre-rendered.
@@ -11,7 +11,7 @@ import { notFound } from 'next/navigation'
 export const dynamic = 'force-static'
 
 export async function generateStaticParams (): Promise<Array<{ publicId: string }>> {
-  const imageSet = await getHeroImageSet()
+  const imageSet = await getHeroImages()
   return imageSet.map(img => ({ publicId: img.publicId }))
 }
 
@@ -21,7 +21,7 @@ export default async function Page ({
   params: Promise<{ publicId: string }>
 }): Promise<React.ReactElement> {
   const { publicId } = await params
-  const imageSet = await getHeroImageSet()
+  const imageSet = await getHeroImages()
   const image = imageSet.find(img => img.publicId === publicId)
 
   if (image == null) {
