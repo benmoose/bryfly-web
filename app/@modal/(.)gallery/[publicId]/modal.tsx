@@ -68,7 +68,10 @@ export default function Modal({
       >
         {children}
       </DialogPanel>
-      <div className="absolute flex h-16 justify-between items-center bottom-0 w-full max-w-screen-xl px-4 xl:px-0 text-slate-200 z-50">
+      <div
+        className="absolute flex h-16 justify-between items-center bottom-0 w-full max-w-screen-xl
+          px-4 xl:px-0 text-slate-200 z-50"
+      >
         <button
           className="opacity-60 hover:opacity-100 scale-95 hover:scale-100 text-xl duration-100 transition-opacity"
           onClick={(e) => {
