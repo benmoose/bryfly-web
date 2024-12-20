@@ -1,40 +1,52 @@
 "use client"
 
 import { DialogPanel } from "@headlessui/react"
-import React, { useState, use } from "react"
+import React, { useState } from "react"
 import { useSwipeable } from "react-swipeable"
 import { motion } from "motion/react"
 import { useRouter } from "next/navigation"
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid"
-import type { Images } from "lib/cloudinary"
+import type { Image } from "lib/cloudinary"
 
 const enum Direction {
   PREV,
   NEXT,
 }
 
+// const animations = {
+//   enter: (direction: number) => {
+//     return {
+//       x: direction > 0 ? 1000 : -1000,
+//       opacity: 0,
+//     }
+//   },
+//   center: {
+//     x: 0,
+//     opacity: 1,
+//   },
+//   exit: (direction: number) => {
+//     return {
+//       x: direction < 0 ? 1000 : -1000,
+//       opacity: 0,
+//     }
+//   },
+// }
+
 export default function Modal({
-  publicId,
-  imagesPromise,
+  image,
+  images,
   children,
 }: {
-  publicId: string
-  imagesPromise: Promise<Images>
+  image: Image
+  images: Image[]
   children: React.ReactNode
 }) {
-  const images = use(imagesPromise)
-  const image = images.find((img) => img.publicId === publicId)
-
-  const [activeIndex, _setActiveIndex] = useState(image?.index)
+  const [activeIndex, _setActiveIndex] = useState(image.index)
   const [, setDirection] = useState<Direction>()
   const router = useRouter()
 
   function close(): void {
     router.push("/", { scroll: false })
-  }
-
-  if (image === null) {
-    close()
   }
 
   function setActiveIndex(index: number): void {

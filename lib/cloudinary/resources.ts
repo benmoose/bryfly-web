@@ -73,9 +73,9 @@ export type Image = ResourceType<"image"> & {
   readonly aspectRatio: [number, number]
   placeholderUrl: string
 }
-export type Images = ReadonlyArray<Image>
 
-async function _getHeroImages(): Promise<Images> {
+export async function getHeroImages(): Promise<Image[]> {
+  console.count("getHeroImages() call")
   const images = (
     await resourcesByFolder(`${process.env.CLOUDINARY_HERO_FOLDER}`)
   ).filter(isImageResource)
@@ -97,8 +97,6 @@ async function _getHeroImages(): Promise<Images> {
     placeholderUrl: placeholderUrls[index],
   }))
 }
-
-export const getHeroImages = cache(_getHeroImages)
 
 async function _getImage(publicId: string): Promise<Image> {
   const image: RawApiResource = await cloudinary.api.resource(publicId, {
