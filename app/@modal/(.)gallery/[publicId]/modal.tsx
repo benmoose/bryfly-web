@@ -2,6 +2,7 @@
 
 import { DialogPanel } from "@headlessui/react"
 import React, { useState, use } from "react"
+import { useSwipeable } from "react-swipeable"
 import { motion } from "motion/react"
 import { useRouter } from "next/navigation"
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid"
@@ -25,9 +26,8 @@ export default function Modal({
   const image = images.find((img) => img.publicId === publicId)
 
   const [activeIndex, _setActiveIndex] = useState(image?.index)
-  const [direction, setDirection] = useState<Direction>()
+  const [, setDirection] = useState<Direction>()
   const router = useRouter()
-  console.log("d", direction)
 
   function close(): void {
     router.push("/", { scroll: false })
@@ -51,6 +51,12 @@ export default function Modal({
     router.push(`/gallery/${publicId}`, { scroll: false })
   }
 
+  const swipeHandles = useSwipeable({
+    onSwipedLeft: () => setActiveIndex(activeIndex! - 1),
+    onSwipedRight: () => setActiveIndex(activeIndex! + 1),
+    onSwipedDown: () => close(),
+  })
+
   return (
     <>
       <DialogPanel
@@ -58,6 +64,7 @@ export default function Modal({
         initial={{ opacity: 0, scale: 0.86 }}
         animate={{ opacity: 1, scale: 1, transition: { duration: 0.21 } }}
         className="relative flex items-center justify-center max-w-screen-xl max-h-full cursor-default"
+        {...swipeHandles}
       >
         {children}
       </DialogPanel>

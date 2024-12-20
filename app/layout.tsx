@@ -17,19 +17,18 @@ export const metadata: Metadata = {
     "artist",
     "london",
   ],
-  creator: "Ben Hadfield",
   openGraph: {
     title: "BryFly: Bespoke Disco Balls",
     siteName: "BryFly: Bespoke Disco Balls",
     description: "Official BryFly portfolio site showcasing previous work.",
   },
+  creator: "Ben Hadfield",
 }
 
 export const viewport: Viewport = {
   colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
 }
 
 export default function RootLayout({
