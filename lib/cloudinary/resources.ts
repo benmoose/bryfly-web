@@ -4,9 +4,9 @@ import {
   type ResourceType as _ResourceType,
   v2 as cloudinary,
   type VideoFormat,
-} from 'cloudinary'
-import { cache } from 'react'
-import { aspectRatio, encodeB64ImageUrl } from './util'
+} from "cloudinary"
+import { cache } from "react"
+import { aspectRatio, encodeB64ImageUrl } from "./util"
 
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -14,7 +14,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
   secure: true,
   urlAnalytics: false,
-});
+})
 
 interface Resource {
   readonly key: string
@@ -35,8 +35,8 @@ interface ResourceType<Type extends _ResourceType> extends Resource {
 }
 
 type RawApiResource = ResourceApiResponse["resources"][number] & {
-  asset_id?: string;
-};
+  asset_id?: string
+}
 
 async function resourcesByFolder(folder: string): Promise<Resource[]> {
   // TODO: assume no pagination, for now...
@@ -45,9 +45,12 @@ async function resourcesByFolder(folder: string): Promise<Resource[]> {
     direction: "desc",
     image_metadata: true,
     max_results: 250,
-  });
+  })
   return response.resources.map(
-    ({ format, context, version, ...rest }: RawApiResource, index): Resource => ({
+    (
+      { format, context, version, ...rest }: RawApiResource,
+      index,
+    ): Resource => ({
       index,
       context,
       format,
@@ -60,10 +63,10 @@ async function resourcesByFolder(folder: string): Promise<Resource[]> {
       createdAt: rest.created_at,
       ...rest,
     }),
-  );
+  )
 }
 
-export type Image = ResourceType<'image'> & {
+export type Image = ResourceType<"image"> & {
   readonly width: number
   readonly height: number
   readonly format: ImageFormat
@@ -73,16 +76,20 @@ export type Image = ResourceType<'image'> & {
 export type Images = ReadonlyArray<Image>
 
 async function _getHeroImages(): Promise<Images> {
-  const images = (await resourcesByFolder(`${process.env.CLOUDINARY_HERO_FOLDER}`))
-    .filter(isImageResource);
+  const images = (
+    await resourcesByFolder(`${process.env.CLOUDINARY_HERO_FOLDER}`)
+  ).filter(isImageResource)
   const placeholderUrls = await Promise.all(
-    images.map(async (img) => await encodeB64ImageUrl(
-      cloudinary.url(img.publicId, {
-        transformation: ["placeholder_blur"],
-        type: "private",
-      })
-    ))
-  );
+    images.map(
+      async (img) =>
+        await encodeB64ImageUrl(
+          cloudinary.url(img.publicId, {
+            transformation: ["placeholder_blur"],
+            type: "private",
+          }),
+        ),
+    ),
+  )
   return images.map((image, index) => ({
     ...image,
     index,
@@ -97,11 +104,13 @@ async function _getImage(publicId: string): Promise<Image> {
   const image: RawApiResource = await cloudinary.api.resource(publicId, {
     context: true,
     resource_type: "image",
-  });
-  const placeholderUrl = await encodeB64ImageUrl(cloudinary.url(publicId, {
-    transformation: ["placeholder_blur"],
-    type: "private",
-  }));
+  })
+  const placeholderUrl = await encodeB64ImageUrl(
+    cloudinary.url(publicId, {
+      transformation: ["placeholder_blur"],
+      type: "private",
+    }),
+  )
   return {
     publicId,
     placeholderUrl,
@@ -114,10 +123,10 @@ async function _getImage(publicId: string): Promise<Image> {
     aspectRatio: aspectRatio(image),
     format: image.format,
     context: image.context,
-  } as Image;
+  } as Image
 }
 
-export const getImage = cache(_getImage);
+export const getImage = cache(_getImage)
 
 // export type ImageSet = ResourceSet<Image>
 //
@@ -146,5 +155,5 @@ export const getImage = cache(_getImage);
 // }
 
 function isImageResource(resource: Resource): resource is Image {
-  return resource.resourceType === "image";
+  return resource.resourceType === "image"
 }

@@ -1,19 +1,24 @@
-'use client'
+"use client"
 
-import type { ImageProps } from 'next/image'
-import Image from 'next/image'
-import React from 'react'
-import {
-  optimisedLoader,
-  thumbnailLoader
-} from 'lib/cloudinary/image-loader'
-import type { Image as IImage } from 'lib/cloudinary'
+import type { ImageProps } from "next/image"
+import Image from "next/image"
+import React from "react"
+import { optimisedLoader, thumbnailLoader } from "lib/cloudinary/image-loader"
+import type { Image as IImage } from "lib/cloudinary"
 
-interface CdnProps extends Omit<ImageProps, 'loader' | 'src' | 'width' | 'height' | 'placeholder' | 'blurDataURL'> {
+interface CdnProps
+  extends Omit<
+    ImageProps,
+    "loader" | "src" | "width" | "height" | "placeholder" | "blurDataURL"
+  > {
   image: IImage
 }
 
-export function Responsive ({ image, alt, ...props }: CdnProps): React.ReactElement {
+export function Responsive({
+  image,
+  alt,
+  ...props
+}: CdnProps): React.ReactElement {
   return (
     <Image
       {...props}
@@ -22,13 +27,17 @@ export function Responsive ({ image, alt, ...props }: CdnProps): React.ReactElem
       width={image.width}
       height={image.height}
       blurDataURL={image.placeholderUrl}
-      placeholder='blur'
-      alt={alt ?? ''}
+      placeholder="blur"
+      alt={alt ?? ""}
     />
   )
 }
 
-export function Thumbnail ({ image, alt, ...props }: CdnProps): React.ReactElement {
+export function Thumbnail({
+  image,
+  alt,
+  ...props
+}: CdnProps): React.ReactElement {
   return (
     <Image
       {...props}
@@ -37,8 +46,8 @@ export function Thumbnail ({ image, alt, ...props }: CdnProps): React.ReactEleme
       loader={thumbnailLoader}
       width={128}
       height={128}
-      sizes='128w'
-      alt={alt ?? ''}
+      sizes="128w"
+      alt={alt ?? ""}
     />
   )
 }

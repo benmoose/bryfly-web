@@ -1,34 +1,43 @@
-'use client'
+"use client"
 
-import { DialogPanel } from '@headlessui/react'
-import React, { useState, use } from 'react'
-import { motion } from 'motion/react'
-import { useRouter } from 'next/navigation'
-import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/solid'
-import type { Images } from 'lib/cloudinary'
+import { DialogPanel } from "@headlessui/react"
+import React, { useState, use } from "react"
+import { motion } from "motion/react"
+import { useRouter } from "next/navigation"
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid"
+import type { Images } from "lib/cloudinary"
 
-const enum Direction { PREV, NEXT}
+const enum Direction {
+  PREV,
+  NEXT,
+}
 
-export default function Modal (
-  { publicId, imagesPromise, children }: { publicId: string, imagesPromise: Promise<Images>, children: React.ReactNode }
-) {
+export default function Modal({
+  publicId,
+  imagesPromise,
+  children,
+}: {
+  publicId: string
+  imagesPromise: Promise<Images>
+  children: React.ReactNode
+}) {
   const images = use(imagesPromise)
-  const image = images.find(img => img.publicId === publicId)
+  const image = images.find((img) => img.publicId === publicId)
 
   const [activeIndex, _setActiveIndex] = useState(image?.index)
   const [direction, setDirection] = useState<Direction>()
   const router = useRouter()
-  console.log('d', direction)
+  console.log("d", direction)
 
-  function close (): void {
-    router.push('/', { scroll: false })
+  function close(): void {
+    router.push("/", { scroll: false })
   }
 
   if (image === null) {
     close()
   }
 
-  function setActiveIndex (index: number): void {
+  function setActiveIndex(index: number): void {
     const closedIndex = index >= 0 ? index % images.length : images.length - 1
     if (closedIndex > activeIndex!) {
       setDirection(Direction.NEXT)
@@ -52,9 +61,7 @@ export default function Modal (
       >
         {children}
       </DialogPanel>
-      <div
-        className="absolute flex h-16 justify-between items-center bottom-0 w-full max-w-screen-xl px-4 xl:px-0 text-slate-200 z-50"
-      >
+      <div className="absolute flex h-16 justify-between items-center bottom-0 w-full max-w-screen-xl px-4 xl:px-0 text-slate-200 z-50">
         <button
           className="opacity-60 hover:opacity-100 scale-95 hover:scale-100 text-xl duration-100 transition-opacity"
           onClick={(e) => {
@@ -62,7 +69,7 @@ export default function Modal (
             setActiveIndex(activeIndex! - 1)
           }}
         >
-          <ArrowLeftIcon className="size-8"/>
+          <ArrowLeftIcon className="size-8" />
         </button>
         <button
           className="opacity-60 hover:opacity-100 scale-95 hover:scale-100 text-xl duration-100 transition-opacity"
@@ -71,7 +78,7 @@ export default function Modal (
             setActiveIndex(activeIndex! + 1)
           }}
         >
-          <ArrowRightIcon className="size-8"/>
+          <ArrowRightIcon className="size-8" />
         </button>
       </div>
     </>

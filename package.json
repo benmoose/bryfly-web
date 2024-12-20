@@ -12,7 +12,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint --fix",
-    "lint:ci": "next lint --quiet --no-cache"
+    "lint:ci": "next lint --quiet --no-cache",
+    "fmt": "prettier . --write --ignore-unknown",
+    "fmt:ci": "prettier . --check --ignore-unknown"
   },
   "dependencies": {
     "@cloudinary/url-gen": "^1.21.0",
@@ -33,7 +35,9 @@
     "@types/react-dom": "^18.3.5",
     "eslint": "^9",
     "eslint-config-next": "^15.1.2",
+    "eslint-config-prettier": "^9.1.0",
     "postcss": "^8.4.49",
+    "prettier": "^3.4.2",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.2"
   },

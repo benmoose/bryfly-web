@@ -1,3 +1,3 @@
-export default function Page (): React.ReactNode {
+export default function Page(): React.ReactNode {
   return null
 }
