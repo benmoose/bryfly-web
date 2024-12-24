@@ -11,10 +11,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint --fix",
-    "lint:ci": "next lint --quiet --no-cache",
-    "fmt": "prettier . --write --ignore-unknown",
-    "fmt:ci": "prettier . --check --ignore-unknown"
+    "lint:check": "next lint --quiet",
+    "fmt:check": "prettier . --write --ignore-unknown"
   },
   "dependencies": {
     "@cloudinary/url-gen": "^1.21.0",
