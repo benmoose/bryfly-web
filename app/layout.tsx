@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "BryFly: Bespoke Disco Balls",
     siteName: "BryFly: Bespoke Disco Balls",
-    description: "Official BryFly portfolio site showcasing previous work.",
+    description: "Bespoke disco balls.",
   },
   creator: "Ben Hadfield",
 }

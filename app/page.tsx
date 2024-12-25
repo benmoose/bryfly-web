@@ -58,7 +58,7 @@ function BryFlyHeroBox() {
 }
 
 function ImageGrid({ images }: { images: readonly Image[] }) {
-  return images.map((image) => (
+  return images.map(image => (
     <Link
       key={image.key}
       id={`i${image.index}`}

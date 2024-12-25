@@ -81,7 +81,7 @@ export async function getHeroImages(): Promise<Image[]> {
   ).filter(isImageResource)
   const placeholderUrls = await Promise.all(
     images.map(
-      async (img) =>
+      async img =>
         await encodeB64ImageUrl(
           cloudinary.url(img.publicId, {
             transformation: ["placeholder_blur"],

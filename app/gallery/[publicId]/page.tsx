@@ -14,7 +14,7 @@ export async function generateStaticParams(): Promise<
   Array<{ publicId: string }>
 > {
   const imageSet = await getHeroImages()
-  return imageSet.map((img) => ({ publicId: img.publicId }))
+  return imageSet.map(img => ({ publicId: img.publicId }))
 }
 
 export default async function Page({
@@ -24,7 +24,7 @@ export default async function Page({
 }): Promise<React.ReactElement> {
   const { publicId } = await params
   const imageSet = await getHeroImages()
-  const image = imageSet.find((img) => img.publicId === publicId)
+  const image = imageSet.find(img => img.publicId === publicId)
 
   if (image == null) {
     return notFound()

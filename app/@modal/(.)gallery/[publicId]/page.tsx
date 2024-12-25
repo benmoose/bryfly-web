@@ -1,8 +1,8 @@
 import React from "react"
 import { notFound } from "next/navigation"
+import { getImages } from "app/images"
 import { Responsive } from "app/ui/remote-image"
 import Modal from "./modal"
-import { getImages } from "app/images"
 
 export default async function Page({
   params,
@@ -11,7 +11,7 @@ export default async function Page({
 }) {
   const { publicId } = await params
   const heroImages = await getImages()
-  const image = heroImages.find((image) => image.publicId === publicId)
+  const image = heroImages.find(image => image.publicId === publicId)
 
   if (!image) {
     notFound()
@@ -26,7 +26,7 @@ export default async function Page({
 
 async function ActiveImage({ publicId }: { publicId: string }) {
   const imageSet = await getImages()
-  const image = imageSet.find((image) => image.publicId === publicId)
+  const image = imageSet.find(image => image.publicId === publicId)
 
   if (!image) {
     notFound()

@@ -1,11 +1,11 @@
 "use client"
 
 import { DialogPanel } from "@headlessui/react"
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid"
 import React, { useState, useEffect } from "react"
 import { useSwipeable } from "react-swipeable"
-import { motion } from "motion/react"
 import { useRouter } from "next/navigation"
-import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid"
+import { motion } from "motion/react"
 import type { Image } from "lib/cloudinary"
 
 const enum Direction {
@@ -72,7 +72,7 @@ export default function Modal({
     router.push("/", { scroll: false })
   }
 
-  function setActiveIndex(index: number): void {
+  function setActiveIndex(index: number) {
     const closedIndex = index >= 0 ? index % images.length : images.length - 1
     if (closedIndex > activeIndex) {
       setDirection(Direction.NEXT)
@@ -109,7 +109,7 @@ export default function Modal({
       >
         <button
           className="opacity-60 hover:opacity-100 scale-95 hover:scale-100 text-xl duration-100 transition-opacity"
-          onClick={(e) => {
+          onClick={e => {
             e.stopPropagation()
             setActiveIndex(activeIndex - 1)
           }}
@@ -118,7 +118,7 @@ export default function Modal({
         </button>
         <button
           className="opacity-60 hover:opacity-100 scale-95 hover:scale-100 text-xl duration-100 transition-opacity"
-          onClick={(e) => {
+          onClick={e => {
             e.stopPropagation()
             setActiveIndex(activeIndex + 1)
           }}
