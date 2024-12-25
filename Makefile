@@ -15,3 +15,7 @@ prettier: ## Format matching files with prettier
 tsc-check: ## Check Typescript compiles successfully
 	@echo "Compiling Typescript... "
 	@npx tsc --noEmit
+
+.PHONY:dev
+dev: ## Start development server
+	npm run dev
