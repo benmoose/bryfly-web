@@ -1,7 +1,7 @@
 "use client"
 
 import { DialogPanel } from "@headlessui/react"
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useSwipeable } from "react-swipeable"
 import { motion } from "motion/react"
 import { useRouter } from "next/navigation"
@@ -45,15 +45,38 @@ export default function Modal({
   const [, setDirection] = useState<Direction>()
   const router = useRouter()
 
+  useEffect(() => {
+    function handleKeyDown(e: globalThis.KeyboardEvent) {
+      switch (e.key) {
+        case "ArrowLeft": {
+          e.preventDefault()
+          setActiveIndex(activeIndex - 1)
+          break
+        }
+        case "ArrowRight": {
+          e.preventDefault()
+          setActiveIndex(activeIndex + 1)
+          break
+        }
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown)
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown)
+    }
+  })
+
   function close(): void {
     router.push("/", { scroll: false })
   }
 
   function setActiveIndex(index: number): void {
     const closedIndex = index >= 0 ? index % images.length : images.length - 1
-    if (closedIndex > activeIndex!) {
+    if (closedIndex > activeIndex) {
       setDirection(Direction.NEXT)
-    } else if (closedIndex < activeIndex!) {
+    } else if (closedIndex < activeIndex) {
       setDirection(Direction.PREV)
     } else {
       return
@@ -64,8 +87,8 @@ export default function Modal({
   }
 
   const swipeHandles = useSwipeable({
-    onSwipedLeft: () => setActiveIndex(activeIndex! - 1),
-    onSwipedRight: () => setActiveIndex(activeIndex! + 1),
+    onSwipedLeft: () => setActiveIndex(activeIndex - 1),
+    onSwipedRight: () => setActiveIndex(activeIndex + 1),
     onSwipedDown: () => close(),
   })
 
@@ -88,7 +111,7 @@ export default function Modal({
           className="opacity-60 hover:opacity-100 scale-95 hover:scale-100 text-xl duration-100 transition-opacity"
           onClick={(e) => {
             e.stopPropagation()
-            setActiveIndex(activeIndex! - 1)
+            setActiveIndex(activeIndex - 1)
           }}
         >
           <ArrowLeftIcon className="size-8" />
@@ -97,7 +120,7 @@ export default function Modal({
           className="opacity-60 hover:opacity-100 scale-95 hover:scale-100 text-xl duration-100 transition-opacity"
           onClick={(e) => {
             e.stopPropagation()
-            setActiveIndex(activeIndex! + 1)
+            setActiveIndex(activeIndex + 1)
           }}
         >
           <ArrowRightIcon className="size-8" />
