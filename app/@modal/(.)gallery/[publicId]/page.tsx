@@ -1,25 +1,31 @@
-import React from "react"
-import { notFound } from "next/navigation"
-import { getImages } from "app/images"
-import Carousel from "./carousel.tsx"
-import PrimaryImage from "./primaryImage.tsx"
+"use client"
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ publicId: string }>
-}) {
-  const { publicId } = await params
-  const heroImages = await getImages()
-  const image = heroImages.find(image => image.publicId === publicId)
+import React, { useContext } from "react"
+import { useParams, notFound } from "next/navigation"
+import { ImagesContext } from "app/_images/context"
+import { Responsive } from "app/ui/remote-image"
+import Carousel from "./carousel"
+
+export default function Page() {
+  const { publicId } = useParams<{ publicId: string }>()
+  const images = useContext(ImagesContext)
+  const image = images.repo[publicId]
 
   if (!image) {
     notFound()
   }
 
+  const [ratioWidth, ratioHeight] = image.aspectRatio
+
   return (
-    <Carousel image={image} images={heroImages}>
-      <PrimaryImage publicId={publicId} />
+    <Carousel publicId={publicId}>
+      <Responsive
+        priority
+        image={image}
+        className={`max-h-full w-fit rounded-lg aspect-[${ratioWidth}/${ratioHeight}]}`}
+        sizes="(max-width: 1280px) 100vw, 1280px"
+        alt={`Photo ${image.key}`}
+      />
     </Carousel>
   )
 }

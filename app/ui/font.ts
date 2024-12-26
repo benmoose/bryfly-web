@@ -7,7 +7,7 @@ const inter = Inter({
 
 const concertOne = Concert_One({
   subsets: ["latin"],
-  display: "block",
+  display: "swap",
   weight: "400",
 })
 

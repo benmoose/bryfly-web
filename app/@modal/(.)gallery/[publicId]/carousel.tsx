@@ -1,42 +1,77 @@
 "use client"
 
+import { ImagesContext } from "app/_images/context"
+import { useContext } from "react"
 import { DialogPanel } from "@headlessui/react"
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid"
 import React, { useState, useEffect } from "react"
 import { useSwipeable } from "react-swipeable"
 import { motion } from "motion/react"
 import { useRouter } from "next/navigation"
-import type { Image } from "lib/cloudinary"
 
 const enum Direction {
   PREV,
   NEXT,
 }
 
-export default function Carousel({
-  images,
-  image,
-  children,
+function ModalNavigation({
+  index,
+  onSetIndex,
 }: {
-  images: Image[]
-  image: Image
-  children: React.ReactNode
+  index: number
+  onSetIndex: (i: number) => void
 }) {
-  const [activeIndex, _setActiveIndex] = useState(image.index)
-  const [, setDirection] = useState<Direction>()
+  return (
+    <div
+      className="flex-row flex flex-initial justify-between items-center w-full max-w-screen-xl
+          text-slate-200 z-50 h-16"
+    >
+      <button
+        className="opacity-60 hover:opacity-100 scale-95 hover:scale-100 text-xl duration-100 transition-opacity"
+        onClick={e => {
+          e.stopPropagation()
+          onSetIndex(index - 1)
+        }}
+      >
+        <ArrowLeftIcon className="size-8" />
+      </button>
+      <button
+        className="opacity-60 hover:opacity-100 scale-95 hover:scale-100 text-xl duration-100 transition-opacity"
+        onClick={e => {
+          e.stopPropagation()
+          onSetIndex(index + 1)
+        }}
+      >
+        <ArrowRightIcon className="size-8" />
+      </button>
+    </div>
+  )
+}
+
+export default function Carousel({
+  children,
+  publicId,
+}: {
+  children: React.ReactNode
+  publicId: string
+}) {
   const router = useRouter()
+  const images = useContext(ImagesContext)
+  const image = images.repo[publicId]
+  const [index, setIndex] = useState(image.index)
+  const [, setDirection] = useState<Direction>()
 
   useEffect(() => {
     const handleKeyDown = (e: globalThis.KeyboardEvent) => {
       switch (e.key) {
         case "ArrowLeft": {
           e.preventDefault()
-          setActiveIndex(activeIndex - 1)
+          handleNavigation(index - 1)
           break
         }
         case "ArrowRight": {
           e.preventDefault()
-          setActiveIndex(activeIndex + 1)
+          handleNavigation(index + 1)
           break
         }
       }
@@ -47,28 +82,29 @@ export default function Carousel({
     }
   }, [])
 
-  function close(): void {
+  function handleCloseModal(): void {
     router.push("/", { scroll: false })
   }
 
-  function setActiveIndex(index: number) {
-    const closedIndex = index >= 0 ? index % images.length : images.length - 1
-    if (closedIndex > activeIndex) {
+  function handleNavigation(newIndex: number) {
+    const closedIndex =
+      newIndex >= 0 ? newIndex % images.order.length : images.order.length - 1
+    if (closedIndex > index) {
       setDirection(Direction.NEXT)
-    } else if (closedIndex < activeIndex) {
+    } else if (closedIndex < index) {
       setDirection(Direction.PREV)
     } else {
       return
     }
-    _setActiveIndex(closedIndex)
-    const { publicId } = images[closedIndex]
+    setIndex(closedIndex)
+    const { publicId } = images.repo[images.order[closedIndex]]
     router.push(`/gallery/${publicId}`, { scroll: false })
   }
 
   const swipeHandles = useSwipeable({
-    onSwipedLeft: () => setActiveIndex(activeIndex - 1),
-    onSwipedRight: () => setActiveIndex(activeIndex + 1),
-    onSwipedDown: () => close(),
+    onSwipedLeft: () => handleNavigation(index - 1),
+    onSwipedRight: () => handleNavigation(index + 1),
+    onSwipedDown: () => handleCloseModal(),
   })
 
   return (
@@ -77,34 +113,12 @@ export default function Carousel({
         as={motion.div}
         initial={{ opacity: 0, scale: 0.86 }}
         animate={{ opacity: 1, scale: 1, transition: { duration: 0.21 } }}
-        className="relative flex items-center justify-center max-w-screen-xl max-h-full cursor-default"
+        className="flex-1 items-center justify-center max-w-screen-xl max-h-fit cursor-default"
         {...swipeHandles}
       >
         {children}
       </DialogPanel>
-      <div
-        className="absolute flex h-16 justify-between items-center bottom-0 w-full max-w-screen-xl
-          px-4 xl:px-0 text-slate-200 z-50"
-      >
-        <button
-          className="opacity-60 hover:opacity-100 scale-95 hover:scale-100 text-xl duration-100 transition-opacity"
-          onClick={e => {
-            e.stopPropagation()
-            setActiveIndex(activeIndex - 1)
-          }}
-        >
-          <ArrowLeftIcon className="size-8" />
-        </button>
-        <button
-          className="opacity-60 hover:opacity-100 scale-95 hover:scale-100 text-xl duration-100 transition-opacity"
-          onClick={e => {
-            e.stopPropagation()
-            setActiveIndex(activeIndex + 1)
-          }}
-        >
-          <ArrowRightIcon className="size-8" />
-        </button>
-      </div>
+      <ModalNavigation index={index} onSetIndex={handleNavigation} />
     </>
   )
 }

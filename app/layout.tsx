@@ -1,23 +1,18 @@
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import React from "react"
+import { getHeroImages } from "lib/cloudinary"
+import React, { cache } from "react"
 import type { Metadata, Viewport } from "next"
+import ImageProvider from "app/_images/image-provider"
 import { inter } from "app/ui/font"
 import "./styles.css"
+
+const getImages = cache(getHeroImages)
 
 export const metadata: Metadata = {
   title: "BryFly",
   description: "Bespoke disco balls.",
-  keywords: [
-    "disco",
-    "balls",
-    "sculpture",
-    "portfolio",
-    "projects",
-    "gallery",
-    "artist",
-    "london",
-  ],
+  keywords: ["disco", "balls", "sculpture", "portfolio", "artist", "london"],
   openGraph: {
     title: "BryFly: Bespoke Disco Balls",
     siteName: "BryFly: Bespoke Disco Balls",
@@ -32,18 +27,21 @@ export const viewport: Viewport = {
   initialScale: 1,
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   modal,
 }: {
   children: React.ReactNode
   modal: React.ReactNode
-}): React.ReactElement {
+}) {
+  const images = getImages()
   return (
     <html lang="en" className={inter.className}>
       <body className="bg-black antialiased">
-        {modal}
-        {children}
+        <ImageProvider imagesStream={images}>
+          {children}
+          {modal}
+        </ImageProvider>
         <Footer />
         <SpeedInsights />
         <Analytics />

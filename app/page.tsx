@@ -1,22 +1,11 @@
 import Link from "next/link"
-import React from "react"
+import React, { cache } from "react"
 import { Responsive } from "app/ui/remote-image"
 import Logo from "app/ui/logo.tsx"
-import { concertOne } from "app/ui/font.ts"
-import { getImages } from "app/images"
-import { Image } from "lib/cloudinary"
+import { concertOne } from "app/ui/font"
+import { getHeroImages } from "lib/cloudinary"
 
-export default async function Page() {
-  const images = await getImages()
-  return (
-    <main className="mx-auto max-w-[1960px] p-4 w-full">
-      <div className="gap-4 columns-1 sm:columns-2 xl:columns-3 2xl:columns-4">
-        <BryFlyHeroBox />
-        <ImageGrid images={images} />
-      </div>
-    </main>
-  )
-}
+const getImages = cache(getHeroImages)
 
 function BryFlyHeroBox() {
   return (
@@ -57,28 +46,36 @@ function BryFlyHeroBox() {
   )
 }
 
-function ImageGrid({ images }: { images: readonly Image[] }) {
-  return images.map(image => (
-    <Link
-      key={image.key}
-      id={`i${image.index}`}
-      href={`/gallery/${image.publicId}`}
-      scroll={false}
-      className="after:content group relative mb-5 block w-full cursor-zoom-in
-                after:pointer-events-none after:absolute after:inset-0 after:rounded-xl"
-    >
-      <Responsive
-        priority
-        image={image}
-        className="transform rounded-xl brightness-90 transition will-change-auto
-                  group-hover:brightness-110"
-        sizes="(max-width: 640px) 100vw,
-                  (max-width: 1280px) 50vw,
-                  (max-width: 1536px) 33vw,
-                  (max-width: 1960px) 25vw,
-                  490px"
-        alt={`Image ${image.key}`}
-      />
-    </Link>
-  ))
+export default async function Page() {
+  const images = await getImages()
+  return (
+    <main className="mx-auto max-w-[1960px] p-4 w-full">
+      <div className="gap-4 columns-1 sm:columns-2 xl:columns-3 2xl:columns-4">
+        <BryFlyHeroBox />
+        {images.map(image => (
+          <Link
+            key={image.key}
+            id={`i${image.index}`}
+            href={`/gallery/${image.publicId}`}
+            scroll={false}
+            className="after:content group relative mb-5 block w-full cursor-zoom-in
+              after:pointer-events-none after:absolute after:inset-0 after:rounded-xl"
+          >
+            <Responsive
+              priority
+              image={image}
+              className="transform rounded-xl brightness-90 transition will-change-auto
+                group-hover:brightness-110"
+              sizes="(max-width: 640px) 100vw,
+                (max-width: 1280px) 50vw,
+                (max-width: 1536px) 33vw,
+                (max-width: 1960px) 25vw,
+                490px"
+              alt={`Image ${image.key}`}
+            />
+          </Link>
+        ))}
+      </div>
+    </main>
+  )
 }
