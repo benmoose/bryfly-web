@@ -4,8 +4,8 @@ import { DialogPanel } from "@headlessui/react"
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid"
 import React, { useState, useEffect } from "react"
 import { useSwipeable } from "react-swipeable"
-import { useRouter } from "next/navigation"
 import { motion } from "motion/react"
+import { useRouter } from "next/navigation"
 import type { Image } from "lib/cloudinary"
 
 const enum Direction {
@@ -13,32 +13,13 @@ const enum Direction {
   NEXT,
 }
 
-// const animations = {
-//   enter: (direction: number) => {
-//     return {
-//       x: direction > 0 ? 1000 : -1000,
-//       opacity: 0,
-//     }
-//   },
-//   center: {
-//     x: 0,
-//     opacity: 1,
-//   },
-//   exit: (direction: number) => {
-//     return {
-//       x: direction < 0 ? 1000 : -1000,
-//       opacity: 0,
-//     }
-//   },
-// }
-
-export default function Modal({
-  image,
+export default function Carousel({
   images,
+  image,
   children,
 }: {
-  image: Image
   images: Image[]
+  image: Image
   children: React.ReactNode
 }) {
   const [activeIndex, _setActiveIndex] = useState(image.index)
@@ -46,7 +27,7 @@ export default function Modal({
   const router = useRouter()
 
   useEffect(() => {
-    function handleKeyDown(e: globalThis.KeyboardEvent) {
+    const handleKeyDown = (e: globalThis.KeyboardEvent) => {
       switch (e.key) {
         case "ArrowLeft": {
           e.preventDefault()
@@ -60,13 +41,11 @@ export default function Modal({
         }
       }
     }
-
     document.addEventListener("keydown", handleKeyDown)
-
     return () => {
       document.removeEventListener("keydown", handleKeyDown)
     }
-  })
+  }, [])
 
   function close(): void {
     router.push("/", { scroll: false })
