@@ -47,8 +47,6 @@ export function Thumbnail({
       width={128}
       height={128}
       sizes="128w"
-      blurDataURL={image.placeholderUrl}
-      placeholder="blur"
       alt={alt ?? ""}
     />
   )

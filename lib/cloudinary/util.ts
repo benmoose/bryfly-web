@@ -1,6 +1,7 @@
 import { cache } from "react"
 
 export const encodeB64ImageUrl = cache(async (url: string): Promise<string> => {
+  console.count(`encodeB64ImageUrl(${url})`)
   const res = await fetch(url, { cache: "force-cache" })
   const buf = await res.arrayBuffer()
   const data = Buffer.from(buf).toString("base64")
