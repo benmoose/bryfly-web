@@ -1,21 +1,28 @@
-.PHONY:fmt
+.PHONY:all
 fmt: eslint prettier tsc-check
 
-.PHONY:eslint
-eslint: ## Lint matching files with eslint
-	@echo "Linting... "
+eslint = $(npm pkg get devDependencies.eslint)
+
+## Lint matching files with eslint.
+.PHONY: eslint
+eslint:
+	@echo "Running eslint... "
 	@npx next lint --fix --quiet
 
-.PHONY:prettier
-prettier: ## Format matching files with prettier
-	@echo "Formating... "
+## Format matching files with prettier.
+.PHONY: prettier
+prettier:
+	@echo "Running prettier... "
 	@npx prettier . --write --cache --ignore-unknown --log-level warn
 
+## Check Typescript compiles successfully.
 .PHONY:tsc-check
-tsc-check: ## Check Typescript compiles successfully
+tsc-check:
 	@echo "Compiling Typescript... "
 	@npx tsc --noEmit
 
-.PHONY:dev
-dev: ## Start development server
-	npm run dev
+## Start local development server.
+.PHONY:dev d
+dev:
+	@npm run dev
+d: dev
