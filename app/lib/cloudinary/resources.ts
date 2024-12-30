@@ -1,3 +1,4 @@
+import { aspectRatio, encodeB64ImageUrl } from "app/lib/cloudinary/util"
 import {
   type ImageFormat,
   type ResourceApiResponse,
@@ -5,7 +6,6 @@ import {
   v2 as cloudinary,
   type VideoFormat,
 } from "cloudinary"
-import { aspectRatio, encodeB64ImageUrl } from "./util"
 
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,

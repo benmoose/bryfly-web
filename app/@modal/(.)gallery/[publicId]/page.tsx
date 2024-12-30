@@ -1,10 +1,10 @@
 "use client"
 
-import React, { useContext } from "react"
+import { useContext } from "react"
 import { useParams, notFound } from "next/navigation"
 import { ImagesContext } from "app/context"
-import { Responsive } from "app/ui/remote-image"
-import Carousel from "./carousel"
+import { CdnImage } from "app/ui/cloudinary"
+import Carousel from "../../ui/carousel"
 
 export default function Page() {
   const { publicId } = useParams<{ publicId: string }>()
@@ -19,10 +19,11 @@ export default function Page() {
 
   return (
     <Carousel publicId={publicId}>
-      <Responsive
+      <CdnImage
         priority
         image={image}
-        className={`max-h-full w-fit rounded-lg aspect-[${ratioWidth}/${ratioHeight}]}`}
+        className={`object-contain max-h-full w-fit rounded-lg shadow-xl
+          aspect-[${ratioWidth}/${ratioHeight}]}`}
         sizes="(max-width: 1280px) 100vw, 1280px"
         alt={`Photo ${image.key}`}
       />

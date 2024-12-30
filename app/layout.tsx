@@ -1,13 +1,18 @@
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import { getHeroImages } from "lib/cloudinary"
-import { cache } from "react"
+import { Inter } from "next/font/google"
+import React, { cache } from "react"
 import type { Metadata, Viewport } from "next"
+import { getHeroImages } from "app/lib/cloudinary"
 import ImageProvider from "app/image-provider"
-import { inter } from "app/ui/font"
 import "./styles.css"
 
 const getImages = cache(getHeroImages)
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+})
 
 export const metadata: Metadata = {
   title: "BryFly",

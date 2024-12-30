@@ -3,7 +3,7 @@
 import { useReducer } from "react"
 import { ImagesContext } from "app/context"
 import { reducer, type State } from "app/reducer"
-import type { Image } from "lib/cloudinary"
+import type { Image } from "app/lib/cloudinary"
 
 function createInitialState(images: Image[]): State {
   return {

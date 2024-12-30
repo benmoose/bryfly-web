@@ -1,4 +1,4 @@
-import type { Image } from "lib/cloudinary"
+import type { Image } from "app/lib/cloudinary"
 
 const NAMESPACE = "images" as const
 
