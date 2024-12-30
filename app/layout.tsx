@@ -1,9 +1,9 @@
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { getHeroImages } from "lib/cloudinary"
-import React, { cache } from "react"
+import { cache } from "react"
 import type { Metadata, Viewport } from "next"
-import ImageProvider from "app/_images/image-provider"
+import ImageProvider from "app/image-provider"
 import { inter } from "app/ui/font"
 import "./styles.css"
 
@@ -34,17 +34,17 @@ export default async function RootLayout({
   children: React.ReactNode
   modal: React.ReactNode
 }) {
-  const images = getImages()
+  const images = await getImages()
   return (
     <html lang="en" className={inter.className}>
       <body className="bg-black antialiased">
-        <ImageProvider imagesStream={images}>
+        <ImageProvider images={images}>
           {children}
           {modal}
         </ImageProvider>
         <Footer />
-        <SpeedInsights />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )

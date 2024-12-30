@@ -2,7 +2,7 @@
 
 import React, { useContext } from "react"
 import { useParams, notFound } from "next/navigation"
-import { ImagesContext } from "app/_images/context"
+import { ImagesContext } from "app/context"
 import { Responsive } from "app/ui/remote-image"
 import Carousel from "./carousel"
 

@@ -1,6 +1,6 @@
 "use client"
 
-import { ImagesContext } from "app/_images/context"
+import { ImagesContext } from "app/context"
 import { useContext } from "react"
 import { DialogPanel } from "@headlessui/react"
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid"
@@ -108,7 +108,7 @@ export default function Carousel({
   })
 
   return (
-    <>
+    <dialog role="dialog" aria-modal="true">
       <DialogPanel
         as={motion.div}
         initial={{ opacity: 0, scale: 0.86 }}
@@ -119,6 +119,6 @@ export default function Carousel({
         {children}
       </DialogPanel>
       <ModalNavigation index={index} onSetIndex={handleNavigation} />
-    </>
+    </dialog>
   )
 }

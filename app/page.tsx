@@ -1,11 +1,14 @@
+"use client"
+
 import Link from "next/link"
-import React, { cache } from "react"
+import React, { useContext } from "react"
+import { ImagesContext } from "app/context"
 import { Responsive } from "app/ui/remote-image"
 import Logo from "app/ui/logo.tsx"
 import { concertOne } from "app/ui/font"
-import { getHeroImages } from "lib/cloudinary"
+// import { getHeroImages } from "lib/cloudinary"
 
-const getImages = cache(getHeroImages)
+// const getImages = cache(getHeroImages)
 
 function BryFlyHeroBox() {
   return (
@@ -19,14 +22,14 @@ function BryFlyHeroBox() {
       <h1
         style={concertOne.style}
         className="mt-0 mb-4 text-3xl sm:text-xl md:text-2xl lg:text-3xl xl:text-2xl
-            uppercase tracking-wider"
+          uppercase tracking-wider"
       >
         Browse me disco balls
       </h1>
       <div className="flex items-center z-10 text-base mt-3 gap-2">
         <a
           className="pointer border border-white/15 bg-transparent px-3 py-2 rounded
-           font-semibold text-white/85 transition hover:bg-white/5 hover:border-white/60
+            font-semibold text-white/85 transition hover:bg-white/5 hover:border-white/60
             hover:text-white"
           href="https://www.instagram.com/bryfly2000"
           target="_blank"
@@ -46,8 +49,11 @@ function BryFlyHeroBox() {
   )
 }
 
-export default async function Page() {
-  const images = await getImages()
+export default function Page() {
+  const imageStore = useContext(ImagesContext)
+  const images = imageStore.groups["hero"].map(
+    publicId => imageStore.repo[publicId],
+  )
   return (
     <main className="mx-auto max-w-[1960px] p-4 w-full">
       <div className="gap-4 columns-1 sm:columns-2 xl:columns-3 2xl:columns-4">

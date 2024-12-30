@@ -4,7 +4,7 @@ const NAMESPACE = "images" as const
 
 type Action = ReturnType<typeof addImages> | ReturnType<typeof addGroup>
 
-type State = {
+export type State = {
   repo: { [id: string]: Image }
   groups: {
     [group: string]: string[]
