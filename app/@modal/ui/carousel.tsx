@@ -3,7 +3,7 @@
 import { DialogPanel } from "@headlessui/react"
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid"
 import { useRouter } from "next/navigation"
-import { useContext, useState, useEffect } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import { useSwipeable } from "react-swipeable"
 import { motion } from "motion/react"
 import { ImagesContext } from "app/context"
@@ -24,39 +24,34 @@ export default function Carousel({
   const router = useRouter()
   const imageStore = useContext(ImagesContext)
   const image = imageStore.repo[publicId]
+
   const [index, setIndex] = useState(image.index)
   const [, setDirection] = useState<Direction>()
 
-  useEffect(() => {
-    const handleKeyDown = (e: globalThis.KeyboardEvent) => {
-      switch (e.key) {
-        case "ArrowLeft": {
-          e.preventDefault()
-          handleNavigation(index - 1)
-          break
-        }
-        case "ArrowRight": {
-          e.preventDefault()
-          handleNavigation(index + 1)
-          break
-        }
+  const keyboardNavListener = (e: KeyboardEvent) => {
+    switch (e.key) {
+      case "ArrowLeft": {
+        handleNavigation(index - 1)
+        break
+      }
+      case "ArrowRight": {
+        handleNavigation(index + 1)
+        break
       }
     }
-    document.addEventListener("keydown", handleKeyDown)
+  }
+
+  useEffect(() => {
+    window.addEventListener("keydown", keyboardNavListener, true)
     return () => {
-      document.removeEventListener("keydown", handleKeyDown)
+      window.removeEventListener("keydown", keyboardNavListener, true)
     }
   }, [])
 
-  function handleCloseModal(): void {
-    router.push("/", { scroll: false })
-  }
-
   function handleNavigation(newIndex: number) {
-    const closedIndex =
-      newIndex >= 0
-        ? newIndex % imageStore.order.length
-        : imageStore.order.length - 1
+    const groupSize = imageStore.groups["hero"].length
+    const closedIndex = newIndex >= 0 ? newIndex % groupSize : groupSize - 1
+
     if (closedIndex > index) {
       setDirection(Direction.NEXT)
     } else if (closedIndex < index) {
@@ -64,10 +59,16 @@ export default function Carousel({
     } else {
       return
     }
+
     setIndex(closedIndex)
     const newPublicId = imageStore.groups["hero"][closedIndex]
     const { publicId } = imageStore.repo[newPublicId]
+
     router.push(`/gallery/${publicId}`, { scroll: false })
+  }
+
+  function handleCloseModal(): void {
+    router.push("/", { scroll: false })
   }
 
   const swipeHandles = useSwipeable({
@@ -81,7 +82,7 @@ export default function Carousel({
       <DialogPanel
         as={motion.div}
         initial={{ opacity: 0, scale: 0.86 }}
-        animate={{ opacity: 1, scale: 1, transition: { duration: 0.21 } }}
+        animate={{ opacity: 1, scale: 1, transition: { duration: 0.12 } }}
         className="max-w-screen-xl max-h-full
           cursor-default z-40"
         {...swipeHandles}

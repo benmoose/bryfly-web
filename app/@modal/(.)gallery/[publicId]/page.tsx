@@ -8,22 +8,31 @@ import Carousel from "../../ui/carousel"
 
 export default function Page() {
   const { publicId } = useParams<{ publicId: string }>()
-  const images = useContext(ImagesContext)
-  const image = images.repo[publicId]
+  const imageStore = useContext(ImagesContext)
+  const image = imageStore.repo[publicId]
 
   if (!image) {
     notFound()
   }
 
-  const [ratioWidth, ratioHeight] = image.aspectRatio
-
   return (
     <Carousel publicId={publicId}>
+      <pre className="fixed top-2 left-4 space-x-6 text-xs text-slate-100/90">
+        <span>
+          i=<b>{image.index}</b>/{imageStore.groups["hero"].length}
+        </span>
+        <span>
+          pid=<b>{image.publicId}</b>
+        </span>
+        <span>
+          ar=<b>{image.aspectRatio.join("/")}</b>
+        </span>
+      </pre>
       <CdnImage
         priority
         image={image}
         className={`object-contain max-h-full w-fit rounded-lg shadow-xl
-          aspect-[${ratioWidth}/${ratioHeight}]}`}
+          aspect-[${image.aspectRatio.join("/")}]}`}
         sizes="(max-width: 1280px) 100vw, 1280px"
         alt={`Photo ${image.key}`}
       />

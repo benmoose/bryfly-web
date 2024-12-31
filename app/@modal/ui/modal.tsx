@@ -38,7 +38,7 @@ export default function Modal({
       >
         <div
           className="fixed top-0 right-0 m-4 flex flex-row max-w-screen-xl justify-end
-        gap-4 text-lg items-center text-slate-200 z-50"
+            gap-4 text-lg items-center text-slate-200 z-50"
         >
           <ModalButton action={handleClose}>
             <XMarkIcon className="size-7" />
