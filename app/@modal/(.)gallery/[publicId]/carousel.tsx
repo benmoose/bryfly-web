@@ -70,9 +70,9 @@ export default function Carousel({
   })
 
   useEffect(() => {
-    window.addEventListener("keydown", keyboardNavListener)
+    window.addEventListener("keydown", keyboardNavListener, true)
     return () => {
-      window.removeEventListener("keydown", keyboardNavListener)
+      window.removeEventListener("keydown", keyboardNavListener, true)
     }
   }, [])
 
@@ -80,9 +80,9 @@ export default function Carousel({
     <>
       <DialogPanel
         as={motion.div}
-        initial={{ opacity: 0, scale: 0.86 }}
-        animate={{ opacity: 1, scale: 1, transition: { duration: 0.12 } }}
-        className="max-w-screen-xl max-h-full
+        initial={{ opacity: 0, scale: 0.88 }}
+        animate={{ opacity: 1, scale: 1, transition: { duration: 0.1 } }}
+        className="max-w-screen-lg max-h-full
           cursor-default z-40"
         {...swipeHandles}
       >
@@ -90,8 +90,8 @@ export default function Carousel({
       </DialogPanel>
 
       <div
-        className="fixed flex w-full left-0 top-1/2 bottom-1/2 justify-between items-center
-          px-4 text-slate-200 z-50 pointer-events-none"
+        className="fixed flex w-full left-0 top-1/2 bottom-1/2 justify-between
+          items-center px-4 text-slate-200 z-50 pointer-events-none"
       >
         <ModalButton action={() => void handleNavigation(index - 1)}>
           <ArrowLeftIcon className="size-7" />

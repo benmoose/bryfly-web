@@ -14,10 +14,10 @@ export default function ModalButton({
         e.stopPropagation()
         action()
       }}
-      className={`inline-block opacity-90 hover:opacity-100 scale-100 hover:scale-110
-        backdrop-blur-sm text-base text-slate-200 rounded px-2 py-1.5 
-        bg-slate-200/10 hover:bg-slate-50/10 transition duration-100 cursor-pointer
-        pointer-events-auto ${className}`}
+      className={`flex items-center opacity-90 hover:opacity-100 scale-100 hover:scale-110
+        backdrop-blur-sm text-base text-slate-200 hover:text-slate-50 rounded p-1.5 gap-3 
+        bg-slate-100/5 hover:bg-slate-100/15 transition duration-75
+        pointer-events-auto cursor-pointer ${className}`}
       {...props}
     >
       {children}

@@ -1,6 +1,5 @@
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import { Inter } from "next/font/google"
 import React, { cache } from "react"
 import type { Metadata, Viewport } from "next"
 import { getHeroImages } from "app/lib/cloudinary"
@@ -8,11 +7,6 @@ import ImageProvider from "app/image-provider"
 import "./styles.css"
 
 const getImages = cache(getHeroImages)
-
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-})
 
 export const metadata: Metadata = {
   title: "BryFly",
@@ -41,7 +35,7 @@ export default async function RootLayout({
 }) {
   const images = await getImages()
   return (
-    <html lang="en" className={inter.className}>
+    <html lang="en">
       <body className="bg-black antialiased">
         <ImageProvider images={images}>
           {children}

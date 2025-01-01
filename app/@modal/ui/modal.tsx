@@ -33,7 +33,7 @@ export default function Modal({ children }: { children?: React.ReactNode }) {
         max-h-full max-w-full cursor-zoom-out p-4 md:p-8 lg:p-10 z-20 bg-transparent"
       >
         <div
-          className="fixed top-0 right-0 m-4 flex flex-row max-w-screen-xl justify-end
+          className="fixed top-0 right-0 m-4 flex flex-row justify-end
             gap-4 text-lg items-center text-slate-200 z-50"
         >
           <ModalButton action={handleClose}>
