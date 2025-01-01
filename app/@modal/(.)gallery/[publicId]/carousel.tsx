@@ -2,12 +2,12 @@
 
 import { DialogPanel } from "@headlessui/react"
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid"
-import { useRouter } from "next/navigation"
-import React, { useContext, useState, useEffect } from "react"
+import { useContext, useState, useEffect } from "react"
 import { useSwipeable } from "react-swipeable"
 import { motion } from "motion/react"
+import { useRouter } from "next/navigation"
+import ModalButton from "app/@modal/ui/modal-button"
 import { ImagesContext } from "app/context"
-import ModalButton from "./modal-button"
 
 const enum Direction {
   PREV,
@@ -28,26 +28,6 @@ export default function Carousel({
   const [index, setIndex] = useState(image.index)
   const [, setDirection] = useState<Direction>()
 
-  const keyboardNavListener = (e: KeyboardEvent) => {
-    switch (e.key) {
-      case "ArrowLeft": {
-        handleNavigation(index - 1)
-        break
-      }
-      case "ArrowRight": {
-        handleNavigation(index + 1)
-        break
-      }
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener("keydown", keyboardNavListener, true)
-    return () => {
-      window.removeEventListener("keydown", keyboardNavListener, true)
-    }
-  }, [])
-
   function handleNavigation(newIndex: number) {
     const groupSize = imageStore.groups["hero"].length
     const closedIndex = newIndex >= 0 ? newIndex % groupSize : groupSize - 1
@@ -63,12 +43,24 @@ export default function Carousel({
     setIndex(closedIndex)
     const newPublicId = imageStore.groups["hero"][closedIndex]
     const { publicId } = imageStore.repo[newPublicId]
-
     router.push(`/gallery/${publicId}`, { scroll: false })
   }
 
-  function handleCloseModal(): void {
+  function handleCloseModal() {
     router.push("/", { scroll: false })
+  }
+
+  const keyboardNavListener = (e: KeyboardEvent) => {
+    switch (e.key) {
+      case "ArrowLeft": {
+        handleNavigation(index - 1)
+        break
+      }
+      case "ArrowRight": {
+        handleNavigation(index + 1)
+        break
+      }
+    }
   }
 
   const swipeHandles = useSwipeable({
@@ -76,6 +68,13 @@ export default function Carousel({
     onSwipedRight: () => handleNavigation(index + 1),
     onSwipedDown: () => handleCloseModal(),
   })
+
+  useEffect(() => {
+    window.addEventListener("keydown", keyboardNavListener)
+    return () => {
+      window.removeEventListener("keydown", keyboardNavListener)
+    }
+  }, [])
 
   return (
     <>

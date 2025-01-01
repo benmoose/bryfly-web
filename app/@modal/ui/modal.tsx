@@ -6,14 +6,10 @@ import { motion } from "motion/react"
 import { useRouter, useSelectedLayoutSegment } from "next/navigation"
 import ModalButton from "./modal-button"
 
-export default function Modal({
-  children,
-}: {
-  children?: React.ReactNode
-  open?: boolean
-}) {
+export default function Modal({ children }: { children?: React.ReactNode }) {
   const router = useRouter()
   const segment = useSelectedLayoutSegment()
+
   const handleClose = () => {
     router.push("/", { scroll: false })
   }

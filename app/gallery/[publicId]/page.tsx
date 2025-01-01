@@ -1,37 +1,32 @@
-import * as Cdn from "app/ui/cloudinary"
-import React from "react"
 import Image from "next/image"
-import { getHeroImages } from "app/lib/cloudinary"
+import { CdnImage } from "app/ui/cloudinary"
+import { getHeroImages, getImage } from "app/lib/cloudinary"
 import { notFound } from "next/navigation"
+import Modal from "app/@modal/ui/modal"
 
-// Only params from generateStaticParams() are pre-rendered.
-// Requesting a path that has not been generated are served 404.
-// export const dynamicParams = false
-
-export const dynamic = "force-static"
+export const dynamicParams = false
 
 export async function generateStaticParams(): Promise<
   Array<{ publicId: string }>
 > {
-  const imageSet = await getHeroImages()
-  return imageSet.map(img => ({ publicId: img.publicId }))
+  const heroImages = await getHeroImages()
+  return heroImages.map(({ publicId }) => ({ publicId }))
 }
 
 export default async function Page({
   params,
 }: {
   params: Promise<{ publicId: string }>
-}): Promise<React.ReactElement> {
+}) {
   const { publicId } = await params
-  const imageSet = await getHeroImages()
-  const image = imageSet.find(img => img.publicId === publicId)
+  const image = await getImage(publicId)
 
   if (image == null) {
     return notFound()
   }
 
   return (
-    <>
+    <Modal>
       <Image
         fill
         priority
@@ -48,7 +43,7 @@ export default async function Page({
           className="flex items-center justify-center max-h-full max-w-screen-2xl
             overflow-hidden rounded-2xl shadow-2xl"
         >
-          <Cdn.CdnImage
+          <CdnImage
             priority
             image={image}
             className="max-h-full object-contain"
@@ -57,6 +52,6 @@ export default async function Page({
           />
         </div>
       </main>
-    </>
+    </Modal>
   )
 }

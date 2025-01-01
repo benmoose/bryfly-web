@@ -1,11 +1,11 @@
-import type { Image } from "app/lib/cloudinary"
+import type { Image, Ordered } from "app/lib/cloudinary"
 
 const NAMESPACE = "images" as const
 
 type Action = ReturnType<typeof addImages> | ReturnType<typeof addGroup>
 
 export type State = {
-  repo: { [id: string]: Image }
+  repo: { [id: string]: Ordered<Image> }
   groups: {
     [group: string]: string[]
   }
@@ -49,7 +49,7 @@ export function reducer(state: State, action: Action): State {
 }
 
 const addImagesType = `${NAMESPACE}/ADD_IMAGES` as const
-export function addImages(images: Image[]) {
+export function addImages(images: Ordered<Image>[]) {
   return {
     type: addImagesType,
     payload: images,

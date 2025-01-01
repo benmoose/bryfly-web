@@ -4,7 +4,7 @@ import { useContext } from "react"
 import { useParams, notFound } from "next/navigation"
 import { ImagesContext } from "app/context"
 import { CdnImage } from "app/ui/cloudinary"
-import Carousel from "../../ui/carousel"
+import Carousel from "./carousel"
 
 export default function Page() {
   const { publicId } = useParams<{ publicId: string }>()
