@@ -1,11 +1,11 @@
 "use client"
 
-import * as Cdn from "app/ui/remote-image"
+import * as Cdn from "app/ui/cloudinary"
 import { AnimatePresence, motion, MotionConfig } from "motion/react"
 import Image from "next/image"
 import React from "react"
 import { useSwipeable } from "react-swipeable"
-import type { Image as IImage } from "lib/cloudinary"
+import type { Image as IImage } from "app/lib/cloudinary"
 
 const animations = {
   enter: (direction: number) => {
@@ -85,7 +85,7 @@ export default function PrimaryImage({
                 custom={direction}
                 className="absolute overflow-hidden rounded-lg  shadow-2xl"
               >
-                <Cdn.Responsive
+                <Cdn.CdnImage
                   priority
                   image={images[index]}
                   className="object-contain"

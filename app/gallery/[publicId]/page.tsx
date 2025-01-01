@@ -1,7 +1,7 @@
-import * as Cdn from "app/ui/remote-image"
+import * as Cdn from "app/ui/cloudinary"
 import React from "react"
 import Image from "next/image"
-import { getHeroImages } from "lib/cloudinary"
+import { getHeroImages } from "app/lib/cloudinary"
 import { notFound } from "next/navigation"
 
 // Only params from generateStaticParams() are pre-rendered.
@@ -48,7 +48,7 @@ export default async function Page({
           className="flex items-center justify-center max-h-full max-w-screen-2xl
             overflow-hidden rounded-2xl shadow-2xl"
         >
-          <Cdn.Responsive
+          <Cdn.CdnImage
             priority
             image={image}
             className="max-h-full object-contain"

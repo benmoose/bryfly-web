@@ -1,23 +1,23 @@
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import React from "react"
+import { Inter } from "next/font/google"
+import React, { cache } from "react"
 import type { Metadata, Viewport } from "next"
-import { inter } from "app/ui/font"
+import { getHeroImages } from "app/lib/cloudinary"
+import ImageProvider from "app/image-provider"
 import "./styles.css"
+
+const getImages = cache(getHeroImages)
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+})
 
 export const metadata: Metadata = {
   title: "BryFly",
   description: "Bespoke disco balls.",
-  keywords: [
-    "disco",
-    "balls",
-    "sculpture",
-    "portfolio",
-    "projects",
-    "gallery",
-    "artist",
-    "london",
-  ],
+  keywords: ["disco", "balls", "sculpture", "portfolio", "artist", "london"],
   openGraph: {
     title: "BryFly: Bespoke Disco Balls",
     siteName: "BryFly: Bespoke Disco Balls",
@@ -32,21 +32,24 @@ export const viewport: Viewport = {
   initialScale: 1,
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   modal,
 }: {
   children: React.ReactNode
   modal: React.ReactNode
-}): React.ReactElement {
+}) {
+  const images = await getImages()
   return (
     <html lang="en" className={inter.className}>
       <body className="bg-black antialiased">
-        {modal}
-        {children}
+        <ImageProvider images={images}>
+          {children}
+          {modal}
+        </ImageProvider>
         <Footer />
-        <SpeedInsights />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )

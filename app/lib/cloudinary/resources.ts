@@ -1,3 +1,4 @@
+import { aspectRatio, encodeB64ImageUrl } from "app/lib/cloudinary/util"
 import {
   type ImageFormat,
   type ResourceApiResponse,
@@ -5,8 +6,6 @@ import {
   v2 as cloudinary,
   type VideoFormat,
 } from "cloudinary"
-import { cache } from "react"
-import { aspectRatio, encodeB64ImageUrl } from "./util"
 
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -75,7 +74,7 @@ export type Image = ResourceType<"image"> & {
 }
 
 export async function getHeroImages(): Promise<Image[]> {
-  console.count("getHeroImages() call")
+  console.count("getHeroImages()")
   const images = (
     await resourcesByFolder(`${process.env.CLOUDINARY_HERO_FOLDER}`)
   ).filter(isImageResource)
@@ -98,7 +97,7 @@ export async function getHeroImages(): Promise<Image[]> {
   }))
 }
 
-async function _getImage(publicId: string): Promise<Image> {
+export async function getImage(publicId: string): Promise<Image> {
   const image: RawApiResource = await cloudinary.api.resource(publicId, {
     context: true,
     resource_type: "image",
@@ -123,34 +122,6 @@ async function _getImage(publicId: string): Promise<Image> {
     context: image.context,
   } as Image
 }
-
-export const getImage = cache(_getImage)
-
-// export type ImageSet = ResourceSet<Image>
-//
-// class ResourceSet<T extends Resource> {
-//   readonly order: string[];
-//   readonly repo: { [pid: string]: T };
-//
-//   constructor(resources: T[]) {
-//     this.order = resources.map((img) => img.publicId);
-//     this.repo = resources.reduce(
-//       (repo, res) => ({
-//         ...repo,
-//         [res.publicId]: res,
-//       }),
-//       {},
-//     );
-//   }
-//
-//   all(this: ResourceSet<T>): ReadonlyArray<T> {
-//     return this.order.map((id) => this.repo[id]);
-//   }
-//
-//   get(this: ResourceSet<T>, key: string | number): Readonly<T> {
-//     return typeof key === 'string' ? this.repo[key] : this.repo[this.order[key]];
-//   }
-// }
 
 function isImageResource(resource: Resource): resource is Image {
   return resource.resourceType === "image"
