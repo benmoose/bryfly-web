@@ -1,46 +1,38 @@
 "use client"
 
-import { Dialog, DialogBackdrop } from "@headlessui/react"
-import { XMarkIcon } from "@heroicons/react/24/solid"
+import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react"
 import { motion } from "motion/react"
-import { useRouter, useSelectedLayoutSegment } from "next/navigation"
-import ModalButton from "./modal-button"
+import { useRouter } from "next/navigation"
+import ModalNavigation from "./navigation"
 
 export default function Modal({ children }: { children?: React.ReactNode }) {
   const router = useRouter()
-  const segment = useSelectedLayoutSegment()
-
   const handleClose = () => {
-    router.push("/", { scroll: false })
+    router.push("/", { scroll: true })
   }
 
   return (
-    <Dialog
-      open={!!segment}
-      static
-      onClose={handleClose}
-      className="relative z-50"
-    >
+    <Dialog open static onClose={handleClose} className="relative z-50">
       <DialogBackdrop
         as={motion.div}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, transition: { duration: 0.21 } }}
-        className="fixed inset-0 bg-gradient-to-tr from-black/90 to-slate-900/80
-          backdrop-blur z-10"
+        className="fixed inset-0 bg-gradient-to-tr from-slate-950/95 to-slate-900/80
+          backdrop-blur-sm z-10"
       />
       <div
-        className="fixed inset-0 flex flex-col justify-center items-center
-        max-h-full max-w-full cursor-zoom-out p-4 md:p-8 lg:p-10 z-20 bg-transparent"
+        className="fixed inset-0 flex flex-col justify-center items-center z-20
+        max-h-full max-w-full cursor-zoom-out p-4 pb-20 sm:px-8 sm:pt-8"
       >
-        <div
-          className="fixed top-0 right-0 m-4 flex flex-row justify-end
-            gap-4 text-lg items-center text-slate-200 z-50"
+        <DialogPanel
+          as={motion.div}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1, transition: { duration: 0.1 } }}
+          className="flex flex-col items-center max-w-screen-lg max-h-full cursor-default z-40"
         >
-          <ModalButton action={handleClose}>
-            <XMarkIcon className="size-7" />
-          </ModalButton>
-        </div>
-        {children}
+          <ModalNavigation />
+          {children}
+        </DialogPanel>
       </div>
     </Dialog>
   )

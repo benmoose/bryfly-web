@@ -2,9 +2,12 @@
 
 import { useContext } from "react"
 import { Concert_One } from "next/font/google"
+import Image from "next/image"
 import Link from "next/link"
-import Logo from "app/ui/logo"
+
 import { CdnImage } from "app/ui/cloudinary"
+import BryFlyLogo from "public/bryfly-logo-1.png"
+
 import { ImagesContext } from "./context"
 
 const concertOne = Concert_One({
@@ -21,7 +24,16 @@ function BryFlyCard() {
         px-6 pb-20 pt-64 text-center text-white shadow-highlight after:pointer-events-none a
         fter:absolute after:inset-0 after:rounded-lg after:shadow-highlight lg:pt-0"
     >
-      <Logo />
+      <Image
+        priority
+        src={BryFlyLogo}
+        alt="BryFly logo."
+        sizes="(max-width: 640px) 100vw,
+            (max-width: 1280px) 50vw,
+            (max-width: 1536px) 33vw,
+            (max-width: 1960px) 25vw,
+            490px"
+      />
       <h1
         style={concertOne.style}
         className="mt-0 mb-4 text-3xl sm:text-xl md:text-2xl lg:text-3xl xl:text-2xl

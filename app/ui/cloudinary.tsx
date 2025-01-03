@@ -3,7 +3,7 @@
 import Image, { type ImageProps } from "next/image"
 import {
   optimisedLoader,
-  thumbnailLoader,
+  // thumbnailLoader,
 } from "app/lib/cloudinary/image-loader"
 import type { Image as ImageInfo } from "app/lib/cloudinary"
 
@@ -16,28 +16,28 @@ export function CdnImage({ image, alt, ...props }: Props) {
   return (
     <Image
       {...props}
-      src={image.publicId}
       loader={optimisedLoader}
+      src={image.publicId}
       width={image.width}
       height={image.height}
       blurDataURL={image.placeholderUrl}
       placeholder="blur"
-      alt={alt ?? ""}
+      alt={alt}
     />
   )
 }
 
-export function Thumbnail({ image, alt, ...props }: Props) {
+export function Thumbnail({ image, alt, className, ...props }: Props) {
   return (
     <Image
       {...props}
-      fill
+      loader={optimisedLoader}
       src={image.publicId}
-      loader={thumbnailLoader}
-      width={128}
-      height={128}
-      sizes="128w"
-      alt={alt ?? ""}
+      width={image.width}
+      height={image.height}
+      sizes="64w"
+      alt={alt}
+      className={`object-cover w-14 h-12 bg-slate-200/20 rounded ${className ?? ""}`}
     />
   )
 }
