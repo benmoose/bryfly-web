@@ -7,3 +7,7 @@
     clip-path: inset(0.6px);
   }
 }
+
+.modal__image-wrapper {
+  max-height: calc(100% - 50px - theme(spacing.3));
+}

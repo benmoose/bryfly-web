@@ -17,15 +17,15 @@ export default function Page() {
 
   return (
     <>
-      <DebugInfo image={image} groupSize={imageStore.groups["hero"].length} />
       <CdnImage
         priority
+        key={publicId}
         image={image}
-        className={`object-contain max-h-full w-fit rounded-xl shadow-xl
-          aspect-[${image.aspectRatio.join("/")}]}`}
+        className={`flex object-contain rounded-xl shadow-2xl w-fit max-h-full aspect-[${image.aspectRatio.join("/")}]`}
         sizes="(max-width: 1280px) 100vw, 1280px"
         alt={`Photo ${image.key}`}
       />
+      <DebugInfo image={image} groupSize={imageStore.groups["hero"].length} />
     </>
   )
 }
