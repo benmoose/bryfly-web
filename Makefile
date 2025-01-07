@@ -1,5 +1,5 @@
 .PHONY:all
-fmt: eslint prettier tsc-check
+fmt: check-node-version eslint prettier tsc-check
 
 eslint = $(npm pkg get devDependencies.eslint)
 
@@ -23,6 +23,14 @@ tsc-check:
 
 ## Start local development server.
 .PHONY:dev d
+d: dev
 dev:
 	@npm run dev
-d: dev
+
+# Check node version matches project version
+.PHONY:check-node-version
+check-node-version:
+	@if [[ $$(cat .nvmrc) != $$(node -v) ]]; then \
+		echo "Bad Node version, expected $$(cat .nvmrc)."; \
+  		false; \
+	fi

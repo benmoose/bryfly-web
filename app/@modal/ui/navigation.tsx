@@ -62,27 +62,27 @@ export default function ModalNavigation() {
       <div
         className="fixed flex w-full left-0 top-1/2 bottom-1/2 justify-between items-center px-4
             text-slate-200 z-50 pointer-events-none"
-      >
-        <ModalButton action={() => void navigateModalHandler(index - 1)}>
+      ></div>
+
+      <div className="fixed bottom-4 flex justify-center items-center space-x-3 z-50 pointer-events-none">
+        <ModalButton action={() => navigateModalHandler(index - 1)}>
           <ArrowLeftIcon className="size-7" />
         </ModalButton>
-        <ModalButton action={() => void navigateModalHandler(index + 1)}>
-          <ArrowRightIcon className="size-7" />
-        </ModalButton>
-      </div>
-
-      <div className="fixed bottom-2 flex justify-center space-x-2 z-50 pointer-events-none">
         {group
           .map(publicId => imageStore.repo[publicId])
           .map(image => (
             <ModalButton
               key={image.key}
               disabled={image.index === index}
-              action={() => void navigateModalHandler(image.index)}
+              action={() => navigateModalHandler(image.index)}
+              background={false}
             >
               <Thumbnail key={image.key} image={image} alt="Thumbnail" />
             </ModalButton>
           ))}
+        <ModalButton action={() => navigateModalHandler(index + 1)}>
+          <ArrowRightIcon className="size-7" />
+        </ModalButton>
       </div>
     </>
   )
@@ -91,12 +91,17 @@ export default function ModalNavigation() {
 function ModalButton({
   children,
   action,
-  disabled,
+  disabled = false,
+  background = true,
 }: {
   children: React.ReactNode
   action: () => void
   disabled?: boolean
+  background?: boolean
 }) {
+  const backgroundClasses =
+    "backdrop-blur-sm bg-slate-100/5 hover:bg-slate-100/15 disabled:bg-slate-100/20 p-1.5"
+
   return (
     <button
       disabled={disabled}
@@ -104,10 +109,11 @@ function ModalButton({
         e.stopPropagation()
         action()
       }}
-      className="flex items-center opacity-90 hover:opacity-100 scale-100 disabled:scale-110 disabled:opacity-100 hover:scale-110
-        backdrop-blur-sm text-base text-slate-200 hover:text-slate-50 rounded p-1.5 gap-3
-        bg-slate-100/5 hover:bg-slate-100/15 transition duration-75
-        pointer-events-auto cursor-pointer disabled:bg-slate-100/20"
+      className={`flex items-center opacity-90 hover:opacity-100 scale-100
+        hover:scale-105 text-base text-slate-200 hover:text-slate-50
+        rounded transition duration-75 pointer-events-auto cursor-pointer
+        disabled:cursor-default disabled:opacity-100
+        disabled:scale-110 ${background ? backgroundClasses : ""}`}
     >
       {children}
     </button>

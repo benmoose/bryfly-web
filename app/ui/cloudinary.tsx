@@ -37,7 +37,7 @@ export function Thumbnail({ image, alt, className, ...props }: Props) {
       height={image.height}
       sizes="64w"
       alt={alt}
-      className={`object-cover w-14 h-12 bg-slate-200/20 rounded ${className ?? ""}`}
+      className={`object-cover w-[60px] h-[50px] bg-slate-200/20 rounded ${className ?? ""}`}
     />
   )
 }
