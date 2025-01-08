@@ -24,6 +24,7 @@ interface ResourceCommon {
   readonly assetId?: string
   readonly publicId: string
   readonly resourceType: ResourceType
+  readonly group: string
   readonly format: ImageFormat | VideoFormat
   readonly width: number
   readonly height: number
@@ -46,26 +47,21 @@ export type Image = Resource<"image"> & {
   placeholderUrl: string
 }
 
-async function resourcesByFolder(
-  folder: string,
-): Promise<Ordered<ResourceCommon>[]> {
+async function resourcesByGroup(group: string): Promise<ResourceCommon[]> {
   // TODO: implement pagination
-  const response = await cloudinary.api.resources_by_asset_folder(folder, {
+  const response = await cloudinary.api.resources_by_asset_folder(group, {
     context: true,
     image_metadata: true,
     direction: "desc",
     max_results: 250,
   })
 
-  return response.resources.map((image, index) => ({
-    ...apiToInternal(image),
-    index,
-  }))
+  return response.resources.map(apiToInternal)
 }
 
 export async function getHeroImages(): Promise<Ordered<Image>[]> {
   const images = (
-    await resourcesByFolder(`${process.env.CLOUDINARY_HERO_FOLDER}`)
+    await resourcesByGroup(`${process.env.CLOUDINARY_HERO_FOLDER}`)
   ).filter(isImageResource)
 
   const placeholderUrls = await Promise.all(
@@ -79,10 +75,11 @@ export async function getHeroImages(): Promise<Ordered<Image>[]> {
     ),
   )
 
-  return images.map((image, i) => ({
+  return images.map((image, index) => ({
     ...image,
-    placeholderUrl: placeholderUrls[i],
+    placeholderUrl: placeholderUrls[index],
     resourceType: "image" as const,
+    index,
   }))
 }
 
@@ -129,6 +126,7 @@ function apiToInternal(resource: ApiResource): ResourceCommon {
     secureUrl: resource.secure_url,
     resourceType: resource.resource_type,
     createdAt: resource.created_at,
+    group: resource.asset_folder,
     format: resource.format,
     width: resource.width,
     height: resource.height,
