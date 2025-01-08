@@ -3,11 +3,11 @@
 import Image, { type ImageProps } from "next/image"
 import {
   optimisedLoader,
-  // thumbnailLoader,
+  thumbnailLoader,
 } from "app/lib/cloudinary/image-loader"
-import type { Image as ImageInfo } from "app/lib/cloudinary"
+import type { Image as ImageT } from "app/lib/cloudinary"
 
-type Props = { image: ImageInfo } & Omit<
+type Props = { image: ImageT } & Omit<
   ImageProps,
   "loader" | "src" | "width" | "height" | "placeholder" | "blurDataURL"
 >
@@ -31,7 +31,7 @@ export function Thumbnail({ image, alt, className, ...props }: Props) {
   return (
     <Image
       {...props}
-      loader={optimisedLoader}
+      loader={thumbnailLoader}
       src={image.publicId}
       width={image.width}
       height={image.height}

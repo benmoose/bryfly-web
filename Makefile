@@ -24,7 +24,7 @@ tsc-check:
 ## Start local development server.
 .PHONY:dev d
 d: dev
-dev:
+dev: check-node-version
 	@npm run dev
 
 # Check node version matches project version
