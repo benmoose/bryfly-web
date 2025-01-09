@@ -20,7 +20,7 @@ export default function Page() {
     <CdnImage
       priority
       image={image}
-      className="flex object-contain rounded-xl shadow-2xl w-fit max-h-full"
+      className="w-fit max-h-full object-contain rounded-xl shadow-2xl"
       sizes="(max-width: 1280px) 100vw, 1280px"
     />
   )

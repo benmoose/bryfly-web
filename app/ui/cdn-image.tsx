@@ -44,7 +44,7 @@ export function CdnImage({ image, alt, ...props }: Props) {
   )
 }
 
-export function CdnThumbnail({ image, alt, ...props }: Props) {
+export function CdnThumbnail({ image, alt, className, ...props }: Props) {
   return (
     <Image
       {...props}
@@ -53,7 +53,7 @@ export function CdnThumbnail({ image, alt, ...props }: Props) {
       width={image.width}
       height={image.height}
       placeholder={image.placeholderUrl}
-      className={`object-cover w-[60px] h-[52px] bg-slate-200/20 rounded aspect-[${image.aspectRatio.join("/")}]`}
+      className={`object-cover w-[60px] h-[52px] bg-slate-200/20 ${className ?? ""}`}
       overrideSrc={imageUrl(image.publicId, "64w_thumb")}
       sizes="64px"
       alt={alt ?? `Thumbnail ${image.key}`}

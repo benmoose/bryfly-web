@@ -36,9 +36,8 @@ function BryFlyCard() {
       </h1>
       <div className="flex items-center z-10 text-base mt-3 gap-2">
         <a
-          className="pointer border border-white/15 bg-transparent px-3 py-2 rounded
-            font-semibold text-white/85 transition hover:bg-white/5 hover:border-white/60
-            hover:text-white"
+          className="px-3 py-2 rounded font-semibold text-white/85 transition
+          border border-white/15 hover:bg-white/5 hover:border-white/60 hover:text-white"
           href="https://www.instagram.com/bryfly2000"
           target="_blank"
           rel="noreferrer"
@@ -46,8 +45,8 @@ function BryFlyCard() {
           Instagram
         </a>
         <a
-          className="pointer border border-white bg-cyan-50 px-5 py-2 rounded
-            font-bold text-black transition hover:border-cyan-200 hover:bg-pink-50"
+          className="border border-white bg-cyan-100 px-5 py-2 rounded
+            font-bold text-slate-900 hover:border-cyan-200 hover:bg-pink-50"
           href="https://github.com/benmoose/bryfly-web"
         >
           Contact me!

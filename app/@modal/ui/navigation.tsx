@@ -20,7 +20,7 @@ export function ModalButton({
   background?: boolean
 }) {
   const backgroundClasses =
-    "backdrop-blur-sm bg-slate-50/25 hover:bg-slate-50/30 disabled:bg-slate-300/25 p-2 rounded-full"
+    "backdrop-blur-xs bg-slate-50/25 hover:bg-slate-50/30 disabled:bg-slate-300/25 p-2 rounded-full"
 
   return (
     <motion.button
@@ -41,11 +41,12 @@ export function ModalButton({
         scale: 1.1,
         transition: { duration: 0.064 },
       }}
-      className={`flex items-center opacity-90 hover:opacity-100 disabled:opacity-100
-        text-base text-white disabled:text-slate-200
-        brightness-75 hover:brightness-110 disabled:brightness-125
-        transition duration-75 pointer-events-auto
-        cursor-pointer disabled:cursor-default border-slate-100/75 disabled:border
+      className={`flex items-center opacity-90
+        text-base text-white brightness-75 border-2 border-black/10
+        cursor-pointer overflow-hidden transition duration-75
+        hover:opacity-100 hover:brightness-110 hover:border-white/90
+        data-selected:opacity-100 data-selected:text-white data-selected:brightness-125
+        data-selected:border-white/90 data-selected:cursor-default
         ${background ? backgroundClasses : "rounded"} ${className ?? ""}`}
     >
       {children}
@@ -90,7 +91,7 @@ export default function ModalNavigation() {
   }, [index])
 
   return (
-    <div className="flex justify-between items-center space-x-3 w-full max-w-screen-xl">
+    <div className="flex justify-between items-center space-x-3 w-full max-w-(--breakpoint-xl)">
       <ModalButton action={() => navigateModalHandler(index - 1)}>
         <ArrowLeftIcon className="size-8" />
       </ModalButton>
@@ -105,6 +106,7 @@ export default function ModalNavigation() {
               action={() => navigateModalHandler(image.index)}
               background={false}
               className="flex-none"
+              {...(image.index === index && { ["data-selected"]: true })}
             >
               <CdnThumbnail image={image} alt="Thumbnail" />
             </ModalButton>

@@ -74,7 +74,7 @@
 //         </div>
 //
 //         <div className="flex items-center z-50 w-full h-full p-2 md:p-4 lg:mx-8">
-//           <div className="relative flex items-center justify-center w-full h-full max-h-full max-w-screen-2xl">
+//           <div className="relative flex items-center justify-center w-full h-full max-h-full max-w-(--breakpoint-2xl)">
 //             <AnimatePresence initial={false} custom={direction}>
 //               <motion.div
 //                 key={images[index].key}
