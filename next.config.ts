@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: `${process.env.NEXT_PUBLIC_CLOUDINARY_DELIVERY_HOST}`,
         pathname: `/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/**`,
+        search: "",
         port: "",
       },
     ],

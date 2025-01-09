@@ -1,10 +1,11 @@
 "use client"
 
 import type { Image, Ordered } from "app/lib/cloudinary"
-import { useContext } from "react"
+import { Suspense, useContext } from "react"
 import { useParams, notFound } from "next/navigation"
 import { ImagesContext } from "app/context"
 import { CdnImage } from "app/ui/cloudinary"
+import Spinner from "app/ui/loading-icon"
 
 export default function Page() {
   const { publicId } = useParams<{ publicId: string }>()
@@ -17,14 +18,16 @@ export default function Page() {
 
   return (
     <>
-      <CdnImage
-        priority
-        key={publicId}
-        image={image}
-        className={`flex object-contain rounded-xl shadow-2xl w-fit max-h-full aspect-[${image.aspectRatio.join("/")}]`}
-        sizes="(max-width: 1280px) 100vw, 1280px"
-        alt={`Photo ${image.key}`}
-      />
+      <Suspense fallback={<Spinner large />}>
+        <CdnImage
+          priority
+          key={publicId}
+          image={image}
+          className={`flex object-contain rounded-xl shadow-2xl w-fit max-h-full aspect-[${image.aspectRatio.join("/")}]`}
+          sizes="(max-width: 1280px) 100vw, 1280px"
+          alt={`Photo ${image.key}`}
+        />
+      </Suspense>
       <DebugInfo image={image} groupSize={imageStore.groups["hero"].length} />
     </>
   )

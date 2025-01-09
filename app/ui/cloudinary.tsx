@@ -2,9 +2,9 @@
 
 import Image, { type ImageProps } from "next/image"
 import {
-  optimisedLoader,
-  thumbnailLoader,
-} from "app/lib/cloudinary/image-loader"
+  cloudinaryImageLoader,
+  cloudinaryThumbnailLoader,
+} from "app/lib/cloudinary/loader"
 import type { Image as ImageT } from "app/lib/cloudinary"
 
 type Props = { image: ImageT } & Omit<
@@ -16,7 +16,7 @@ export function CdnImage({ image, alt, ...props }: Props) {
   return (
     <Image
       {...props}
-      loader={optimisedLoader}
+      loader={cloudinaryImageLoader}
       src={image.publicId}
       width={image.width}
       height={image.height}
@@ -31,7 +31,7 @@ export function Thumbnail({ image, alt, className, ...props }: Props) {
   return (
     <Image
       {...props}
-      loader={thumbnailLoader}
+      loader={cloudinaryThumbnailLoader}
       src={image.publicId}
       width={image.width}
       height={image.height}

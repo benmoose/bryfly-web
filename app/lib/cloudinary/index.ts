@@ -1,1 +1,1 @@
-export * from "app/lib/cloudinary/resources"
+export * from "./resources"
