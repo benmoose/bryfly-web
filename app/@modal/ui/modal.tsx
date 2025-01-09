@@ -14,22 +14,20 @@ export default function Modal({ children }: { children?: React.ReactNode }) {
 
   return (
     <Dialog open static onClose={handleClose} className="relative z-50">
-      <DialogBackdrop
-        className="fixed inset-0 bg-gradient-to-tr from-slate-950/90 to-slate-900/80
-          backdrop-blur z-10"
-      />
+      <DialogBackdrop className="fixed inset-0 bg-gradient-to-tr from-slate-950/90 to-slate-900/80 backdrop-blur" />
 
       <motion.div
         initial={{ opacity: 0, scale: 0.92 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="fixed inset-0 flex flex-col flex-nowrap justify-center items-center z-20
-        gap-1.5 py-3 mx-3 md:gap-2 md:py-4 md:mx-10 lg:gap-4 lg:py-8 h-dvh max-h-full max-w-full cursor-zoom-out pointer-events-auto"
+        className="fixed inset-0 flex flex-col justify-between items-center z-10
+        py-4 mx-4 max-h-full max-w-full cursor-zoom-out pointer-events-auto"
       >
-        <div className="flex-1" />
-        <DialogPanel className="modal__image-wrapper basis-1/2 relative flex-1 justify-center items-center cursor-default max-w-screen-xl">
-          <ModalButton action={handleClose} className="absolute top-3 right-3">
+        <div className="absolute flex justify-end w-full max-w-screen-xl mx-auto z-10 top-4">
+          <ModalButton action={handleClose}>
             <XMarkIcon className="size-7" />
           </ModalButton>
+        </div>
+        <DialogPanel className="modal__image-wrapper relative flex flex-1 justify-center items-center cursor-default max-w-screen-xl z-0">
           {children}
         </DialogPanel>
         <ModalNavigation />

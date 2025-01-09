@@ -1,50 +1,27 @@
 "use client"
 
-// import type { Image, Ordered } from "app/lib/cloudinary"
 import { useContext } from "react"
 import { useParams, notFound } from "next/navigation"
 import { ImagesContext } from "app/context"
 import { CdnImage } from "app/ui/cdn-image"
 
+type Params = { publicId: string }
+
 export default function Page() {
-  const { publicId } = useParams<{ publicId: string }>()
+  const { publicId } = useParams<Params>()
   const imageStore = useContext(ImagesContext)
   const image = imageStore.repo[publicId]
 
-  if (!image) {
-    notFound()
+  if (image === null) {
+    return notFound()
   }
 
   return (
     <CdnImage
       priority
-      key={publicId}
       image={image}
-      className={`flex object-contain rounded-xl shadow-2xl w-fit max-h-full aspect-[${image.aspectRatio.join("/")}]`}
+      className="flex object-contain rounded-xl shadow-2xl w-fit max-h-full"
       sizes="(max-width: 1280px) 100vw, 1280px"
-      alt={`Photo ${image.key}`}
     />
   )
 }
-
-// function DebugInfo({
-//   image,
-//   groupSize,
-// }: {
-//   image: Ordered<Image>
-//   groupSize: number
-// }) {
-//   return (
-//     <pre className="fixed top-2 left-4 space-x-6 text-xs text-slate-100/90">
-//       <span>
-//         i=<b>{image.index}</b>/{groupSize}
-//       </span>
-//       <span>
-//         pid=<b>{image.publicId}</b>
-//       </span>
-//       <span>
-//         ar=<b>{image.aspectRatio.join("/")}</b>
-//       </span>
-//     </pre>
-//   )
-// }

@@ -90,7 +90,7 @@ export default function ModalNavigation() {
   }, [index])
 
   return (
-    <div className="flex justify-between items-center space-x-3 z-50 pointer-events-none w-full max-w-screen-xl">
+    <div className="flex justify-between items-center space-x-3 w-full max-w-screen-xl">
       <ModalButton action={() => navigateModalHandler(index - 1)}>
         <ArrowLeftIcon className="size-8" />
       </ModalButton>

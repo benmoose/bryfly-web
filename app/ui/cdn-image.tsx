@@ -27,22 +27,19 @@ function thumbnailLoader({ src }: Pick<ImageLoaderProps, "src">): string {
   return imageUrl(src, "64w_thumb")
 }
 
-type Props = { image: ImageT } & Omit<
-  ImageProps,
-  "loader" | "src" | "width" | "height" | "placeholder" | "blurDataURL"
->
+type Props = { image: ImageT } & Partial<ImageProps>
 
 export function CdnImage({ image, alt, ...props }: Props) {
   return (
     <Image
       {...props}
-      loader={imageLoader}
       src={image.publicId}
+      loader={imageLoader}
       width={image.width}
       height={image.height}
       blurDataURL={image.placeholderUrl}
       placeholder="blur"
-      alt={alt}
+      alt={alt ?? `Photo ${image.key}`}
     />
   )
 }
@@ -51,14 +48,15 @@ export function CdnThumbnail({ image, alt, ...props }: Props) {
   return (
     <Image
       {...props}
-      loader={thumbnailLoader}
       src={image.publicId}
+      loader={thumbnailLoader}
       width={image.width}
       height={image.height}
       placeholder={image.placeholderUrl}
-      className="object-cover w-[60px] h-[52px] bg-slate-200/20 rounded"
+      className={`object-cover w-[60px] h-[52px] bg-slate-200/20 rounded aspect-[${image.aspectRatio.join("/")}]`}
       overrideSrc={imageUrl(image.publicId, "64w_thumb")}
-      alt={alt}
+      sizes="64px"
+      alt={alt ?? `Thumbnail ${image.key}`}
     />
   )
 }
