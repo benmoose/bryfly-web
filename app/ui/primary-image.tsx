@@ -1,6 +1,6 @@
 "use client"
 
-import * as Cdn from "app/ui/cloudinary"
+import * as Cdn from "app/ui/cdn-image"
 import { AnimatePresence, motion, MotionConfig } from "motion/react"
 import Image from "next/image"
 import React from "react"

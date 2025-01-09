@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { CdnImage } from "app/ui/cloudinary"
+import { CdnImage } from "app/ui/cdn-image"
 import { getHeroImages, getImage } from "app/lib/cloudinary"
 import { notFound } from "next/navigation"
 import Modal from "app/@modal/ui/modal"
@@ -9,8 +9,8 @@ export const dynamicParams = false
 export async function generateStaticParams(): Promise<
   Array<{ publicId: string }>
 > {
-  const heroImages = await getHeroImages()
-  return heroImages.map(({ publicId }) => ({ publicId }))
+  const images = await getHeroImages()
+  return images.map(({ publicId }) => ({ publicId }))
 }
 
 export default async function Page({
@@ -21,7 +21,7 @@ export default async function Page({
   const { publicId } = await params
   const image = await getImage(publicId)
 
-  if (image == null) {
+  if (image === null) {
     return notFound()
   }
 
@@ -48,7 +48,7 @@ export default async function Page({
             image={image}
             className="max-h-full object-contain"
             sizes="(max-width: 1536px) 100vw, 1536px"
-            alt=""
+            alt={`Photo ${image.key}`}
           />
         </div>
       </main>

@@ -1,14 +1,7 @@
-"use client"
-
-import { useContext } from "react"
 import { Concert_One } from "next/font/google"
 import Image from "next/image"
-import Link from "next/link"
-
-import { CdnImage } from "app/ui/cloudinary"
+import ImageGrid from "app/ui/image-grid"
 import BryFlyLogo from "public/bryfly-logo-1.png"
-
-import { ImagesContext } from "./context"
 
 const concertOne = Concert_One({
   subsets: ["latin"],
@@ -65,37 +58,11 @@ function BryFlyCard() {
 }
 
 export default function Page() {
-  const imageStore = useContext(ImagesContext)
-  const images = imageStore.groups["hero"].map(
-    publicId => imageStore.repo[publicId],
-  )
   return (
     <main className="mx-auto max-w-[1960px] p-4 w-full">
       <div className="gap-4 columns-1 sm:columns-2 xl:columns-3 2xl:columns-4">
         <BryFlyCard />
-        {images.map(image => (
-          <Link
-            key={image.key}
-            id={`i${image.index}`}
-            href={`/gallery/${image.publicId}`}
-            scroll={false}
-            className="after:content group relative mb-5 block w-full cursor-zoom-in
-              after:pointer-events-none after:absolute after:inset-0 after:rounded-xl"
-          >
-            <CdnImage
-              priority
-              image={image}
-              className="transform rounded-xl brightness-90 transition will-change-auto
-                group-hover:brightness-110"
-              sizes="(max-width: 640px) 100vw,
-                (max-width: 1280px) 50vw,
-                (max-width: 1536px) 33vw,
-                (max-width: 1960px) 25vw,
-                490px"
-              alt=""
-            />
-          </Link>
-        ))}
+        <ImageGrid group="hero" />
       </div>
     </main>
   )

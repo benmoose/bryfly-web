@@ -17,25 +17,27 @@ cloudinary.config({
   urlAnalytics: false,
 })
 
+type DataUrl = `data:image/${string}`
+
 type ApiResource = ResourceApiResponse["resources"][number] & {
   asset_id?: string
 }
 
 interface ResourceCommon {
-  readonly key: string
-  readonly assetId?: string
-  readonly publicId: string
-  readonly resourceType: ResourceType
-  readonly group: string
-  readonly format: ImageFormat | VideoFormat
-  readonly width: number
-  readonly height: number
-  readonly aspectRatio: [number, number]
-  readonly secureUrl: string
-  readonly createdAt: string
-  readonly version: number
-  readonly context?: object
-  readonly tags?: string[]
+  key: string
+  assetId?: string
+  publicId: string
+  group: string
+  resourceType: ResourceType
+  format: ImageFormat | VideoFormat
+  width: number
+  height: number
+  aspectRatio: [number, number]
+  secureUrl: string
+  createdAt: string
+  version: number
+  context?: object
+  tags?: string[]
 }
 
 interface Resource<T extends ResourceType> extends ResourceCommon {
@@ -45,11 +47,11 @@ interface Resource<T extends ResourceType> extends ResourceCommon {
 export type Ordered<R extends ResourceCommon> = R & { index: number }
 
 export type Image = Resource<"image"> & {
-  readonly format: ImageFormat
-  placeholderUrl: string
+  format: ImageFormat
+  placeholderUrl: DataUrl
 }
 
-async function resourcesByGroup(group: string): Promise<ResourceCommon[]> {
+async function getResources(group: string): Promise<ResourceCommon[]> {
   // TODO: implement pagination
   const response = await cloudinary.api.resources_by_asset_folder(group, {
     context: true,
@@ -61,9 +63,9 @@ async function resourcesByGroup(group: string): Promise<ResourceCommon[]> {
   return response.resources.map(apiToInternal)
 }
 
-export async function getHeroImages(): Promise<Ordered<Image>[]> {
+export async function getHeroImages(): Promise<Readonly<Ordered<Image>>[]> {
   const images = (
-    await resourcesByGroup(`${process.env.CLOUDINARY_HERO_FOLDER}`)
+    await getResources(`${process.env.CLOUDINARY_HERO_FOLDER}`)
   ).filter(isImageResource)
 
   const placeholderUrls = await Promise.all(
@@ -85,13 +87,13 @@ export async function getHeroImages(): Promise<Ordered<Image>[]> {
   }))
 }
 
-export async function getImage(publicId: string): Promise<Image> {
+export async function getImage(publicId: string): Promise<Readonly<Image>> {
   const imagePromise: Promise<ApiResource> = cloudinary.api.resource(publicId, {
     context: true,
     resource_type: "image",
     type: "private",
   })
-  const placeholderPromise: Promise<string> = encodeB64ImageUrl(
+  const placeholderPromise: Promise<DataUrl> = encodeB64ImageUrl(
     cloudinary.url(publicId, {
       transformation: ["placeholder_blur"],
       type: "private",
@@ -109,8 +111,11 @@ export async function getImage(publicId: string): Promise<Image> {
   }
 }
 
-const encodeB64ImageUrl = cache(async function (url: string): Promise<string> {
-  const res = await fetch(url, { cache: "force-cache" })
+const encodeB64ImageUrl = cache(async function (url: string): Promise<DataUrl> {
+  const res = await fetch(url, {
+    cache: "force-cache",
+    next: { revalidate: false },
+  })
   const buf = await res.arrayBuffer()
   const data = Buffer.from(buf).toString("base64")
   return `data:image/webp;base64,${data}`

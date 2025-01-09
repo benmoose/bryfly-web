@@ -1,4 +1,4 @@
-import { Thumbnail } from "app/ui/cloudinary"
+import { CdnThumbnail } from "app/ui/cdn-image"
 import { useContext, useEffect, useState } from "react"
 import { useSelectedLayoutSegment, useRouter } from "next/navigation"
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid"
@@ -20,7 +20,7 @@ export function ModalButton({
   background?: boolean
 }) {
   const backgroundClasses =
-    "backdrop-blur-sm bg-slate-100/5 hover:bg-slate-100/15 disabled:bg-slate-100/20 p-1.5"
+    "backdrop-blur-sm bg-slate-50/25 hover:bg-slate-50/30 disabled:bg-slate-300/25 p-2 rounded-full"
 
   return (
     <motion.button
@@ -28,23 +28,25 @@ export function ModalButton({
       disabled={disabled}
       onClick={e => {
         e.stopPropagation()
-        action()
+        if (!disabled) {
+          action()
+        }
       }}
       whileTap={{
-        scale: 0.94,
+        scale: 0.9,
         opacity: 0.8,
         transition: { type: "spring", duration: 0.034 },
       }}
       whileHover={{
-        scale: 1.08,
+        scale: 1.1,
         transition: { duration: 0.064 },
       }}
-      className={`flex items-center opacity-90 hover:opacity-100
-        text-base text-slate-200 hover:text-slate-50
-        brightness-75 hover:brightness-110 disabled:brightness-110
-        rounded-full transition duration-75 pointer-events-auto cursor-pointer
-        disabled:cursor-default disabled:opacity-100
-        ${background ? backgroundClasses : ""} ${className ?? ""}`}
+      className={`flex items-center opacity-90 hover:opacity-100 disabled:opacity-100
+        text-base text-white disabled:text-slate-200
+        brightness-75 hover:brightness-110 disabled:brightness-125
+        transition duration-75 pointer-events-auto
+        cursor-pointer disabled:cursor-default border-slate-100/75 disabled:border
+        ${background ? backgroundClasses : "rounded"} ${className ?? ""}`}
     >
       {children}
     </motion.button>
@@ -93,7 +95,7 @@ export default function ModalNavigation() {
         <ArrowLeftIcon className="size-8" />
       </ModalButton>
 
-      <div className="space-x-1.5 md:space-x-2 hidden sm:flex flex-nowrap overflow-x-hidden">
+      <div className="space-x-1.5 md:space-x-2 hidden sm:flex flex-nowrap">
         {group
           .map(publicId => imageStore.repo[publicId])
           .map(image => (
@@ -104,13 +106,13 @@ export default function ModalNavigation() {
               background={false}
               className="flex-none"
             >
-              <Thumbnail key={image.key} image={image} alt="Thumbnail" />
+              <CdnThumbnail image={image} alt="Thumbnail" />
             </ModalButton>
           ))}
       </div>
 
       <ModalButton action={() => navigateModalHandler(index + 1)}>
-        <ArrowRightIcon className="size-7" />
+        <ArrowRightIcon className="size-8" />
       </ModalButton>
     </div>
   )
