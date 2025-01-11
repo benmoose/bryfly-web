@@ -1,5 +1,5 @@
 import { CdnImage } from "app/ui/cdn-image"
-import { getHeroImages, getImage } from "app/lib/cloudinary"
+import { getHeroImages, getImage } from "lib/cloudinary"
 import { notFound } from "next/navigation"
 
 export const dynamicParams = false

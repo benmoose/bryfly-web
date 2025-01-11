@@ -3,7 +3,7 @@
 import { Cloudinary } from "@cloudinary/url-gen"
 import { name } from "@cloudinary/url-gen/actions/namedTransformation"
 import Image, { type ImageProps, type ImageLoaderProps } from "next/image"
-import type { Image as ImageT } from "app/lib/cloudinary"
+import type { Image as ImageT } from "lib/cloudinary"
 
 const client = new Cloudinary({
   cloud: { cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME },
