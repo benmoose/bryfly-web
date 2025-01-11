@@ -4,18 +4,10 @@ import {
   type ImageFormat,
   type ResourceApiResponse,
   type ResourceType,
-  v2 as cloudinary,
   type VideoFormat,
 } from "cloudinary"
 import { cache } from "react"
-
-cloudinary.config({
-  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-  secure: true,
-  urlAnalytics: false,
-})
+import client from "./client"
 
 type DataUrl = `data:image/${string}`
 
@@ -53,7 +45,7 @@ export type Image = Resource<"image"> & {
 
 async function getResources(group: string): Promise<ResourceCommon[]> {
   // TODO: implement pagination
-  const response = await cloudinary.api.resources_by_asset_folder(group, {
+  const response = await client.api.resources_by_asset_folder(group, {
     context: true,
     image_metadata: true,
     direction: "desc",
@@ -71,7 +63,7 @@ export async function getHeroImages(): Promise<Readonly<Ordered<Image>>[]> {
   const placeholderUrls = await Promise.all(
     images.map(({ publicId }) =>
       encodeB64ImageUrl(
-        cloudinary.url(publicId, {
+        client.url(publicId, {
           transformation: ["placeholder_blur"],
           type: "private",
         }),
@@ -88,13 +80,13 @@ export async function getHeroImages(): Promise<Readonly<Ordered<Image>>[]> {
 }
 
 export async function getImage(publicId: string): Promise<Readonly<Image>> {
-  const imagePromise: Promise<ApiResource> = cloudinary.api.resource(publicId, {
+  const imagePromise: Promise<ApiResource> = client.api.resource(publicId, {
     context: true,
     resource_type: "image",
     type: "private",
   })
   const placeholderPromise: Promise<DataUrl> = encodeB64ImageUrl(
-    cloudinary.url(publicId, {
+    client.url(publicId, {
       transformation: ["placeholder_blur"],
       type: "private",
     }),
