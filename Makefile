@@ -6,19 +6,19 @@ eslint = $(npm pkg get devDependencies.eslint)
 ## Lint matching files with eslint.
 .PHONY: eslint
 eslint:
-	@echo "Running eslint... "
-	@npx next lint --fix --quiet
+	@echo "Running eslint..."
+	@npm run lint
 
 ## Format matching files with prettier.
 .PHONY: prettier
 prettier:
-	@echo "Running prettier... "
-	@npx prettier . --write --cache --ignore-unknown --log-level warn
+	@echo "Running prettier..."
+	@npm run fmt
 
 ## Check Typescript compiles successfully.
 .PHONY:tsc-check
 tsc-check:
-	@echo "Compiling Typescript... "
+	@echo "Compiling Typescript..."
 	@npx tsc --noEmit
 
 ## Start local development server.
