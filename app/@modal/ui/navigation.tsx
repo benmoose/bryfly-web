@@ -62,11 +62,11 @@ export default function ModalNavigation() {
   const [index, setIndex] = useState<number>(group.indexOf(publicId!))
   const router = useRouter()
 
-  function navigateModalHandler(newIndex: number) {
-    const targetIndex =
-      newIndex < 0 ? group.length - 1 : newIndex % group.length
-    const { publicId } = imageStore.repo[group[targetIndex]]
-    setIndex(targetIndex)
+  function navigateModalHandler(targetIndex: number) {
+    const imagesIndex =
+      targetIndex < 0 ? group.length - 1 : targetIndex % group.length
+    const { publicId } = imageStore.repo[group[imagesIndex]]
+    setIndex(imagesIndex)
     router.push(`/gallery/${publicId}`, { scroll: false })
   }
 
