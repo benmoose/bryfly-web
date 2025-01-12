@@ -1,5 +1,5 @@
-import Modal2 from "../ui/modal-2"
+import Modal from "app/@modal/ui/modal"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <Modal2 group="hero">{children}</Modal2>
+  return <Modal group="hero">{children}</Modal>
 }
