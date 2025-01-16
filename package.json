@@ -14,8 +14,8 @@
     "start": "next start",
     "lint": "next lint --fix --quiet",
     "lint:check": "next lint --quiet",
-    "fmt": "prettier . --write --cache --ignore-unknown",
-    "fmt:check": "prettier . --list-different --cache --ignore-unknown"
+    "fmt": "prettier . --cache --ignore-unknown --write",
+    "fmt:check": "prettier . --ignore-unknown --list-different"
   },
   "dependencies": {
     "@cloudinary/url-gen": "^1.21.0",
