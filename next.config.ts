@@ -14,6 +14,7 @@ const nextConfig: NextConfig = {
         port: "",
       },
     ],
+    minimumCacheTTL: 300,
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
