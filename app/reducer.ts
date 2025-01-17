@@ -18,6 +18,19 @@ export const initialState: State = {
   order: [],
 }
 
+export function createInitialState(images: Image[]): State {
+  return {
+    repo: images.reduce(
+      (acc, image) => ({ ...acc, [image.publicId]: image }),
+      {},
+    ),
+    groups: {
+      hero: images.map(image => image.publicId),
+    },
+    order: ["hero"],
+  }
+}
+
 export function reducer(state: State, action: Action): State {
   switch (action.type) {
     case addImagesType: {

@@ -1,5 +1,10 @@
+import type { ReactNode } from "react"
 import Modal from "app/@modal/ui/modal"
 
-export default function Layout({ children }: { children: React.ReactNode }) {
-  return <Modal group="hero">{children}</Modal>
+export default async function Layout({ children }: { children: ReactNode }) {
+  return (
+    <Modal key="hero-modal" group="hero">
+      {children}
+    </Modal>
+  )
 }

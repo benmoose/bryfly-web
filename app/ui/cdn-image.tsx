@@ -19,7 +19,7 @@ function imageUrl(publicId: string, namedTransformation: string): string {
     .toURL()
 }
 
-function imageLoader({ src, width }: ImageLoaderProps): string {
+export function imageLoader({ src, width }: ImageLoaderProps): string {
   return imageUrl(src, `${width}w`)
 }
 
@@ -29,17 +29,18 @@ function thumbnailLoader({ src }: Pick<ImageLoaderProps, "src">): string {
 
 type Props = { image: ImageT } & Partial<ImageProps>
 
-export function CdnImage({ image, alt, ...props }: Props) {
+export function CdnImage({ image, alt, className, ...props }: Props) {
   return (
     <Image
       {...props}
-      src={image.publicId}
       loader={imageLoader}
+      src={image.publicId}
       width={image.width}
       height={image.height}
       blurDataURL={image.placeholderUrl}
       placeholder="blur"
-      alt={alt ?? `Photo ${image.key}`}
+      alt={alt ?? ""}
+      className={`object-contain ${className ?? ""}`}
     />
   )
 }
@@ -48,14 +49,14 @@ export function CdnThumbnail({ image, alt, className, ...props }: Props) {
   return (
     <Image
       {...props}
-      fill
-      src={image.publicId}
+      width={image.width}
+      height={image.height}
       loader={thumbnailLoader}
-      blurDataURL={image.placeholderUrl}
-      placeholder="blur"
-      className={`object-cover bg-slate-200/20 ${className ?? ""}`}
-      overrideSrc={imageUrl(image.publicId, "64w_thumb")}
-      alt={alt ?? `Thumbnail ${image.key}`}
+      src={image.publicId}
+      placeholder={image.placeholderUrl}
+      className={`object-cover ${className ?? ""}`}
+      alt={alt ?? ""}
+      sizes="64px"
     />
   )
 }

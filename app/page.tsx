@@ -1,13 +1,6 @@
-import { Concert_One } from "next/font/google"
 import Image from "next/image"
-import ImageGrid from "app/ui/image-grid"
+import ImageGrid from "app/image-grid"
 import BryFlyLogo from "public/bryfly-logo-1.png"
-
-const concertOne = Concert_One({
-  subsets: ["latin"],
-  display: "block",
-  weight: "400",
-})
 
 function BryFlyCard() {
   return (
@@ -28,7 +21,6 @@ function BryFlyCard() {
             490px"
       />
       <h1
-        style={concertOne.style}
         className="mt-0 mb-4 text-3xl sm:text-xl md:text-2xl lg:text-3xl xl:text-2xl
           uppercase tracking-wider"
       >
