@@ -12,8 +12,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint .",
-    "fmt": "prettier . --ignore-unknown"
+    "lint": "next lint . --error-on-unmatched-pattern --strict",
+    "format": "prettier . --ignore-unknown"
   },
   "dependencies": {
     "@cloudinary/url-gen": "^1.21.0",

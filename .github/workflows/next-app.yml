@@ -1,25 +1,14 @@
 name: Next App
 
-on:
-  push:
-    paths:
-      - "**.ts"
-      - "**.tsx"
-  pull_request:
-    branches: [$default-branch]
-    paths:
-      - "**.ts"
-      - "**.tsx"
+on: [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [20.x]
         # See supported versions at https://nodejs.org/en/about/releases/
-
     steps:
       - uses: actions/checkout@v4
       - name: Use Node ${{ matrix.node-version }}
@@ -29,6 +18,6 @@ jobs:
           cache: "npm"
       - run: npm ci
       - name: Check code format
-        run: npm run fmt
+        run: npm run format -- --log-level warn
       - name: Run linter
-        run: npm run lint
+        run: npm run lint -- --quiet
