@@ -7,13 +7,13 @@ eslint = $(npm pkg get devDependencies.eslint)
 .PHONY: eslint
 eslint:
 	@echo "Running eslint..."
-	@npm run lint
+	@npm run lint -- --quiet
 
 ## Format matching files with prettier.
 .PHONY: prettier
 prettier:
 	@echo "Running prettier..."
-	@npm run fmt
+	@npm run fmt -- --log-level warn
 
 ## Check Typescript compiles successfully.
 .PHONY:tsc-check

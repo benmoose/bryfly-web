@@ -12,8 +12,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint --fix --quiet",
-    "lint:check": "next lint --quiet",
+    "lint": "next lint . --fix",
+    "lint:check": "next lint .",
     "fmt": "prettier . --cache --ignore-unknown --write",
     "fmt:check": "prettier . --ignore-unknown --list-different"
   },
