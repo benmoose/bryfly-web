@@ -11,13 +11,13 @@ clean: check-node-version
 .PHONY: eslint
 eslint: check-node-version
 	@echo "Running eslint..."
-	@npm run lint -- --quiet
+	@npm run lint -- --quiet --fix
 
 ## Format matching files with prettier.
 .PHONY: prettier
 prettier: check-node-version
 	@echo "Running prettier..."
-	@npm run fmt -- --log-level warn
+	@npm run fmt -- --cache --log-level warn --write
 
 ## Check Typescript compiles successfully.
 .PHONY:tsc-check

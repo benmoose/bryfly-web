@@ -1,4 +1,4 @@
-name: Build Next App
+name: Next App
 
 on:
   push:
@@ -29,6 +29,6 @@ jobs:
           cache: "npm"
       - run: npm ci
       - name: Check code format
-        run: |
-          npm run lint:check
-          npm run fmt:check
+        run: npm run fmt
+      - name: Run linter
+        run: npm run lint
