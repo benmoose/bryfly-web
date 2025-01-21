@@ -1,23 +1,27 @@
 .PHONY:all
-fmt: check-node-version eslint prettier tsc-check
+fmt: eslint prettier tsc-check
 
-eslint = $(npm pkg get devDependencies.eslint)
+## Clean up project dependencies
+.PHONY:clean
+clean: check-node-version
+	npm dedupe
+	npm prune
 
 ## Lint matching files with eslint.
 .PHONY: eslint
-eslint:
+eslint: check-node-version
 	@echo "Running eslint..."
 	@npm run lint -- --quiet
 
 ## Format matching files with prettier.
 .PHONY: prettier
-prettier:
+prettier: check-node-version
 	@echo "Running prettier..."
 	@npm run fmt -- --log-level warn
 
 ## Check Typescript compiles successfully.
 .PHONY:tsc-check
-tsc-check:
+tsc-check: check-node-version
 	@echo "Compiling Typescript..."
 	@npx tsc --noEmit
 
