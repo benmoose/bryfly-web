@@ -1,8 +1,7 @@
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import React, { cache } from "react"
+import { cache, type ReactNode, type ReactElement } from "react"
 import type { Metadata, Viewport } from "next"
-
 import { getHeroImages } from "lib/cloudinary"
 import ImageProvider from "app/image-provider"
 
@@ -32,8 +31,8 @@ export default async function RootLayout({
   children,
   modal,
 }: {
-  children: React.ReactNode
-  modal: React.ReactNode
+  children: ReactNode
+  modal: ReactNode
 }) {
   const images = await getImages()
   return (
@@ -51,7 +50,7 @@ export default async function RootLayout({
   )
 }
 
-function Footer(): React.ReactElement {
+function Footer(): ReactElement {
   return (
     <footer className="p-4 text-sm text-center text-white/35 sm:p-8 tracking-wide">
       made by{" "}
