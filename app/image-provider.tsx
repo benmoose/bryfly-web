@@ -2,17 +2,17 @@
 
 import { useReducer, type ReactNode } from "react"
 import { ImagesContext } from "app/context"
-import { createInitialState, reducer } from "app/reducer"
+import { initialiseState, reducer } from "app/reducer"
 import type { Image } from "lib/cloudinary"
 
-export default function ImageProvider({
+export default function ImagesProvider({
   children,
-  images,
+  groups,
 }: {
   children: ReactNode
-  images: Image[]
+  groups: { [group: string]: Image[] }
 }) {
-  const [imageState] = useReducer(reducer, images, createInitialState)
+  const [imageState] = useReducer(reducer, groups, initialiseState)
   return (
     <ImagesContext.Provider value={imageState}>
       {children}

@@ -9,13 +9,10 @@ import { motion } from "motion/react"
 const MotionLink = motion.create(Link)
 
 export default function ImageGrid({ group }: { group: string }) {
-  const imageStore = useContext(ImagesContext)
-  const images = imageStore.groups[group].map(
-    publicId => imageStore.repo[publicId],
-  )
+  const { repo, groups } = useContext(ImagesContext)
+  const images = groups[group].map(publicId => repo[publicId])
 
   const [, setModalOpen] = useState(false)
-
   const openModal = useCallback(() => setModalOpen(true), [])
 
   return images.map(image => (
