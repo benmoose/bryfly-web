@@ -43,7 +43,6 @@ export default async function RootLayout({
           {modal}
         </ImagesProvider>
         <Footer />
-
         <Analytics />
         <SpeedInsights />
       </body>
