@@ -1,4 +1,5 @@
-import { motion, type HTMLMotionProps } from "motion/react"
+import { type ReactNode } from "react"
+import { motion } from "motion/react"
 
 export const notSelectedVariant = "not-selected" as const
 export const selectedVariant = "selected" as const
@@ -33,19 +34,19 @@ export const defaultTransition = {
   weight: 0.5,
 } as const
 
-interface ButtonProps extends HTMLMotionProps<"button"> {
-  action: () => void
-}
-
 export function IconButton({
   action,
   children,
   disabled = false,
-  ...buttonProps
-}: ButtonProps) {
+  ...props
+}: {
+  action: () => void
+  children: ReactNode
+  disabled?: boolean
+}) {
   return (
     <motion.button
-      {...buttonProps}
+      {...props}
       {...(disabled && {
         tabIndex: 0,
         ["aria-disabled"]: true,
