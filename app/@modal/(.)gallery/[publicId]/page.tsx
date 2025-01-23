@@ -19,7 +19,8 @@ export default function Page() {
       priority
       key={publicId}
       image={image}
-      className="w-fit max-h-full rounded-xl shadow-2xl shadow-black/35 border-2 border-slate-200/5"
+      className="w-fit max-h-full rounded-xl shadow-2xl shadow-black/35
+        border-2 border-slate-200/5"
       sizes="(max-width: 1280px) 100vw, 1280px"
     />
   )

@@ -133,7 +133,7 @@ export default memo(function Modal({
     >
       <DialogBackdrop
         key="modal-backdrop"
-        className="fixed inset-0 backdrop-brightness-25 backdrop-blur backdrop-saturate-80
+        className="fixed inset-0 backdrop-brightness-40 backdrop-blur-md backdrop-saturate-70
         z-10 pointer-events-none"
       />
 
@@ -141,7 +141,7 @@ export default memo(function Modal({
         <DialogPanel
           key="modal-panel"
           className="relative pb-16 flex flex-col justify-between w-full max-w-screen-lg
-            h-[92dvh] mx-auto pointer-events-none"
+          h-[92dvh] mx-auto pointer-events-none"
         >
           <CloseButton />
           <Suspense
@@ -150,7 +150,7 @@ export default memo(function Modal({
               <div className="bg-emerald-400 padding-4 text-lg">Loading...</div>
             }
           >
-            <div className="flex flex-col items-center justify-center flex-initial max-h-full pb-8">
+            <div className="flex flex-col items-center justify-center flex-initial max-h-full pb-4">
               <div
                 {...handleSwipes}
                 className="relative flex justify-center w-fit max-h-full pointer-events-auto cursor-default"
@@ -264,18 +264,18 @@ const ThumbnailButton = memo(function ThumbnailButton({
           handler()
         }
       }}
-      className={`relative flex items-center opacity-100 box-border size-16 flex-none rounded-xl
-          text-base text-white brightness-80 cursor-pointer overflow-hidden border-slate-950/20 border
-          transition-[outline] duration-75 pointer-events-auto outline-2 outline-offset-1 outline-transparent
-          hover:brightness-110 hover:border-slate-100/85 hover:border-2 hover:opacity-100 hover:rounded-sm 
-          focus:brightness-110 focus:border-slate-50 focus:border-2 focus:opacity-100
-          focus:outline-slate-100/40 focus:rounded-sm 
-          disabled:text-slate-600 disabled:cursor-default
-          aria-selected:border-3 aria-selected:border-white aria-selected:brightness-115
-          aria-selected:outline-2 aria-selected:outline-slate-100/70 aria-selected:outline-offset-2
-          aria-selected:cursor-default aria-selected:rounded-sm
-          aria-selected:animate-bulge
-        `}
+      className={`relative flex items-center opacity-100 box-border size-16 flex-none rounded-lg
+        text-base text-white brightness-80 border-2 border-transparent overflow-hidden
+        transition-all duration-75 pointer-events-auto outline outline-offset-2
+        outline-transparent shadow-sm shadow-stone-950/20 cursor-pointer
+        hover:brightness-110 hover:border-stone-100/80 hover:opacity-100
+        hover:rounded-md hover:shadow-md
+        focus:brightness-110 focus:border-stone-100/80 focus:opacity-100
+        focus:outline-transparent focus:rounded-md focus:shadow-md
+        disabled:text-slate-600 disabled:cursor-default
+        aria-selected:border-3 aria-selected:border-white aria-selected:brightness-115
+        aria-selected:outline-stone-300/90 aria-selected:shadow-md
+        aria-selected:cursor-default aria-selected:animate-bulge aria-selected:rounded-sm`}
       tabIndex={interactive ? 0 : -1}
     >
       <CdnThumbnail loading="eager" image={image} />

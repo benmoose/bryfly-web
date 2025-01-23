@@ -1,8 +1,9 @@
 {
   "name": "bryfly-web",
-  "author": "Ben Hadfield <benjohnhadfield@gmail.com>",
+  "description": "Bryony's disco ball website.",
+  "homepage": "https://github.com/benmoose/bryfly-web",
+  "author": "Ben Hadfield <benjohnhadfield@gmail.com> (https://instagram.com/_benmoose)",
   "private": true,
-  "version": "1.0.0",
   "type": "module",
   "repository": {
     "type": "git",
@@ -43,6 +44,13 @@
     "typescript": "^5.7.3"
   },
   "engines": {
-    "node": "^20.18.1"
+    "node": "^20"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "^20",
+      "onFail": "error"
+    }
   }
 }
