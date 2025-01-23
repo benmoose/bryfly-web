@@ -1,4 +1,4 @@
-import type { Image, Ordered } from "lib/cloudinary"
+import type { ImageResource, Ordered } from "lib/cloudinary"
 
 const NAMESPACE = "images" as const
 
@@ -8,7 +8,7 @@ type Action<ActionType extends string, Payload extends object> = {
 }
 
 type State = {
-  repo: { [id: string]: Ordered<Image> }
+  repo: { [id: string]: Ordered<ImageResource> }
   groups: {
     [group: string]: string[]
   }
@@ -16,7 +16,7 @@ type State = {
 
 export function initialiseState(
   initGroups: {
-    [group: string]: Image[]
+    [group: string]: ImageResource[]
   } = {},
 ): State {
   const groups = Object.keys(initGroups).reduce(
@@ -44,13 +44,13 @@ type AddImagesAction = Action<
   typeof addImagesActionType,
   {
     group: string
-    images: Ordered<Image>[]
+    images: Ordered<ImageResource>[]
   }
 >
 
 export function addImages(
   group: string,
-  images: Ordered<Image>[],
+  images: Ordered<ImageResource>[],
 ): AddImagesAction {
   return {
     type: addImagesActionType,

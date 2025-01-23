@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
-.modal__image-wrapper {
-  max-height: calc(100% - 50px - calc(var(--spacing) * 3));
+@theme {
+  --animate-bulge: bulge 2s ease-in-out infinite;
+
+  @keyframes bulge {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.04);
+    }
+  }
 }

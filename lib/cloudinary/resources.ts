@@ -7,7 +7,7 @@ import {
   type VideoFormat,
 } from "cloudinary"
 import { cache } from "react"
-import client from "./client"
+import getClient from "./client"
 
 type DataUrl = `data:image/${string}`
 
@@ -36,12 +36,14 @@ interface Resource<T extends ResourceType> extends ResourceCommon {
   readonly resourceType: T
 }
 
-export type Ordered<R extends ResourceCommon> = R & { index: number }
+export type Ordered<Type> = Type & { index: number }
 
-export type Image = Resource<"image"> & {
+export interface ImageResource extends Resource<"image"> {
   format: ImageFormat
   placeholderUrl: DataUrl
 }
+
+const client = getClient()
 
 async function getResources(group: string): Promise<ResourceCommon[]> {
   // TODO: implement pagination
@@ -55,7 +57,9 @@ async function getResources(group: string): Promise<ResourceCommon[]> {
   return response.resources.map(apiToInternal)
 }
 
-export async function getHeroImages(): Promise<Readonly<Ordered<Image>>[]> {
+export async function getHeroImages(): Promise<
+  Readonly<Ordered<ImageResource>>[]
+> {
   const images = (
     await getResources(`${process.env.CLOUDINARY_HERO_FOLDER}`)
   ).filter(isImageResource)
@@ -79,7 +83,9 @@ export async function getHeroImages(): Promise<Readonly<Ordered<Image>>[]> {
   }))
 }
 
-export async function getImage(publicId: string): Promise<Readonly<Image>> {
+export async function getImage(
+  publicId: string,
+): Promise<Readonly<ImageResource>> {
   const imagePromise: Promise<ApiResource> = client.api.resource(publicId, {
     context: true,
     resource_type: "image",
@@ -113,7 +119,7 @@ const encodeB64ImageUrl = cache(async function (url: string): Promise<DataUrl> {
   return `data:image/webp;base64,${data}`
 })
 
-function isImageResource(resource: ResourceCommon): resource is Image {
+function isImageResource(resource: ResourceCommon): resource is ImageResource {
   return resource.resourceType === "image"
 }
 

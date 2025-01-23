@@ -2,8 +2,12 @@
 
 import { Cloudinary } from "@cloudinary/url-gen"
 import { name } from "@cloudinary/url-gen/actions/namedTransformation"
-import Image, { type ImageProps, type ImageLoaderProps } from "next/image"
-import type { Image as ImageT } from "lib/cloudinary"
+import {
+  default as NextImage,
+  type ImageProps,
+  type ImageLoaderProps,
+} from "next/image"
+import type { ImageResource } from "lib/cloudinary"
 
 const client = new Cloudinary({
   cloud: { cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME },
@@ -27,11 +31,13 @@ function thumbnailLoader({ src }: Pick<ImageLoaderProps, "src">): string {
   return imageUrl(src, "64w_thumb")
 }
 
-type Props = { image: ImageT } & Partial<ImageProps>
+interface Props extends Partial<ImageProps> {
+  image: ImageResource
+}
 
 export function CdnImage({ image, alt, className, ...props }: Props) {
   return (
-    <Image
+    <NextImage
       {...props}
       loader={imageLoader}
       src={image.publicId}
@@ -47,7 +53,7 @@ export function CdnImage({ image, alt, className, ...props }: Props) {
 
 export function CdnThumbnail({ image, alt, className, ...props }: Props) {
   return (
-    <Image
+    <NextImage
       {...props}
       width={image.width}
       height={image.height}

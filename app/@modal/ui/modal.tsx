@@ -25,17 +25,18 @@ import {
   useCallback,
   useEffect,
   useState,
+  Suspense,
   type ReactNode,
 } from "react"
 import { useSwipeable } from "react-swipeable"
-import type { Image, Ordered } from "lib/cloudinary"
+import type { ImageResource, Ordered } from "lib/cloudinary"
 
 const enum Direction {
   PREV = "prev",
   NEXT = "next",
 }
 
-export default function Modal({
+export default memo(function Modal({
   children,
   group,
 }: {
@@ -45,130 +46,146 @@ export default function Modal({
   const router = useRouter()
   const publicId = useSelectedLayoutSegment()
   const { groups, repo } = use(ImagesContext)
-  const ids = groups[group]
 
+  const ids = groups[group]
   const [index, setIndex] = useState<number>(ids.indexOf(publicId!))
   const [, setDirection] = useState<Direction>()
-
-  const handleClose = useCallback(() => {
-    router.push("/", { scroll: false })
-  }, [router])
 
   useEffect(() => {
     const targetImage = repo[ids[index]]
     router.push(`/gallery/${targetImage.publicId}`, { scroll: false })
-  }, [index])
+  }, [repo, ids, index, router])
 
-  const setTargetImage = useCallback(
+  const closeModal = useCallback(
+    function closeModal() {
+      router.push("/", { scroll: false })
+    },
+    [router],
+  )
+
+  const toGroupIndex = useCallback(
+    function toGroupIndex(targetIndex: number) {
+      return targetIndex < 0 ? ids.length - 1 : targetIndex % ids.length
+    },
+    [ids],
+  )
+
+  const createNavigationHandler = useCallback(
     (targetIndex: number) => {
+      const newIndex = toGroupIndex(targetIndex)
       return () => {
-        const newIndex =
-          targetIndex < 0 ? ids.length - 1 : targetIndex % ids.length
         setIndex(prevIndex => {
           setDirection(newIndex > prevIndex ? Direction.NEXT : Direction.PREV)
           return newIndex
         })
       }
     },
-    [ids],
+    [toGroupIndex],
   )
-
-  const keyboardHandler = useCallback(
-    function keyboardHandler(e: KeyboardEvent) {
-      switch (e.key) {
-        case "ArrowLeft": {
-          setTargetImage(index - 1)()
-          break
-        }
-        case "ArrowRight": {
-          setTargetImage(index + 1)()
-          break
-        }
-      }
-    },
-    [index, setTargetImage],
-  )
-
-  useEffect(() => {
-    window.addEventListener("keydown", keyboardHandler, true)
-    return () => {
-      window.removeEventListener("keydown", keyboardHandler, true)
-    }
-  }, [index, keyboardHandler])
 
   const handleSwipes = useSwipeable({
-    onSwipedRight: setTargetImage((index + 1) % groups[group].length),
-    onSwipedLeft: setTargetImage(
+    onSwipedRight: createNavigationHandler((index + 1) % groups[group].length),
+    onSwipedLeft: createNavigationHandler(
       (index + groups[group].length - 1) % groups[group].length,
     ),
-    onSwipedDown: handleClose,
+    onSwipedDown: closeModal,
   })
 
   const CloseButton = memo(function CloseButton() {
     return (
-      <IconButton action={handleClose} aria-label="Close">
-        <XMarkIcon aria-hidden={true} className="size-7" />
-      </IconButton>
+      <div key="modal-close" className="absolute top-0 z-50 self-end m-2">
+        <IconButton action={closeModal}>
+          <XMarkIcon className="size-7" />
+        </IconButton>
+      </div>
     )
   })
 
+  useEffect(() => {
+    const prev = createNavigationHandler(index - 1)
+    const next = createNavigationHandler(index + 1)
+
+    function keyboardHandler(e: KeyboardEvent) {
+      switch (e.key) {
+        case "ArrowLeft": {
+          return prev()
+        }
+        case "ArrowRight": {
+          return next()
+        }
+      }
+    }
+
+    window.addEventListener("keydown", keyboardHandler, true)
+    return () => {
+      window.removeEventListener("keydown", keyboardHandler, true)
+    }
+  }, [createNavigationHandler, index])
+
   return (
-    <Dialog open className="relative z-50" onClose={handleClose} tabIndex={-1}>
+    <Dialog
+      key="modal-root"
+      open
+      transition
+      className="relative z-50"
+      onClose={closeModal}
+      tabIndex={-1}
+    >
       <DialogBackdrop
-        className="fixed inset-0 bg-stone-950/70 backdrop-blur-md
+        key="modal-backdrop"
+        className="fixed inset-0 backdrop-brightness-25 backdrop-blur backdrop-saturate-80
         z-10 pointer-events-none"
       />
 
-      <motion.div
-        layoutRoot
-        className="fixed inset-0 p-4 md:p-8 flex justify-center items-center z-20 cursor-zoom-out"
-      >
+      <div className="fixed inset-0 p-4 md:p-8 flex justify-center items-center z-20 cursor-zoom-out">
         <DialogPanel
+          key="modal-panel"
           className="relative pb-16 flex flex-col justify-between w-full max-w-screen-lg
             h-[92dvh] mx-auto pointer-events-none"
         >
-          <div key="modal-close" className="absolute top-0 z-50 self-end m-2">
-            <CloseButton />
-          </div>
-          <div
-            {...handleSwipes}
+          <CloseButton />
+          <Suspense
             key={publicId}
-            className="flex flex-col items-center justify-center flex-initial max-h-full pb-8"
+            fallback={
+              <div className="bg-emerald-400 padding-4 text-lg">Loading...</div>
+            }
           >
-            <div
-              key="modal-content"
-              className="relative flex justify-center w-fit max-h-full pointer-events-auto cursor-default"
-            >
-              {children}
+            <div className="flex flex-col items-center justify-center flex-initial max-h-full pb-8">
+              <div
+                {...handleSwipes}
+                className="relative flex justify-center w-fit max-h-full pointer-events-auto cursor-default"
+              >
+                {children}
+              </div>
             </div>
-          </div>
-
+          </Suspense>
           <ModalNavigation
-            key="modal-nav"
-            navigate={setTargetImage}
+            key="modal-navigation"
             index={index}
             group={group}
+            createHandler={createNavigationHandler}
           />
         </DialogPanel>
-      </motion.div>
+      </div>
     </Dialog>
   )
-}
+})
 
-function ModalNavigation({
-  navigate,
+const ModalNavigation = memo(function ModalNavigation({
+  createHandler,
   index,
   group,
 }: {
-  navigate: (target: number) => () => void
+  createHandler: (target: number) => () => void
   index: number
   group: string
 }) {
+  const { repo, groups } = use(ImagesContext)
   const PrevButton = memo(function PrevButton() {
     return (
       <IconButton
-        key="modal-prev"
-        action={navigate(index - 1)}
+        disabled
+        action={createHandler(index - 1)}
         aria-label="Previous"
       >
         <ArrowLeftIcon className="size-7" />
@@ -177,20 +194,15 @@ function ModalNavigation({
   })
   const NextButton = memo(function NextButton() {
     return (
-      <IconButton
-        key="modal-next"
-        action={navigate(index + 1)}
-        aria-label="Next"
-      >
+      <IconButton action={createHandler(index + 1)} aria-label="Next">
         <ArrowRightIcon className="size-7" />
       </IconButton>
     )
   })
-  const { repo, groups } = use(ImagesContext)
   return (
     <div
       className="absolute w-full bottom-0 h-16 flex justify-between items-center
-      z-50 gap-4"
+        z-50 gap-4"
     >
       <PrevButton />
       <div
@@ -206,7 +218,7 @@ function ModalNavigation({
               key={image.key}
               image={image}
               selected={selected}
-              action={navigate}
+              createActionHandler={createHandler}
             />
           )
         })}
@@ -214,21 +226,21 @@ function ModalNavigation({
       <NextButton />
     </div>
   )
-}
+})
 
 const ThumbnailButton = memo(function ThumbnailButton({
   image,
-  action,
+  createActionHandler,
   selected = false,
   disabled = false,
 }: {
-  action: (i: number) => () => void
-  image: Ordered<Image>
+  createActionHandler: (i: number) => () => void
+  image: Ordered<ImageResource>
   selected?: boolean
   disabled?: boolean
 }) {
   const interactive = !disabled && !selected
-  const handleClick = action(image.index)
+  const handler = createActionHandler(image.index)
   return (
     <motion.button
       aria-current={selected}
@@ -237,6 +249,7 @@ const ThumbnailButton = memo(function ThumbnailButton({
       disabled={disabled}
       variants={animationVariants}
       whileHover={selected ? selectedVariant : hoverVariant}
+      whileFocus={selected ? selectedVariant : hoverVariant}
       whileTap={
         interactive
           ? pressedVariant
@@ -248,27 +261,28 @@ const ThumbnailButton = memo(function ThumbnailButton({
       onClick={e => {
         e.stopPropagation()
         if (interactive) {
-          handleClick()
+          handler()
         }
       }}
       className={`relative flex items-center opacity-100 box-border size-16 flex-none rounded-xl
           text-base text-white brightness-80 cursor-pointer overflow-hidden border-slate-950/20 border
-          transition-[outline] duration-75 pointer-events-auto outline-4 outline-offset-1 outline-slate-200/5
-          hover:brightness-110 hover:border-slate-50 hover:border-2 hover:opacity-100 
-          hover:outline-slate-100/15 hover:outline-3
-          focus:brightness-110
+          transition-[outline] duration-75 pointer-events-auto outline-2 outline-offset-1 outline-transparent
+          hover:brightness-110 hover:border-slate-100/85 hover:border-2 hover:opacity-100 hover:rounded-sm 
+          focus:brightness-110 focus:border-slate-50 focus:border-2 focus:opacity-100
+          focus:outline-slate-100/40 focus:rounded-sm 
           disabled:text-slate-600 disabled:cursor-default
           aria-selected:border-3 aria-selected:border-white aria-selected:brightness-115
           aria-selected:outline-2 aria-selected:outline-slate-100/70 aria-selected:outline-offset-2
           aria-selected:cursor-default aria-selected:rounded-sm
+          aria-selected:animate-bulge
         `}
       tabIndex={interactive ? 0 : -1}
     >
-      <CdnThumbnail image={image} />
+      <CdnThumbnail loading="eager" image={image} />
       {selected && (
         <div
           aria-hidden
-          className="absolute inset-0 animate-pulse z-50 opacity-10 pointer-events-none bg-white"
+          className="absolute inset-0 animate-pulse z-50 pointer-events-none bg-stone-200/20"
         />
       )}
     </motion.button>

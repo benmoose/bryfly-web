@@ -16,14 +16,14 @@ export default function ImageGrid({ group }: { group: string }) {
     <MotionLink
       key={image.key}
       tabIndex={0}
-      scroll={false}
       initial={false}
-      whileTap={{ scale: 0.95, transition: { duration: 0.08, type: "spring" } }}
+      whileTap={{ scale: 0.94, transition: { duration: 0.08, type: "spring" } }}
       transition={{ duration: 0.18 }}
       href={`/gallery/${image.publicId}`}
-      className="after:content group relative mb-5 block w-full cursor-zoom-in outline-0
+      className="after:content group relative mb-5 block w-full cursor-zoom-in
         after:pointer-events-none after:absolute after:inset-0 rounded-lg overflow-x-hidden
-        focus:ring-2 focus:ring-indigo-500"
+        transition-[outline] outline-2 outline-offset-4 outline-transparent
+        focus:outline-slate-100"
     >
       <CdnImage
         image={image}
