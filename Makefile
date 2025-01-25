@@ -1,20 +1,5 @@
-.PHONY: format-code
+.PHONY: format-app-code
 format-code: format lint
-
-.PHONY: dev
-dev: check-node-version
-	@pnpm run dev
-
-.PHONY: clean
-clean: check-node-version
-	pnpm prune
-
-.PHONY: check-node-version
-check-node-version:
-	@if [[ $$(cat .nvmrc) != $$(node -v) ]]; then \
-		echo "Using wrong version of Node ($$(node --version)), project expects $$(cat .nvmrc)."; \
-  		false; \
-	fi
 
 .PHONY: format
 format: check-node-version
@@ -23,3 +8,19 @@ format: check-node-version
 .PHONY: lint
 lint: check-node-version
 	@pnpm run --silent lint --fix
+
+.PHONY: dev
+dev: check-node-version
+	@pnpm run dev
+
+.PHONY: clean
+clean: check-node-version
+	@pnpm prune
+
+.PHONY: check-node-version
+check-node-version: enable-corepack
+	@pnpx check-node-version --package
+
+.PHONY: enable-corepack
+enable-corepack:
+	@corepack enable
