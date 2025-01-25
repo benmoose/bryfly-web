@@ -1,26 +1,13 @@
 .PHONY: format-code
-format-code: lint format build-typescript
+format-code: format lint
 
 .PHONY: dev
 dev: check-node-version
-	@npm run dev
+	@pnpm run dev
 
 .PHONY: clean
 clean: check-node-version
-	npm dedupe
-	npm prune
-
-.PHONY: lint
-lint: check-node-version
-	@npm run lint -- --fix
-
-.PHONY: format
-format: check-node-version
-	@npm run format -- --cache --write --log-level warn
-
-.PHONY: build-typescript
-build-typescript: check-node-version
-	@npx tsc --noEmit
+	pnpm prune
 
 .PHONY: check-node-version
 check-node-version:
@@ -28,3 +15,11 @@ check-node-version:
 		echo "Using wrong version of Node ($$(node --version)), project expects $$(cat .nvmrc)."; \
   		false; \
 	fi
+
+.PHONY: format
+format: check-node-version
+	@pnpm run --silent format --cache --log-level warn --write
+
+.PHONY: lint
+lint: check-node-version
+	@pnpm run --silent lint --fix

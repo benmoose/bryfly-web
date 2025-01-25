@@ -1,23 +1,27 @@
-name: Next App
+name: Check Next.js app
 
-on: [push, pull_request]
+on:
+  push:
+    paths:
+      - "app/**"
+      - "lib/**"
+      - "**.tsx?"
+      - "**.jsx?"
+      - "**.json"
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [20.x]
-        # See supported versions at https://nodejs.org/en/about/releases/
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
-      - run: npm ci
+          node-version-file: ".nvmrc"
+          check-latest: true
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
       - name: Check code format
-        run: npm run format -- --log-level warn
+        run: pnpm run format --list-different
       - name: Run linter
-        run: npm run lint -- --quiet
+        run: pnpm run lint
