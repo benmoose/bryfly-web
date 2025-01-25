@@ -6,10 +6,10 @@
   @keyframes bulge {
     0%,
     100% {
-      transform: scale(1);
+      transform: scale(1.02);
     }
     50% {
-      transform: scale(1.04);
+      transform: scale(1.06);
     }
   }
 }

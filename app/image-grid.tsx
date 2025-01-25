@@ -17,8 +17,17 @@ export default function ImageGrid({ group }: { group: string }) {
       key={image.key}
       tabIndex={0}
       initial={false}
-      whileTap={{ scale: 0.94, transition: { duration: 0.08, type: "spring" } }}
-      transition={{ duration: 0.18 }}
+      whileTap={{
+        scale: 0.94,
+        transition: {
+          type: "spring",
+          weight: 2,
+          duration: 0.1,
+        },
+      }}
+      whileFocus={{ scale: 1.02 }}
+      whileHover={{ scale: 1.02 }}
+      transition={{ duration: 0.14 }}
       href={`/gallery/${image.publicId}`}
       className="after:content group relative mb-5 block w-full cursor-zoom-in
         after:pointer-events-none after:absolute after:inset-0 rounded-lg overflow-x-hidden

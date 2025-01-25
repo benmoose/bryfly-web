@@ -20,16 +20,16 @@ export const animationVariants = {
     opacity: 0.8,
   } as const,
   [selectedVariant]: {
-    scale: 1,
+    scale: 1.04,
     opacity: 1,
   } as const,
   [hoverVariant]: {
-    transition: { duration: 0.16, type: "spring" },
-    scale: 1.1,
+    // transition: { type: "spring" },
+    scale: 1.08,
     opacity: 1,
   } as const,
   [pressedVariant]: {
-    transition: { duration: 0.16, type: "spring" },
+    // transition: { duration: 0.14, type: "spring" },
     scale: 0.86,
     opacity: 0.62,
   } as const,

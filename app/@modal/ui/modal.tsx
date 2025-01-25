@@ -140,7 +140,7 @@ export default memo(function Modal({
       <div className="fixed inset-0 p-4 md:p-8 flex justify-center items-center z-20 cursor-zoom-out">
         <DialogPanel
           key="modal-panel"
-          className="relative pb-16 flex flex-col justify-between w-full max-w-screen-lg
+          className="@container relative pb-16 flex flex-col justify-between w-full max-w-screen-lg
           h-[92dvh] mx-auto pointer-events-none"
         >
           <CloseButton />
@@ -183,11 +183,7 @@ const ModalNavigation = memo(function ModalNavigation({
   const { repo, groups } = use(ImagesContext)
   const PrevButton = memo(function PrevButton() {
     return (
-      <IconButton
-        disabled
-        action={createHandler(index - 1)}
-        aria-label="Previous"
-      >
+      <IconButton action={createHandler(index - 1)} aria-label="Previous">
         <ArrowLeftIcon className="size-7" />
       </IconButton>
     )
@@ -207,7 +203,7 @@ const ModalNavigation = memo(function ModalNavigation({
       <PrevButton />
       <div
         key="modal-thumbnails"
-        className="sm:flex flex-initial justify-center items-center gap-2.5 hidden
+        className="@md:flex hidden flex-initial justify-center items-center gap-2
           pointer-events-auto cursor-default"
       >
         {groups[group].map(publicId => {
