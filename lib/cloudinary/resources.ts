@@ -57,13 +57,13 @@ async function getResources(group: string): Promise<ResourceCommon[]> {
   return response.resources.map(apiToInternal)
 }
 
-export async function getHeroImages(): Promise<
-  Readonly<Ordered<ImageResource>>[]
-> {
-  const images = (
-    await getResources(`${process.env.CLOUDINARY_HERO_FOLDER}`)
-  ).filter(isImageResource)
-
+export const getImages = cache(async function getImages(
+  group: string,
+): Promise<Ordered<ImageResource>[]> {
+  if (!group || group.trim() === "") {
+    return []
+  }
+  const images = (await getResources(group)).filter(isImageResource)
   const placeholderUrls = await Promise.all(
     images.map(({ publicId }) =>
       encodeB64ImageUrl(
@@ -74,18 +74,15 @@ export async function getHeroImages(): Promise<
       ),
     ),
   )
-
   return images.map((image, index) => ({
     ...image,
     placeholderUrl: placeholderUrls[index],
     resourceType: "image" as const,
     index,
   }))
-}
+})
 
-export async function getImage(
-  publicId: string,
-): Promise<Readonly<ImageResource>> {
+export async function getImage(publicId: string): Promise<ImageResource> {
   const imagePromise: Promise<ApiResource> = client.api.resource(publicId, {
     context: true,
     resource_type: "image",
@@ -124,19 +121,22 @@ function isImageResource(resource: ResourceCommon): resource is ImageResource {
 }
 
 function apiToInternal(resource: ApiResource): ResourceCommon {
+  const key = [resource.asset_folder, resource.asset_id ?? resource.public_id]
+    .filter(c => c.trim().length > 0)
+    .join(":")
   return {
-    key: resource.asset_id ?? resource.public_id,
+    key,
     publicId: resource.public_id,
     assetId: resource.asset_id,
     secureUrl: resource.secure_url,
     resourceType: resource.resource_type,
     createdAt: resource.created_at,
+    context: resource.context,
     group: resource.asset_folder,
     format: resource.format,
     width: resource.width,
     height: resource.height,
     aspectRatio: aspectRatio(resource),
-    context: resource.context,
     version: resource.version,
   }
 }
