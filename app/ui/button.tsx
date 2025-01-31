@@ -8,9 +8,9 @@ export const pressedVariant = "pressed" as const
 
 export const defaultTransition = {
   type: "spring",
-  duration: 0.1,
-  bounce: 0.45,
-  damping: 7,
+  bounce: 0.38,
+  damping: 5,
+  duration: 0.28,
   mass: 0.5,
 } as const
 
@@ -20,18 +20,19 @@ export const animationVariants = {
     opacity: 0.8,
   } as const,
   [selectedVariant]: {
-    scale: 1.04,
+    transition: { duration: 0.1 },
+    scale: 1,
     opacity: 1,
   } as const,
   [hoverVariant]: {
-    // transition: { type: "spring" },
-    scale: 1.08,
+    transition: { type: "spring", duration: 0.1 },
+    scale: 1.06,
     opacity: 1,
   } as const,
   [pressedVariant]: {
-    // transition: { duration: 0.14, type: "spring" },
-    scale: 0.86,
-    opacity: 0.62,
+    transition: { duration: 0.06 },
+    scale: 0.88,
+    opacity: 0.61,
   } as const,
 }
 

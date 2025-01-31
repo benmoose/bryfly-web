@@ -250,17 +250,18 @@ const ThumbnailButton = memo(function ThumbnailButton({
           handler()
         }
       }}
-      className={`relative flex items-center opacity-100 box-border size-16 flex-none rounded-lg
-        text-base text-white brightness-80 border-2 border-transparent overflow-hidden
-        transition-all duration-75 pointer-events-auto outline outline-offset-2
-        outline-transparent shadow-sm shadow-stone-950/20 cursor-pointer
-        hover:brightness-110 hover:border-stone-100/80 hover:opacity-100
-        hover:rounded-md hover:shadow-md
-        focus:brightness-110 focus:border-stone-100/80 focus:opacity-100
-        focus:outline-transparent focus:rounded-md focus:shadow-md
-        disabled:text-slate-600 disabled:cursor-default
+      className={`relative flex items-center opacity-100 box-border size-16 flex-none rounded-2xl
+        text-base text-white brightness-85 grayscale-15 border-2 border-transparent overflow-hidden
+        transition-all duration-75 pointer-events-auto outline-3 -outline-offset-2
+        outline-slate-700/25 shadow-sm shadow-stone-950/20 cursor-pointer
+        hover:brightness-110 hover:border-white/80 hover:opacity-100 hover:grayscale-0
+        hover:rounded-md hover:shadow-md hover:border-2 hover:outline-transparent
+        focus:brightness-110 focus:border-2 focus:border-white/80 focus:grayscale-0
+        focus:opacity-100 focus:outline-transparent focus:rounded-md focus:shadow-md
+        disabled:text-slate-600 disabled:cursor-default disabled:grayscale-100
         aria-selected:border-3 aria-selected:border-white aria-selected:brightness-115
-        aria-selected:outline-stone-300/90 aria-selected:shadow-md
+        aria-selected:outline-blue-400/95 aria-selected:shadow-md aria-selected:grayscale-0
+        aria-selected:outline aria-selected:outline-offset-2
         aria-selected:cursor-default aria-selected:animate-bulge aria-selected:rounded-sm`}
       tabIndex={interactive ? 0 : -1}
     >

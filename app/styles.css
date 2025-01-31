@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --animate-bulge: bulge 2s ease-in-out infinite;
+  --animate-bulge: bulge 1400ms ease-in-out infinite;
 
   @keyframes bulge {
     0%,
