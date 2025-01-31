@@ -1,20 +1,24 @@
-.PHONY: format-code
-format-code: format lint
+.PHONY: format
+format: prettier lint
 
 .PHONY: build
-build: check-node-version
+build: install
 	@pnpm run build
 
 .PHONY: clean
 clean: check-node-version
-	@pnpm prune
+	@rm -r node_modules/ .next
 
 .PHONY: dev
 dev: check-node-version
 	@pnpm run dev
 
-.PHONY: format
-format: check-node-version
+.PHONY: install
+install: check-node-version
+	@pnpm install --fix-lockfile
+
+.PHONY: prettier
+prettier: check-node-version
 	@pnpm run --silent format --cache --log-level warn --write
 
 .PHONY: lint

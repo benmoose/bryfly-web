@@ -1,30 +1,17 @@
-# Next.js & Cloudinary example app
+# BryFly Web
 
-This example shows how to create an image gallery site using Next.js, [Cloudinary](https://cloudinary.com), and [Tailwind](https://tailwindcss.com).
+Welcome to the Next app powering Bryony's portfolio website!
 
-## Deploy your own
+## Local Development Quickstart
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or view the demo [here](https://nextconf-images.vercel.app/)
+The only dependency you need to run locally is Node v20.x. `pnpm` is preferred as a package manager.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-cloudinary&project-name=nextjs-image-gallery&repository-name=with-cloudinary&env=NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,CLOUDINARY_API_KEY,CLOUDINARY_API_SECRET,CLOUDINARY_FOLDER&envDescription=API%20Keys%20from%20Cloudinary%20needed%20to%20run%20this%20application.)
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example::
-
-```bash
- npx create-next-app --example with-cloudinary nextjs-image-gallery
-```
-
-```bash
-yarn create next-app --example with-cloudinary nextjs-image-gallery
-```
-
-```bash
-pnpm create next-app --example with-cloudinary nextjs-image-gallery
-```
+Run:
+- `make install` to install dependencies
+- `make build` to build and output a production-ready version
+- `make` / `make format` to reformat and lint application code
+- `make dev` to launch a local development server
+- `make clean` to remove build directories and project dependencies
 
 ## References
 
