@@ -1,5 +1,17 @@
-.PHONY: format-app-code
+.PHONY: format-code
 format-code: format lint
+
+.PHONY: build
+build: check-node-version
+	@pnpm run build
+
+.PHONY: clean
+clean: check-node-version
+	@pnpm prune
+
+.PHONY: dev
+dev: check-node-version
+	@pnpm run dev
 
 .PHONY: format
 format: check-node-version
@@ -8,14 +20,6 @@ format: check-node-version
 .PHONY: lint
 lint: check-node-version
 	@pnpm run --silent lint --fix
-
-.PHONY: dev
-dev: check-node-version
-	@pnpm run dev
-
-.PHONY: clean
-clean: check-node-version
-	@pnpm prune
 
 .PHONY: check-node-version
 check-node-version: enable-corepack
