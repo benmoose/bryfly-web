@@ -1,13 +1,11 @@
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import { cache, type ReactNode } from "react"
+import { type ReactNode } from "react"
 import type { Metadata, Viewport } from "next"
-import { getHeroImages } from "lib/cloudinary"
+import { getImages } from "lib/cloudinary"
 import ImagesProvider from "app/image-provider"
 
 import "./styles.css"
-
-const getImages = cache(getHeroImages)
 
 export const metadata: Metadata = {
   title: "BryFly",
@@ -34,11 +32,18 @@ export default async function RootLayout({
   children: ReactNode
   modal: ReactNode
 }) {
-  const hero = await getImages()
+  const [hero, earworm] = await Promise.all([
+    getImages("hero"),
+    getImages("earworm"),
+  ])
+  const groups = {
+    hero: hero,
+    earworm: earworm,
+  }
   return (
     <html lang="en">
       <body className="bg-black antialiased">
-        <ImagesProvider groups={{ hero }}>
+        <ImagesProvider groups={groups}>
           {children}
           {modal}
         </ImagesProvider>

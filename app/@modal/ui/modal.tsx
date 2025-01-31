@@ -1,6 +1,11 @@
 "use client"
 
-import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react"
+import {
+  Dialog,
+  DialogBackdrop,
+  DialogPanel,
+  DialogTitle,
+} from "@headlessui/react"
 import {
   ArrowRightIcon,
   ArrowLeftIcon,
@@ -25,7 +30,6 @@ import {
   useCallback,
   useEffect,
   useState,
-  Suspense,
   type ReactNode,
 } from "react"
 import { useSwipeable } from "react-swipeable"
@@ -36,25 +40,19 @@ const enum Direction {
   NEXT = "next",
 }
 
-export default memo(function Modal({
-  children,
-  group,
-}: {
-  children: ReactNode
-  group: string
-}) {
-  const router = useRouter()
+export default memo(function Modal({ children }: { children: ReactNode }) {
   const publicId = useSelectedLayoutSegment()
   const { groups, repo } = use(ImagesContext)
+  const { group, index } = repo[publicId!]
 
-  const ids = groups[group]
-  const [index, setIndex] = useState<number>(ids.indexOf(publicId!))
+  const [activeIndex, setActiveIndex] = useState<number>(index)
   const [, setDirection] = useState<Direction>()
+  const router = useRouter()
 
   useEffect(() => {
-    const targetImage = repo[ids[index]]
+    const targetImage = repo[groups[group][activeIndex]]
     router.push(`/gallery/${targetImage.publicId}`, { scroll: false })
-  }, [repo, ids, index, router])
+  }, [repo, groups, group, router, activeIndex])
 
   const closeModal = useCallback(
     function closeModal() {
@@ -65,16 +63,18 @@ export default memo(function Modal({
 
   const toGroupIndex = useCallback(
     function toGroupIndex(targetIndex: number) {
-      return targetIndex < 0 ? ids.length - 1 : targetIndex % ids.length
+      return targetIndex < 0
+        ? groups[group].length - 1
+        : targetIndex % groups[group].length
     },
-    [ids],
+    [groups, group],
   )
 
   const createNavigationHandler = useCallback(
     (targetIndex: number) => {
       const newIndex = toGroupIndex(targetIndex)
       return () => {
-        setIndex(prevIndex => {
+        setActiveIndex(prevIndex => {
           setDirection(newIndex > prevIndex ? Direction.NEXT : Direction.PREV)
           return newIndex
         })
@@ -84,43 +84,37 @@ export default memo(function Modal({
   )
 
   const handleSwipes = useSwipeable({
-    onSwipedRight: createNavigationHandler((index + 1) % groups[group].length),
-    onSwipedLeft: createNavigationHandler(
-      (index + groups[group].length - 1) % groups[group].length,
-    ),
+    onSwipedLeft: createNavigationHandler(activeIndex - 1),
+    onSwipedRight: createNavigationHandler(activeIndex + 1),
     onSwipedDown: closeModal,
   })
 
+  useEffect(() => {
+    function keyboardHandler(e: KeyboardEvent) {
+      switch (e.key) {
+        case "ArrowLeft": {
+          return createNavigationHandler(activeIndex - 1)()
+        }
+        case "ArrowRight": {
+          return createNavigationHandler(activeIndex + 1)()
+        }
+      }
+    }
+    window.addEventListener("keydown", keyboardHandler, true)
+    return () => {
+      window.removeEventListener("keydown", keyboardHandler, true)
+    }
+  }, [createNavigationHandler, activeIndex])
+
   const CloseButton = memo(function CloseButton() {
     return (
-      <div key="modal-close" className="absolute top-0 z-50 self-end m-2">
+      <div key="modal-close" className="absolute top-0 z-50 self-end mt-2">
         <IconButton action={closeModal}>
           <XMarkIcon className="size-7" />
         </IconButton>
       </div>
     )
   })
-
-  useEffect(() => {
-    const prev = createNavigationHandler(index - 1)
-    const next = createNavigationHandler(index + 1)
-
-    function keyboardHandler(e: KeyboardEvent) {
-      switch (e.key) {
-        case "ArrowLeft": {
-          return prev()
-        }
-        case "ArrowRight": {
-          return next()
-        }
-      }
-    }
-
-    window.addEventListener("keydown", keyboardHandler, true)
-    return () => {
-      window.removeEventListener("keydown", keyboardHandler, true)
-    }
-  }, [createNavigationHandler, index])
 
   return (
     <Dialog
@@ -133,36 +127,32 @@ export default memo(function Modal({
     >
       <DialogBackdrop
         key="modal-backdrop"
-        className="fixed inset-0 backdrop-brightness-40 backdrop-blur-md backdrop-saturate-70
+        className="fixed inset-0 backdrop-brightness-30 backdrop-blur-md backdrop-saturate-50
         z-10 pointer-events-none"
       />
 
       <div className="fixed inset-0 p-4 md:p-8 flex justify-center items-center z-20 cursor-zoom-out">
         <DialogPanel
           key="modal-panel"
-          className="@container relative pb-16 flex flex-col justify-between w-full max-w-screen-lg
+          className="@container relative pb-16 flex flex-col justify-start w-full max-w-screen-lg
           h-[92dvh] mx-auto pointer-events-none"
         >
+          <DialogTitle className="font-bold absolute top-0 left-0 z-10">
+            {group}
+          </DialogTitle>
           <CloseButton />
-          <Suspense
-            key={publicId}
-            fallback={
-              <div className="bg-emerald-400 padding-4 text-lg">Loading...</div>
-            }
-          >
-            <div className="flex flex-col items-center justify-center flex-initial max-h-full pb-4">
-              <div
-                {...handleSwipes}
-                className="relative flex justify-center w-fit max-h-full pointer-events-auto cursor-default"
-              >
-                {children}
-              </div>
+          <div className="flex flex-col items-center justify-center flex-initial max-h-full pb-4">
+            <div
+              {...handleSwipes}
+              className="relative flex justify-center w-fit max-h-full pointer-events-auto cursor-default"
+            >
+              {children}
             </div>
-          </Suspense>
+          </div>
           <ModalNavigation
-            key="modal-navigation"
-            index={index}
+            key={`modal-navigation/${group}`}
             group={group}
+            index={activeIndex}
             createHandler={createNavigationHandler}
           />
         </DialogPanel>

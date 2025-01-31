@@ -11,7 +11,7 @@ export const defaultTransition = {
   duration: 0.1,
   bounce: 0.45,
   damping: 7,
-  weight: 0.5,
+  mass: 0.5,
 } as const
 
 export const animationVariants = {

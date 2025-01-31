@@ -38,7 +38,7 @@ function BryFlyCard() {
         </a>
         <a
           className="border border-white bg-cyan-100 px-5 py-2 rounded
-            font-bold text-slate-900 hover:border-cyan-200 hover:bg-pink-50"
+          font-bold text-slate-900 hover:border-cyan-200 hover:bg-pink-50"
           href="https://github.com/benmoose/bryfly-web"
         >
           Contact me!
@@ -51,9 +51,13 @@ function BryFlyCard() {
 export default function Page() {
   return (
     <main className="mx-auto max-w-[1960px] p-4 w-full">
-      <div className="gap-4 columns-1 sm:columns-2 xl:columns-3 2xl:columns-4">
+      <div className="gap-4 columns-1 sm:columns-2 lg:columns-3 2xl:columns-4 mb-8">
         <BryFlyCard />
         <ImageGrid group="hero" />
+      </div>
+      <div className="gap-4 columns-1 sm:columns-2 lg:columns-3 2xl:columns-4 mb-8">
+        <h1 className="text-xl font-bold">Earworm 2024</h1>
+        <ImageGrid group="earworm" />
       </div>
     </main>
   )
