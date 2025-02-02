@@ -21,7 +21,9 @@ jobs:
           check-latest: true
           cache: "pnpm"
       - run: pnpm install --frozen-lockfile
-      - name: Check code format
-        run: pnpm exec prettier . --ignore-unknown --check
-      - name: Run linter
-        run: pnpm run lint
+      - name: Dependency security audit
+        run: pnpm audit --audit-level moderate --ignore-registry-errors --prod
+      - name: Check code formatting
+        run: |
+          pnpm exec prettier . --ignore-unknown --check
+          pnpm run lint --no-cache

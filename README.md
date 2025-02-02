@@ -6,13 +6,14 @@ Welcome to the Next app powering Bryony's portfolio website!
 
 The only dependency you need to run locally is Node v20.x. `pnpm` is preferred as a package manager.
 
-Run:
+Useful commands:
 
-- `make install` to install dependencies
-- `make` / `make format` to reformat and lint application code
-- `make dev` to launch a local development server
-- `make build` to build and output a production-ready version
-- `make clean` to remove build directories and project dependencies
+- `make` / `make format-all` reformats application code and applies linter fixes.
+- `make install` installs the project's dependencies.
+- `make dev` launches a local development server.
+- `make start` starts Next.js in production mode.
+- `make build` generates a production build of the project.
+- `make clean` removes build artifacts and project dependencies.
 
 ## References
 

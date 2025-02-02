@@ -1,5 +1,13 @@
-.PHONY: format
-format: prettier lint
+.PHONY: format-all
+format-all: install prettier lint
+
+.PHONY: dev
+dev: install
+	@pnpm run dev
+
+.PHONY: start
+start: build
+	@pnpm start
 
 .PHONY: build
 build: install
@@ -7,15 +15,11 @@ build: install
 
 .PHONY: clean
 clean: check-node-version
-	@rm -r node_modules/ .next
-
-.PHONY: dev
-dev: check-node-version
-	@pnpm run dev
+	-rm -r node_modules/ .next
 
 .PHONY: install
 install: check-node-version
-	@pnpm install --fix-lockfile
+	@pnpm install --fix-lockfile --silent
 
 .PHONY: prettier
 prettier: check-node-version
@@ -24,12 +28,12 @@ prettier: check-node-version
 
 .PHONY: lint
 lint: check-node-version
-	@pnpm run --silent lint --fix
+	@pnpm run lint --error-on-unmatched-pattern --fix --quiet
 
 .PHONY: check-node-version
-check-node-version: enable-corepack
+check-node-version: corepack
 	@pnpx check-node-version --package
 
-.PHONY: enable-corepack
-enable-corepack:
-	@corepack enable
+.PHONY: corepack
+corepack:
+	@corepack enable pnpm
