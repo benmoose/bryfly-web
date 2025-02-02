@@ -13,8 +13,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "format": "prettier . --ignore-unknown"
+    "lint": "next lint"
   },
   "dependencies": {
     "@cloudinary/url-gen": "^1.21.0",

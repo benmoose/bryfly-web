@@ -19,7 +19,8 @@ install: check-node-version
 
 .PHONY: prettier
 prettier: check-node-version
-	@pnpm run --silent format --cache --log-level warn --write
+	@pnpm --stream exec \
+		prettier . --cache --ignore-unknown --log-level warn --write
 
 .PHONY: lint
 lint: check-node-version

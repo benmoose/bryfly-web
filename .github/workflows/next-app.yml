@@ -22,6 +22,6 @@ jobs:
           cache: "pnpm"
       - run: pnpm install --frozen-lockfile
       - name: Check code format
-        run: pnpm run format --list-different
+        run: pnpm exec prettier . --ignore-unknown --check
       - name: Run linter
         run: pnpm run lint

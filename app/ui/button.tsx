@@ -67,7 +67,7 @@ export function IconButton({
       whileTap={disabled ? notSelectedVariant : pressedVariant}
       transition={defaultTransition}
       className={`relative flex items-center p-2 rounded-full group
-        box-border outline-2 outline-transparent outline-offset-1 text-base
+       box-border outline-2 outline-transparent outline-offset-1 text-base
         transition duration-50 pointer-events-auto backdrop-blur-xs cursor-pointer
         bg-slate-600/15 text-slate-100/65
         hover:bg-slate-300/40 hover:text-white hover:opacity-100 hover:backdrop-blur-sm
