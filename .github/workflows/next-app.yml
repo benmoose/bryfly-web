@@ -21,6 +21,7 @@ jobs:
           check-latest: true
           cache: "pnpm"
       - run: pnpm install --frozen-lockfile
+      - run: ./scripts/update-node.sh
       - name: Dependency security audit
         run: pnpm audit --audit-level moderate --ignore-registry-errors --prod
       - name: Check code formatting

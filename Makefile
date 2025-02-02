@@ -15,7 +15,7 @@ build: install
 
 .PHONY: clean
 clean: check-node-version
-	-rm -r node_modules/ .next
+	-rm -rf node_modules .next
 
 .PHONY: install
 install: check-node-version
@@ -32,6 +32,7 @@ lint: check-node-version
 
 .PHONY: check-node-version
 check-node-version: corepack
+	@./scripts/update-node.sh -w
 	@pnpx check-node-version --package
 
 .PHONY: corepack

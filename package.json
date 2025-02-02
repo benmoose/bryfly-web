@@ -10,10 +10,10 @@
     "url": "git+https://github.com/benmoose/bryfly-web.git"
   },
   "scripts": {
-    "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "next dev --turbopack",
+    "lint": "next lint",
+    "start": "next start"
   },
   "dependencies": {
     "@cloudinary/url-gen": "^1.21.0",
