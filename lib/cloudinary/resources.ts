@@ -29,6 +29,7 @@ interface ResourceCommon {
   createdAt: string
   version: number
   context?: object
+  displayName?: string
   tags?: string[]
 }
 
@@ -50,9 +51,12 @@ async function getResources(group: string): Promise<ResourceCommon[]> {
   const response = await client.api.resources_by_asset_folder(group, {
     context: true,
     image_metadata: true,
+
     direction: "desc",
     max_results: 250,
   })
+
+  console.dir(response.resources[0])
 
   return response.resources.map(apiToInternal)
 }
@@ -138,6 +142,7 @@ function apiToInternal(resource: ApiResource): ResourceCommon {
     height: resource.height,
     aspectRatio: aspectRatio(resource),
     version: resource.version,
+    displayName: resource.display_name,
   }
 }
 

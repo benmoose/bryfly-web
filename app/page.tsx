@@ -51,14 +51,10 @@ function BryFlyCard() {
 export default function Page() {
   return (
     <main className="mx-auto max-w-[1960px] p-4 w-full">
-      <div className="gap-4 columns-1 sm:columns-2 lg:columns-3 2xl:columns-4 mb-8">
+      <ImageGrid showTitle={false} group="hero">
         <BryFlyCard />
-        <ImageGrid group="hero" />
-      </div>
-      <div className="gap-4 columns-1 sm:columns-2 lg:columns-3 2xl:columns-4 mb-8">
-        <h1 className="text-xl font-bold">Earworm 2024</h1>
-        <ImageGrid group="earworm" />
-      </div>
+      </ImageGrid>
+      <ImageGrid group="earworm" />
     </main>
   )
 }

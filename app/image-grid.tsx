@@ -1,6 +1,6 @@
 "use client"
 
-import { useContext } from "react"
+import { type ReactNode, useContext } from "react"
 import Link from "next/link"
 import { ImagesContext } from "app/context"
 import { CdnImage } from "app/ui/cdn-image"
@@ -8,7 +8,15 @@ import { motion } from "motion/react"
 
 const MotionLink = motion.create(Link)
 
-export default function ImageGrid({ group }: { group: string }) {
+export default function ImageGrid({
+  children,
+  group,
+  showTitle = true,
+}: {
+  children?: ReactNode
+  group: string
+  showTitle?: boolean
+}) {
   const { repo, groups } = useContext(ImagesContext)
   const groupImages = groups[group]
 
@@ -16,7 +24,7 @@ export default function ImageGrid({ group }: { group: string }) {
     return null
   }
 
-  return groupImages
+  const grid = groupImages
     .map(publicId => repo[publicId])
     .map(image => (
       <MotionLink
@@ -56,4 +64,16 @@ export default function ImageGrid({ group }: { group: string }) {
         />
       </MotionLink>
     ))
+
+  return (
+    <>
+      {showTitle && (
+        <h1 className="text-4xl font-bold tracking-wide mb-2">{group}</h1>
+      )}
+      <div className="gap-4 columns-1 sm:columns-2 lg:columns-3 2xl:columns-4 mb-8">
+        {children}
+        {grid}
+      </div>
+    </>
+  )
 }

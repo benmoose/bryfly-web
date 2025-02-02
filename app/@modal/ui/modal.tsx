@@ -1,11 +1,6 @@
 "use client"
 
-import {
-  Dialog,
-  DialogBackdrop,
-  DialogPanel,
-  DialogTitle,
-} from "@headlessui/react"
+import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react"
 import {
   ArrowRightIcon,
   ArrowLeftIcon,
@@ -108,8 +103,8 @@ export default memo(function Modal({ children }: { children: ReactNode }) {
 
   const CloseButton = memo(function CloseButton() {
     return (
-      <div key="modal-close" className="absolute top-0 z-50 self-end mt-2">
-        <IconButton action={closeModal}>
+      <div key="modal-close" className="absolute top-0 right-0 z-50 self-end">
+        <IconButton action={closeModal} label="Close">
           <XMarkIcon className="size-7" />
         </IconButton>
       </div>
@@ -134,17 +129,18 @@ export default memo(function Modal({ children }: { children: ReactNode }) {
       <div className="fixed inset-0 p-4 md:p-8 flex justify-center items-center z-20 cursor-zoom-out">
         <DialogPanel
           key="modal-panel"
-          className="@container relative pb-16 flex flex-col justify-start w-full max-w-screen-lg
-          h-[92dvh] mx-auto pointer-events-none"
+          className="@container w-full h-full max-h-full relative mx-auto
+            flex flex-col justify-start  pointer-events-none max-w-screen-lg pb-20 pt-2"
         >
-          <DialogTitle className="font-bold absolute top-0 left-0 z-10">
-            {group}
-          </DialogTitle>
           <CloseButton />
-          <div className="flex flex-col items-center justify-center flex-initial max-h-full pb-4">
+          <div
+            className="flex flex-col items-center justify-center flex-initial
+            max-h-full pb-4"
+          >
             <div
               {...handleSwipes}
-              className="relative flex justify-center w-fit max-h-full pointer-events-auto cursor-default"
+              className="relative flex flex-col justify-center w-fit max-h-full
+              pointer-events-auto cursor-default"
             >
               {children}
             </div>
@@ -252,7 +248,7 @@ const ThumbnailButton = memo(function ThumbnailButton({
       }}
       className={`relative flex items-center opacity-100 box-border size-16 flex-none rounded-2xl
         text-base text-white brightness-85 grayscale-15 border-2 border-transparent overflow-hidden
-        transition-all duration-75 pointer-events-auto outline-3 -outline-offset-2
+        transition-all duration-50 pointer-events-auto outline-3 -outline-offset-2
         outline-slate-700/25 shadow-sm shadow-stone-950/20 cursor-pointer
         hover:brightness-110 hover:border-white/80 hover:opacity-100 hover:grayscale-0
         hover:rounded-md hover:shadow-md hover:border-2 hover:outline-transparent
@@ -260,7 +256,7 @@ const ThumbnailButton = memo(function ThumbnailButton({
         focus:opacity-100 focus:outline-transparent focus:rounded-md focus:shadow-md
         disabled:text-slate-600 disabled:cursor-default disabled:grayscale-100
         aria-selected:border-3 aria-selected:border-white aria-selected:brightness-115
-        aria-selected:outline-blue-400/95 aria-selected:shadow-md aria-selected:grayscale-0
+        aria-selected:outline-blue-400 aria-selected:shadow-md aria-selected:grayscale-0
         aria-selected:outline aria-selected:outline-offset-2
         aria-selected:cursor-default aria-selected:animate-bulge aria-selected:rounded-sm`}
       tabIndex={interactive ? 0 : -1}
