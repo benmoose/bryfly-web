@@ -14,6 +14,7 @@ Useful commands:
 - `make install` install project dependencies.
 - `make build` generate a production build for the project.
 - `make clean` remove generated build artifacts and dependencies.
+- `make update-node` updates the project's Node version.
 
 ## References
 

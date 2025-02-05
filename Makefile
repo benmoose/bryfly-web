@@ -1,3 +1,5 @@
+PROJ_NODE = `cat .nvmrc`
+
 .PHONY: format-all
 format-all: install prettier lint
 
@@ -32,8 +34,11 @@ lint: check-node-version
 
 .PHONY: check-node-version
 check-node-version: corepack
-	@./scripts/update-node.sh -w
-	@pnpx check-node-version --package
+	@pnpx check-node-version --node $(PROJ_NODE)
+
+.PHONY: update-node
+update-node: corepack
+	@./scripts/update-node.sh --write
 
 .PHONY: corepack
 corepack:
