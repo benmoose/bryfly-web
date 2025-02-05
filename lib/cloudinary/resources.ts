@@ -55,9 +55,6 @@ async function getResources(group: string): Promise<ResourceCommon[]> {
     direction: "desc",
     max_results: 250,
   })
-
-  console.dir(response.resources[0])
-
   return response.resources.map(apiToInternal)
 }
 

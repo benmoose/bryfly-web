@@ -1,4 +1,4 @@
-PROJ_NODE = `cat .nvmrc`
+PROJ_NODE := $(shell cat .nvmrc)
 
 .PHONY: format-all
 format-all: install prettier lint
@@ -13,7 +13,7 @@ start: build
 
 .PHONY: build
 build: install
-	@pnpm run build
+	@pnpm build
 
 .PHONY: clean
 clean: check-node-version
@@ -25,8 +25,8 @@ install: check-node-version
 
 .PHONY: prettier
 prettier: check-node-version
-	@pnpm --stream exec \
-		prettier . --cache --ignore-unknown --log-level warn --write
+	@pnpm --stream exec prettier . \
+		--cache --ignore-unknown --log-level warn --write
 
 .PHONY: lint
 lint: check-node-version

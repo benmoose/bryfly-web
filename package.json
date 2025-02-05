@@ -22,7 +22,7 @@
     "@vercel/analytics": "^1.4.1",
     "@vercel/speed-insights": "^1.1.0",
     "cloudinary": "^2.5.1",
-    "motion": "^12.0.6",
+    "motion": "^12.4.0",
     "next": "^15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -30,8 +30,8 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
-    "@tailwindcss/postcss": "^4.0.3",
-    "@types/node": "^22.13.0",
+    "@tailwindcss/postcss": "^4.0.4",
+    "@types/node": "^22.13.1",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "eslint": "^9.19.0",
@@ -39,13 +39,16 @@
     "eslint-config-prettier": "^10.0.1",
     "picocolors": "^1.1.1",
     "prettier": "^3.4.2",
-    "tailwindcss": "^4.0.3",
+    "tailwindcss": "^4.0.4",
     "typescript": "^5.7.3"
+  },
+  "engines": {
+    "node": "20"
   },
   "devEngines": {
     "runtime": {
       "name": "node",
-      "version": "^20",
+      "version": "20",
       "onFail": "error"
     },
     "packageManager": {
