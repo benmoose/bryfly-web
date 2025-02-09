@@ -139,7 +139,7 @@ export default memo(function Modal({ children }: { children: ReactNode }) {
           >
             <div
               {...handleSwipes}
-              className="relative flex flex-col justify-center w-fit max-h-full
+              className="relative flex flex-col gap-1.5 justify-center w-fit max-h-full
               pointer-events-auto cursor-default"
             >
               {children}
@@ -247,16 +247,17 @@ const ThumbnailButton = memo(function ThumbnailButton({
         }
       }}
       className={`relative flex items-center opacity-100 box-border size-16 flex-none rounded-2xl
-        text-base text-white brightness-85 grayscale-15 border-2 border-transparent overflow-hidden
-        transition-all duration-50 pointer-events-auto outline-3 -outline-offset-2
-        outline-slate-700/25 shadow-sm shadow-stone-950/20 cursor-pointer
-        hover:brightness-110 hover:border-white/80 hover:opacity-100 hover:grayscale-0
-        hover:rounded-md hover:shadow-md hover:border-2 hover:outline-transparent
-        focus:brightness-110 focus:border-2 focus:border-white/80 focus:grayscale-0
-        focus:opacity-100 focus:outline-transparent focus:rounded-md focus:shadow-md
+        text-base text-white brightness-85 grayscale-15 overflow-hidden
+        transition-all duration-50 pointer-events-auto cursor-pointer
+        shadow-sm shadow-stone-950/20
+        border-2 border-slate-200/6 outline -outline-offset-3 outline-slate-200/10
+        hover:brightness-110 hover:border-slate-50/85 hover:opacity-100 hover:grayscale-0
+        hover:rounded-md hover:shadow-md hover:border-2 
+        focus:brightness-110 focus:border-2 focus:border-slate-50/85 focus:grayscale-0
+        focus:opacity-100 focus:rounded-md focus:shadow-md
         disabled:text-slate-600 disabled:cursor-default disabled:grayscale-100
         aria-selected:border-3 aria-selected:border-white aria-selected:brightness-115
-        aria-selected:outline-blue-400 aria-selected:shadow-md aria-selected:grayscale-0
+        aria-selected:outline-blue-500/90 aria-selected:shadow-md aria-selected:grayscale-0
         aria-selected:outline aria-selected:outline-offset-2
         aria-selected:cursor-default aria-selected:animate-bulge aria-selected:rounded-sm`}
       tabIndex={interactive ? 0 : -1}

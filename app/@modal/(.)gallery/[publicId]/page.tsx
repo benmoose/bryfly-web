@@ -21,17 +21,23 @@ export default function Page() {
     <>
       <CdnImage
         priority
+        loading="eager"
         key={image.key}
         image={image}
         className="w-fit max-h-full rounded-xl shadow-2xl shadow-black/35
-          border-2 border-slate-200/5 box-content basis-2"
+          border-2 border-slate-200/5 box-content basis-2 self-center"
         sizes="(max-width: 1280px) 100vw, 1280px"
       />
-      {image.displayName && (
-        <DialogTitle className="flex-initial basis-1 w-full text-center font-semibold tracking-wide opacity-90">
-          {image.displayName}
-        </DialogTitle>
-      )}
+      <div>
+        {image.displayName && (
+          <DialogTitle
+            className="flex-initial basis-1 w-full
+            text-center font-semibold text-base text-slate-50 tracking-wide"
+          >
+            {image.displayName}
+          </DialogTitle>
+        )}
+      </div>
     </>
   )
 }

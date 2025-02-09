@@ -11,7 +11,7 @@ function BryFlyCard() {
         fter:absolute after:inset-0 after:rounded-lg after:shadow-highlight lg:pt-0"
     >
       <Image
-        priority
+        loading="eager"
         src={BryFlyLogo}
         alt="BryFly logo."
         sizes="(max-width: 640px) 100vw,
