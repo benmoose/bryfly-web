@@ -24,7 +24,7 @@ export default async function Page({ params }: { params: Promise<Params> }) {
           priority
           image={image}
           className="max-h-full object-contain"
-          sizes="(max-width: 1536px) 100vw, 1536px"
+          sizes="(max-width: 1280px) 100vw, 1280px"
         />
       </div>
     </main>

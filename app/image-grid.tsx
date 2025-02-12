@@ -18,14 +18,13 @@ export default function ImageGrid({
   showTitle?: boolean
 }) {
   const { repo, groups } = useContext(ImagesContext)
-  const groupImages = groups[group]
 
-  if (!groupImages) {
+  if (!groups[group]) {
     return null
   }
 
-  const grid = groupImages
-    .map(publicId => repo[publicId])
+  const grid = groups[group]
+    .map(id => repo[id])
     .map(image => (
       <MotionLink
         key={image.key}
@@ -46,7 +45,7 @@ export default function ImageGrid({
           damping: 5,
         }}
         href={`/gallery/${image.publicId}`}
-        className="after:content group relative mb-5 block w-full cursor-zoom-in
+        className="after:content group relative block w-full cursor-zoom-in
           after:pointer-events-none after:absolute after:inset-0 rounded-lg overflow-x-hidden
           transition-[outline] outline-2 outline-offset-4 outline-transparent
           focus:outline-slate-100"
@@ -55,25 +54,24 @@ export default function ImageGrid({
           image={image}
           className="transition transform brightness-90 will-change-auto
                   group-hover:brightness-115 group-focus:brightness-115"
-          sizes="(max-width: 640px) 100vw,
-                  (max-width: 1280px) 50vw,
-                  (max-width: 1536px) 33vw,
-                  (max-width: 1960px) 25vw,
-                  490px"
+          sizes="(max-width: 448px) 100vw,
+                  (max-width: 672px) 50vw,
+                  (max-width: 1024px) 33vw,
+                  (max-width: 1920px) 25vw,
+                  480px"
           alt={`Photo ${image.key}`}
         />
       </MotionLink>
     ))
-
   return (
-    <>
+    <div className="@container">
       {showTitle && (
         <h1 className="text-4xl font-bold tracking-wide mb-2">{group}</h1>
       )}
-      <div className="gap-4 columns-1 sm:columns-2 lg:columns-3 2xl:columns-4 mb-8">
+      <div className="columns-1 @md:columns-2 @2xl:columns-3 @5xl:columns-4 gap-3 mb-8 *:mb-3">
         {children}
         {grid}
       </div>
-    </>
+    </div>
   )
 }

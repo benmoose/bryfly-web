@@ -11,10 +11,6 @@ import getClient from "./client"
 
 type DataUrl = `data:image/${string}`
 
-type ApiResource = ResourceApiResponse["resources"][number] & {
-  asset_id?: string
-}
-
 interface ResourceCommon {
   key: string
   assetId?: string
@@ -46,13 +42,31 @@ export interface ImageResource extends Resource<"image"> {
 
 const client = getClient()
 
+export async function getGroupNames(): Promise<string[]> {
+  const rootFolders = await getRootFolders()
+  return rootFolders
+    .map(folder => folder.name)
+    .filter(name => name.match(/^[A-Z].*/) !== null)
+}
+
+type RootFolder = {
+  name: string
+  path: string
+  external_id: string
+}
+
+async function getRootFolders(): Promise<RootFolder[]> {
+  type RootFoldersResponse = { folders: RootFolder[]; total_count: number }
+  const response: RootFoldersResponse = await client.api.root_folders()
+  return response.folders
+}
+
 async function getResources(group: string): Promise<ResourceCommon[]> {
   // TODO: implement pagination
   const response = await client.api.resources_by_asset_folder(group, {
     context: true,
-    image_metadata: true,
-
     direction: "desc",
+    image_metadata: true,
     max_results: 250,
   })
   return response.resources.map(apiToInternal)
@@ -82,6 +96,10 @@ export const getImages = cache(async function getImages(
     index,
   }))
 })
+
+type ApiResource = ResourceApiResponse["resources"][number] & {
+  asset_id?: string
+}
 
 export async function getImage(publicId: string): Promise<ImageResource> {
   const imagePromise: Promise<ApiResource> = client.api.resource(publicId, {

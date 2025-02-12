@@ -62,7 +62,6 @@ export function CdnThumbnail({ image, alt, className, ...props }: Props) {
       placeholder={image.placeholderUrl}
       className={`object-cover ${className ?? ""}`}
       alt={alt ?? ""}
-      sizes="64px"
     />
   )
 }

@@ -130,7 +130,7 @@ export default memo(function Modal({ children }: { children: ReactNode }) {
         <DialogPanel
           key="modal-panel"
           className="@container w-full h-full max-h-full relative mx-auto
-            flex flex-col justify-start  pointer-events-none max-w-screen-lg pb-20 pt-2"
+          flex flex-col justify-start pointer-events-none max-w-screen-xl pb-20 pt-2"
         >
           <CloseButton />
           <div
@@ -184,13 +184,13 @@ const ModalNavigation = memo(function ModalNavigation({
   return (
     <div
       className="absolute w-full bottom-0 h-16 flex justify-between items-center
-        z-50 gap-4"
+      z-50 gap-4"
     >
       <PrevButton />
       <div
         key="modal-thumbnails"
         className="@md:flex hidden flex-initial justify-center items-center gap-2
-          pointer-events-auto cursor-default"
+        pointer-events-auto cursor-default"
       >
         {groups[group].map(publicId => {
           const image = repo[publicId]
@@ -247,19 +247,19 @@ const ThumbnailButton = memo(function ThumbnailButton({
         }
       }}
       className={`relative flex items-center opacity-100 box-border size-16 flex-none rounded-2xl
-        text-base text-white brightness-85 grayscale-15 overflow-hidden
-        transition-all duration-50 pointer-events-auto cursor-pointer
-        shadow-sm shadow-stone-950/20
-        border-2 border-slate-200/6 outline -outline-offset-3 outline-slate-200/10
-        hover:brightness-110 hover:border-slate-50/85 hover:opacity-100 hover:grayscale-0
-        hover:rounded-md hover:shadow-md hover:border-2 
-        focus:brightness-110 focus:border-2 focus:border-slate-50/85 focus:grayscale-0
-        focus:opacity-100 focus:rounded-md focus:shadow-md
-        disabled:text-slate-600 disabled:cursor-default disabled:grayscale-100
-        aria-selected:border-3 aria-selected:border-white aria-selected:brightness-115
-        aria-selected:outline-blue-500/90 aria-selected:shadow-md aria-selected:grayscale-0
-        aria-selected:outline aria-selected:outline-offset-2
-        aria-selected:cursor-default aria-selected:animate-bulge aria-selected:rounded-sm`}
+      text-base text-white brightness-85 grayscale-15 overflow-hidden
+      transition-all duration-50 pointer-events-auto cursor-pointer
+      shadow-sm shadow-stone-950/20
+      border-2 border-slate-200/6 outline -outline-offset-3 outline-slate-200/10
+      hover:brightness-110 hover:border-slate-50/85 hover:opacity-100 hover:grayscale-0
+      hover:rounded-md hover:shadow-md hover:border-2 
+      focus:brightness-110 focus:border-2 focus:border-slate-50/85 focus:grayscale-0
+      focus:opacity-100 focus:rounded-md focus:shadow-md
+      disabled:text-slate-600 disabled:cursor-default disabled:grayscale-100
+      aria-selected:border-3 aria-selected:border-white aria-selected:brightness-115
+      aria-selected:outline-blue-500/90 aria-selected:shadow-md aria-selected:grayscale-0
+      aria-selected:outline aria-selected:outline-offset-2
+      aria-selected:cursor-default aria-selected:animate-bulge aria-selected:rounded-sm`}
       tabIndex={interactive ? 0 : -1}
     >
       <CdnThumbnail loading="eager" image={image} />
