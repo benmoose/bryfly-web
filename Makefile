@@ -1,7 +1,7 @@
 PROJ_NODE := $(shell cat .nvmrc)
 
 .PHONY: format-all
-format-all: install prettier lint
+format-all: install check-dependencies prettier lint
 
 .PHONY: dev
 dev: install
