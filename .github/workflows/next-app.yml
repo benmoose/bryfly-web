@@ -22,9 +22,13 @@ jobs:
           cache: "pnpm"
       - run: pnpm install --frozen-lockfile
       - run: ./scripts/update-node.sh
-      - name: Dependency security audit
-        run: pnpm audit --audit-level moderate --ignore-registry-errors --prod
-      - name: Check code formatting
+      - name: Check code format
         run: |
-          pnpm exec prettier . --ignore-unknown --check
-          pnpm run lint --no-cache
+          pnpm --aggregate-output exec prettier . \
+            --ignore-unknown --check
+          pnpm --aggregate-output run lint . \
+            --no-cache
+      - name: Check project dependencies
+        run: |
+          pnpm audit --audit-level moderate --ignore-registry-errors --prod
+          pnpm --aggregate-output dedupe --check

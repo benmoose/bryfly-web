@@ -12,7 +12,7 @@ start: build
 	@pnpm start
 
 .PHONY: build
-build: install
+build: install check-dependencies
 	@pnpm build
 
 .PHONY: clean
@@ -26,11 +26,17 @@ install: check-node-version
 .PHONY: prettier
 prettier: check-node-version
 	@pnpm --stream exec prettier . \
-		--cache --ignore-unknown --log-level warn --write
+		--cache --ignore-unknown --log-level warn --no-editorconfig --write
 
 .PHONY: lint
 lint: check-node-version
-	@pnpm run lint --error-on-unmatched-pattern --fix --quiet
+	@pnpm --stream run lint . \
+ 		--error-on-unmatched-pattern --fix --quiet
+
+.PHONY: check-dependencies
+check-dependencies: check-node-version
+	@pnpm --stream dedupe
+	@pnpm --stream audit --fix
 
 .PHONY: check-node-version
 check-node-version: corepack
