@@ -31,18 +31,17 @@ export default function ImageGrid({
         tabIndex={0}
         initial={false}
         whileTap={{
-          scale: 0.96,
-          opacity: 0.61,
-          transition: { duration: 0.08 },
+          scale: 0.94,
+          opacity: 0.55,
+          transition: { duration: 0.06 },
         }}
         whileFocus={{ scale: 1.02 }}
         whileHover={{ scale: 1.02 }}
         transition={{
           type: "spring",
-          bounce: 0.38,
-          duration: 0.2,
-          mass: 0.5,
-          damping: 5,
+          stiffness: 900,
+          mass: 1.4,
+          damping: 10,
         }}
         href={`/gallery/${image.publicId}`}
         className="after:content group relative block w-full cursor-zoom-in
@@ -56,7 +55,7 @@ export default function ImageGrid({
                   group-hover:brightness-115 group-focus:brightness-115"
           sizes="(max-width: 448px) 100vw,
                   (max-width: 672px) 50vw,
-                  (max-width: 1024px) 33vw,
+                  (max-width: 1152px) 33vw,
                   (max-width: 1920px) 25vw,
                   480px"
           alt={`Photo ${image.key}`}
@@ -68,7 +67,7 @@ export default function ImageGrid({
       {showTitle && (
         <h1 className="text-4xl font-bold tracking-wide mb-2">{group}</h1>
       )}
-      <div className="columns-1 @md:columns-2 @2xl:columns-3 @5xl:columns-4 gap-3 mb-8 *:mb-3">
+      <div className="columns-1 @md:columns-2 @2xl:columns-3 @6xl:columns-4 gap-3 mb-8 *:mb-3">
         {children}
         {grid}
       </div>

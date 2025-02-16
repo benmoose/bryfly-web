@@ -1,3 +1,4 @@
+SHELL = /bin/bash
 PROJ_NODE := $(shell cat .nvmrc)
 
 .PHONY: format-all

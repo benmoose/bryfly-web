@@ -230,6 +230,7 @@ const ThumbnailButton = memo(function ThumbnailButton({
       aria-disabled={disabled}
       disabled={disabled}
       variants={animationVariants}
+      transition={defaultTransition}
       whileHover={selected ? selectedVariant : hoverVariant}
       whileFocus={selected ? selectedVariant : hoverVariant}
       whileTap={
@@ -239,7 +240,6 @@ const ThumbnailButton = memo(function ThumbnailButton({
             ? selectedVariant
             : notSelectedVariant
       }
-      transition={defaultTransition}
       onClick={e => {
         e.stopPropagation()
         if (interactive) {
@@ -251,14 +251,14 @@ const ThumbnailButton = memo(function ThumbnailButton({
       transition-all duration-50 pointer-events-auto cursor-pointer
       shadow-sm shadow-stone-950/20
       border-2 border-slate-200/6 outline -outline-offset-3 outline-slate-200/10
-      hover:brightness-110 hover:border-slate-50/85 hover:opacity-100 hover:grayscale-0
+      hover:brightness-110 hover:border-slate-50/95 hover:opacity-100 hover:grayscale-0
       hover:rounded-md hover:shadow-md hover:border-2 
-      focus:brightness-110 focus:border-2 focus:border-slate-50/85 focus:grayscale-0
+      focus:brightness-110 focus:border-2 focus:border-slate-50/95 focus:grayscale-0
       focus:opacity-100 focus:rounded-md focus:shadow-md
       disabled:text-slate-600 disabled:cursor-default disabled:grayscale-100
-      aria-selected:border-3 aria-selected:border-white aria-selected:brightness-115
-      aria-selected:outline-blue-500/90 aria-selected:shadow-md aria-selected:grayscale-0
-      aria-selected:outline aria-selected:outline-offset-2
+      aria-selected:border-2 aria-selected:border-blue-900/40 aria-selected:brightness-115
+      aria-selected:outline-blue-400/95 aria-selected:shadow-md aria-selected:grayscale-0
+      aria-selected:outline-2 aria-selected:outline-offset-1
       aria-selected:cursor-default aria-selected:animate-bulge aria-selected:rounded-sm`}
       tabIndex={interactive ? 0 : -1}
     >
