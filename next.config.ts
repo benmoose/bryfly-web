@@ -16,6 +16,11 @@ const nextConfig: NextConfig = {
     ],
     minimumCacheTTL: 300,
   },
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
 }
 
 export default nextConfig

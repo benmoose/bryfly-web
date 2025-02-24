@@ -135,7 +135,7 @@ export default memo(function Modal({ children }: { children: ReactNode }) {
           <CloseButton />
           <div
             className="flex flex-col items-center justify-center flex-initial
-            max-h-full pb-4"
+            max-h-full pb-6 md:pb-12"
           >
             <div
               {...handleSwipes}
