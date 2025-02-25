@@ -21,6 +21,9 @@ const nextConfig: NextConfig = {
       fullUrl: true,
     },
   },
+  experimental: {
+    serverComponentsHmrCache: false,
+  },
 }
 
 export default nextConfig
