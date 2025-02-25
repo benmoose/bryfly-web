@@ -6,6 +6,7 @@ import {
   type ResourceType,
   type VideoFormat,
 } from "cloudinary"
+import { unstable_cache } from "next/cache"
 import { cache } from "react"
 import getClient from "./client"
 
@@ -61,16 +62,20 @@ async function getRootFolders(): Promise<RootFolder[]> {
   return response.folders
 }
 
-async function getResources(group: string): Promise<ResourceCommon[]> {
-  // TODO: implement pagination
-  const response = await client.api.resources_by_asset_folder(group, {
-    context: true,
-    direction: "desc",
-    image_metadata: true,
-    max_results: 250,
-  })
-  return response.resources.map(apiToInternal)
-}
+const getResources = unstable_cache(
+  async function getResources(group: string): Promise<ResourceCommon[]> {
+    // TODO: implement pagination
+    const response = await client.api.resources_by_asset_folder(group, {
+      context: true,
+      direction: "desc",
+      image_metadata: true,
+      max_results: 250,
+    })
+    return response.resources.map(apiToInternal)
+  },
+  undefined,
+  { revalidate: 1800 },
+)
 
 export const getImages = cache(async function getImages(
   group: string,
