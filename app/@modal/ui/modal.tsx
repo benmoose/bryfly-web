@@ -134,13 +134,13 @@ export default memo(function Modal({ children }: { children: ReactNode }) {
         >
           <CloseButton />
           <div
-            className="flex flex-col items-center justify-center flex-initial
+            className="flex flex-1 flex-col items-center justify-center
             max-h-full pb-6 md:pb-12"
           >
             <div
               {...handleSwipes}
-              className="relative flex flex-col gap-1.5 justify-center w-fit max-h-full
-              pointer-events-auto cursor-default"
+              className="relative flex flex-col gap-1.5 justify-center
+              w-fit h-full max-h-full pointer-events-auto cursor-default"
             >
               {children}
             </div>
@@ -256,7 +256,7 @@ const ThumbnailButton = memo(function ThumbnailButton({
       focus:brightness-110 focus:border-2 focus:border-slate-50/95 focus:grayscale-0
       focus:opacity-100 focus:rounded-md focus:shadow-md
       disabled:text-slate-600 disabled:cursor-default disabled:grayscale-100
-      aria-selected:border-2 aria-selected:border-blue-900/40 aria-selected:brightness-115
+      aria-selected:border-2 aria-selected:border-blue-900/40 aria-selected:brightness-110
       aria-selected:outline-blue-400/95 aria-selected:shadow-md aria-selected:grayscale-0
       aria-selected:outline-2 aria-selected:outline-offset-1
       aria-selected:cursor-default aria-selected:animate-bulge aria-selected:rounded-sm`}

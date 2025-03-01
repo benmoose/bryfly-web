@@ -2,7 +2,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-nvm_dir=${NVM_DIR:?"nvm is not installed."}
+nvm_dir=${NVM_DIR:?"nvm is not installed"}
 [[ -f "$nvm_dir/nvm.sh" ]] && source "$nvm_dir/nvm.sh"
 
 # Style
@@ -17,10 +17,15 @@ app_dir=${0%%/*}
 current_node=$(cat "$app_dir/.nvmrc")
 engine=$(pnpm pkg get engines.node | tr -cd '[:digit:]')
 latest_node=$(nvm version-remote --lts "$engine")
-[[ "$current_node" == "$latest_node" ]] && exit
 
-echo -e "Latest:  ${bold}$latest_node${normal} ${dim}(constraint '$engine')${normal}"
-echo -e "Project: ${bold}$current_node${normal}"
+echo -e "${dim}node constraint ${normal}$engine${dim}:${normal}"
+echo -e "\tProject node\t${bold}$current_node${normal}"
+echo -e "\tLatest node \t${bold}$latest_node${normal}\n\t"
+
+if [[ "$current_node" == "$latest_node" ]]; then
+  echo -e "${green}Using latest node version${clear}"
+  exit
+fi
 
 if [[ $# -eq 0 ]]; then
   echo "Please update project to use node $latest_node" >&2

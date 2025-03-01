@@ -130,6 +130,10 @@ export async function getImage(publicId: string): Promise<ImageResource> {
   }
 }
 
+function isImageResource(resource: ResourceCommon): resource is ImageResource {
+  return resource.resourceType === "image"
+}
+
 const encodeB64ImageUrl = cache(async function (url: string): Promise<DataUrl> {
   const res = await fetch(url, {
     cache: "force-cache",
@@ -139,10 +143,6 @@ const encodeB64ImageUrl = cache(async function (url: string): Promise<DataUrl> {
   const data = Buffer.from(buf).toString("base64")
   return `data:image/webp;base64,${data}`
 })
-
-function isImageResource(resource: ResourceCommon): resource is ImageResource {
-  return resource.resourceType === "image"
-}
 
 function apiToInternal(resource: ApiResource): ResourceCommon {
   const key = [resource.asset_folder, resource.asset_id ?? resource.public_id]

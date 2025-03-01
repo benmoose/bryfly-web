@@ -3,7 +3,6 @@
 import { ImagesContext } from "app/context"
 import { DialogTitle } from "@headlessui/react"
 import { CdnImage } from "app/ui/cdn-image"
-import { display } from "app/ui/font"
 import { notFound, useParams } from "next/navigation"
 import { use } from "react"
 
@@ -22,19 +21,20 @@ export default function Page() {
     <>
       <CdnImage
         priority
-        loading="eager"
         key={image.key}
         image={image}
-        className="w-fit max-h-full rounded-xl shadow-2xl shadow-black/35
-        border-2 border-slate-200/5 box-content basis-2 self-center
+        className="w-fit rounded-xl
+        max-h-17/18 md:max-h-7/8 xl:max-h-5/6
+        box-content border-2 border-slate-200/5 basis-2 self-center
+        shadow-2xl shadow-black/35
         outline-2 outline-offset-4 outline-slate-100/90"
         sizes="(max-width: 1280px) 100vw, 1280px"
       />
-      <div>
+      <div className="relative">
         {image.displayName && (
           <DialogTitle
-            className={`${display.className} flex-initial basis-1 w-full pt-1
-            text-slate-50 text-center text-xl tracking-wide`}
+            className="flex-initial
+            text-lg md:text-xl font-bold tracking-wide text-slate-50"
           >
             {image.displayName}
           </DialogTitle>
