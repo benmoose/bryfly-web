@@ -2,8 +2,8 @@
 
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react"
 import {
-  ArrowRightIcon,
   ArrowLeftIcon,
+  ArrowRightIcon,
   XMarkIcon,
 } from "@heroicons/react/24/solid"
 import { ImagesContext } from "app/context"
@@ -11,24 +11,24 @@ import {
   animationVariants,
   defaultTransition,
   hoverVariant,
-  notSelectedVariant,
-  selectedVariant,
-  pressedVariant,
   IconButton,
+  notSelectedVariant,
+  pressedVariant,
+  selectedVariant,
 } from "app/ui/button"
 import { CdnThumbnail } from "app/ui/cdn-image"
+import type { ImageResource, Ordered } from "lib/cloudinary"
 import { motion } from "motion/react"
 import { useRouter, useSelectedLayoutSegment } from "next/navigation"
 import {
   memo,
+  type ReactNode,
   use,
   useCallback,
   useEffect,
   useState,
-  type ReactNode,
 } from "react"
 import { useSwipeable } from "react-swipeable"
-import type { ImageResource, Ordered } from "lib/cloudinary"
 
 const enum Direction {
   PREV = "prev",

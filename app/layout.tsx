@@ -2,12 +2,12 @@ import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { type ReactNode } from "react"
 import type { Metadata, Viewport } from "next"
-import { getImages, getGroupNames } from "lib/cloudinary"
+import { getGroupNames, getImages } from "lib/cloudinary"
 import ImagesProvider from "app/image-provider"
 import "./styles.css"
 
 export const metadata: Metadata = {
-  title: "BryFly",
+  title: "BryFlyy",
   description: "Bespoke disco balls.",
   keywords: ["disco", "balls", "sculpture", "portfolio", "artist", "london"],
   openGraph: {
