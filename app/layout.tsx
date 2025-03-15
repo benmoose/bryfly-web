@@ -7,7 +7,7 @@ import ImagesProvider from "app/image-provider"
 import "./styles.css"
 
 export const metadata: Metadata = {
-  title: "BryFlyy",
+  title: "BryFly",
   description: "Bespoke disco balls.",
   keywords: ["disco", "balls", "sculpture", "portfolio", "artist", "london"],
   openGraph: {
@@ -16,6 +16,12 @@ export const metadata: Metadata = {
     description: "Bespoke disco balls.",
   },
   creator: "Ben Hadfield",
+  applicationName: "BryFly: Bespoke Disco Balls",
+  authors: [
+    { name: "Ben Hadfield", url: "https://github.com/benmoose" },
+    { name: "Bryony Conroy", url: "https://instagram.com/bryfly2000" },
+  ],
+  robots: "index, follow",
 }
 
 export const viewport: Viewport = {
