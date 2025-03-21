@@ -34,6 +34,10 @@ lint: check-node-version
 	@pnpm --stream run lint . \
  		--error-on-unmatched-pattern --fix --quiet
 
+.PHONY: update-dependencies
+update-dependencies: check-node-version
+	@pnpm update .
+
 .PHONY: check-dependencies
 check-dependencies: check-node-version
 	@pnpm --stream dedupe
