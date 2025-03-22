@@ -5,11 +5,9 @@ IFS=$'\n\t'
 nvm_dir=${NVM_DIR:?"nvm is not installed"}
 [[ -f "$nvm_dir/nvm.sh" ]] && source "$nvm_dir/nvm.sh"
 
-# Style
-bold='\033[0;1m'
-dim='\033[0;2m'
-normal='\033[0;0m'
-# Colour
+#bold='\033[0;1m'
+#dim='\033[0;2m'
+#normal='\033[0;0m'
 green='\033[0;32m'
 clear='\033[0m'
 
@@ -18,11 +16,11 @@ current_node=$(cat "$app_dir/.nvmrc")
 engine=$(pnpm pkg get engines.node | tr -cd '[:digit:]')
 latest_node=$(nvm version-remote --lts "$engine")
 
-echo -e "Node ${bold}$current_node${normal}"
-echo -e "Latest ${bold}$latest_node${normal}"
+#echo -e "Project\t${bold}$current_node${normal}"
+#echo -e "Latest\t${bold}$latest_node${normal}"
 
 if [[ "$current_node" == "$latest_node" ]]; then
-  echo -e "${green}Using latest version${clear}"
+#  echo -e "${green}Using latest version${clear}"
   exit
 fi
 

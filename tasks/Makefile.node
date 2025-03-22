@@ -12,12 +12,12 @@ node/lint: node/install
 
 .PHONY: node/install
 node/install: node/check
-	@pnpm install --fix-lockfile
+	@./scripts/update-node.sh --write
+	@pnpm install --fix-lockfile --no-frozen-lockfile
 
 .PHONY: node/check
 node/check: corepack
 	@pnpx check-node-version --node $(PROJ_NODE)
-	@./scripts/update-node.sh --write
 
 .PHONY: corepack
 corepack:

@@ -9,6 +9,9 @@ on:
       - "**.jsx?"
       - "**.json"
 
+env:
+  CI: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,4 +33,4 @@ jobs:
             --error-on-unmatched-pattern  --no-cache
       - name: Build project
         run: |
-          pnpm build . --no-lint
+          pnpm build .
