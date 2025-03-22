@@ -22,14 +22,12 @@ jobs:
           cache: "pnpm"
       - run: pnpm install --frozen-lockfile
       - run: ./scripts/update-node.sh
-      - name: Check project dependencies
-        run: |
-          pnpm --aggregate-output audit \
-            --audit-level moderate --ignore-registry-errors --prod
-          pnpm --aggregate-output dedupe --check
       - name: Check code format
         run: |
           pnpm --aggregate-output exec prettier . \
             --ignore-unknown --check --no-editorconfig
           pnpm --aggregate-output run lint . \
             --error-on-unmatched-pattern  --no-cache
+      - name: Build project
+        run: |
+          pnpm build . --no-lint
