@@ -1,56 +1,23 @@
-SHELL = /bin/bash
-PROJ_NODE := $(shell cat .nvmrc)
+include tasks/Makefile.*
 
-.PHONY: format-all
-format-all: install check-dependencies prettier lint
+help:  ## Print this help message
+	@printf "\e[1mAvailable targets\e[0m\n\n"
+	@egrep -h '\s##\s' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m  %-30s\033[0m %s\n", $$1, $$2}'
 
 .PHONY: dev
-dev: install
+dev: install  ## Start local development server
 	@pnpm run dev
 
 .PHONY: start
-start: build
+start: build  ## Serve build output
 	@pnpm start
 
 .PHONY: build
-build: install check-dependencies
+build: install  ## Build project
 	@pnpm build
 
-.PHONY: clean
-clean: check-node-version
-	-rm -rf node_modules .next
-
 .PHONY: install
-install: check-node-version
-	@pnpm install --fix-lockfile --silent
+install: node/install  ## Install project dependencies
 
-.PHONY: prettier
-prettier: check-node-version
-	@pnpm --stream exec prettier . \
-		--cache --ignore-unknown --log-level warn --no-editorconfig --write
-
-.PHONY: lint
-lint: check-node-version
-	@pnpm --stream run lint . \
- 		--error-on-unmatched-pattern --fix --quiet
-
-.PHONY: update-dependencies
-update-dependencies: check-node-version
-	@pnpm update .
-
-.PHONY: check-dependencies
-check-dependencies: check-node-version
-	@pnpm --stream dedupe
-	@pnpm --stream audit --fix
-
-.PHONY: check-node-version
-check-node-version: corepack
-	@pnpx check-node-version --node $(PROJ_NODE)
-
-.PHONY: update-node
-update-node: corepack
-	@./scripts/update-node.sh --write
-
-.PHONY: corepack
-corepack:
-	@corepack enable pnpm
+.PHONY: fmt
+fmt: node/fmt node/lint  ## Format application code

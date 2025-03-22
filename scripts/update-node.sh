@@ -18,12 +18,11 @@ current_node=$(cat "$app_dir/.nvmrc")
 engine=$(pnpm pkg get engines.node | tr -cd '[:digit:]')
 latest_node=$(nvm version-remote --lts "$engine")
 
-echo -e "${dim}node constraint ${normal}$engine${dim}:${normal}"
-echo -e "\tProject node\t${bold}$current_node${normal}"
-echo -e "\tLatest node \t${bold}$latest_node${normal}\n\t"
+echo -e "Node ${bold}$current_node${normal}"
+echo -e "Latest ${bold}$latest_node${normal}"
 
 if [[ "$current_node" == "$latest_node" ]]; then
-  echo -e "${green}Using latest node version${clear}"
+  echo -e "${green}Using latest version${clear}"
   exit
 fi
 

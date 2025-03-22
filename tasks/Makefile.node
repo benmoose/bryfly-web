@@ -1,0 +1,24 @@
+PROJ_NODE := $(shell cat .nvmrc)
+
+.PHONY: node/fmt
+node/fmt: node/install
+	@pnpm --stream exec prettier . \
+		--cache --ignore-unknown --log-level warn --no-editorconfig --write
+
+.PHONY: node/lint
+node/lint: node/install
+	@pnpm --stream run lint . \
+     		--error-on-unmatched-pattern --fix --quiet
+
+.PHONY: node/install
+node/install: node/check
+	@pnpm install --fix-lockfile
+
+.PHONY: node/check
+node/check: corepack
+	@pnpx check-node-version --node $(PROJ_NODE)
+	@./scripts/update-node.sh --write
+
+.PHONY: corepack
+corepack:
+	@corepack enable pnpm
