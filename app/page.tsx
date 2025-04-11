@@ -25,7 +25,7 @@ function BryFlyCard() {
         className="mt-0 mb-4 text-base sm:text-lg md:text-xl lg:text-xl xl:text-2xl
         uppercase tracking-wide"
       >
-        Browse me disco balls
+        Where Light Takes Flight
       </h2>
       <div className="flex flex-wrap justify-center items-center z-10 text-lg mt-3 gap-2">
         <a
