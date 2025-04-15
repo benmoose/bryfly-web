@@ -57,8 +57,7 @@ export default function ImageGrid({
           sizes="(max-width: 448px) 100vw,
           (max-width: 672px) 50vw,
           (max-width: 1152px) 33vw,
-          (max-width: 1920px) 25vw,
-          480px"
+          640px"
           alt={`Photo ${image.key}`}
         />
       </MotionLink>
@@ -72,10 +71,12 @@ export default function ImageGrid({
           {group}
         </h1>
       )}
-      <div className="columns-1 @md:columns-2 @2xl:columns-3 @6xl:columns-4 gap-3 mb-8 *:mb-3">
+      <div className="columns-1 @md:columns-2 @2xl:columns-3 gap-3 mb-8 *:mb-3">
         {children}
         {grid}
       </div>
     </div>
   )
 }
+
+// @6xl:columns-3
