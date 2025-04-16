@@ -7,7 +7,6 @@ import {
   type VideoFormat,
 } from "cloudinary"
 import { unstable_cache } from "next/cache"
-import { cache } from "react"
 import getClient from "./client"
 
 type DataUrl = `data:image/${string}`
@@ -62,8 +61,9 @@ async function getRootFolders(): Promise<RootFolder[]> {
   return response.folders
 }
 
+const twoHours = 2 * 60 * 60
 const getResources = unstable_cache(
-  async function getResources(group: string): Promise<ResourceCommon[]> {
+  async function _getResources(group: string): Promise<ResourceCommon[]> {
     // TODO: implement pagination
     const response = await client.api.resources_by_asset_folder(group, {
       context: true,
@@ -73,11 +73,11 @@ const getResources = unstable_cache(
     })
     return response.resources.map(apiToInternal)
   },
-  undefined,
-  { revalidate: 1800 },
+  [],
+  { revalidate: twoHours },
 )
 
-export const getImages = cache(async function getImages(
+export const getImages = async function getImages(
   group: string,
 ): Promise<Ordered<ImageResource>[]> {
   if (!group || group.trim() === "") {
@@ -100,7 +100,7 @@ export const getImages = cache(async function getImages(
     resourceType: "image" as const,
     index,
   }))
-})
+}
 
 type ApiResource = ResourceApiResponse["resources"][number] & {
   asset_id?: string
@@ -134,7 +134,7 @@ function isImageResource(resource: ResourceCommon): resource is ImageResource {
   return resource.resourceType === "image"
 }
 
-const encodeB64ImageUrl = cache(async function (url: string): Promise<DataUrl> {
+const encodeB64ImageUrl = async function (url: string): Promise<DataUrl> {
   const res = await fetch(url, {
     cache: "force-cache",
     next: { revalidate: false },
@@ -142,7 +142,7 @@ const encodeB64ImageUrl = cache(async function (url: string): Promise<DataUrl> {
   const buf = await res.arrayBuffer()
   const data = Buffer.from(buf).toString("base64")
   return `data:image/webp;base64,${data}`
-})
+}
 
 function apiToInternal(resource: ApiResource): ResourceCommon {
   const key = [resource.asset_folder, resource.asset_id ?? resource.public_id]

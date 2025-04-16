@@ -35,3 +35,5 @@ export default async function Page({ params }: { params: Promise<Params> }) {
 export const dynamicParams = false
 
 export const dynamic = "force-static"
+
+export const fetchCache = "only-cache"
