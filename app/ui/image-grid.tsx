@@ -19,7 +19,6 @@ export default function ImageGrid({
   showTitle?: boolean
 }) {
   const { repo, groups } = useContext(ImagesContext)
-
   if (!groups[group]) {
     return null
   }
@@ -66,17 +65,16 @@ export default function ImageGrid({
     <div className="@container">
       {showTitle && (
         <h1
-          className={`${display.className} text-3xl md:text-5xl tracking-tight mb-3 text-slate-200`}
+          className="text-3xl md:text-5xl tracking-widest uppercase mb-3 text-stone-100"
+          style={display.style}
         >
           {group}
         </h1>
       )}
-      <div className="columns-1 @md:columns-2 @2xl:columns-3 gap-3 mb-8 *:mb-3">
+      <div className="columns-1 @xl:columns-2 @4xl:columns-3 gap-3 mb-8 *:mb-3">
         {children}
         {grid}
       </div>
     </div>
   )
 }
-
-// @6xl:columns-3

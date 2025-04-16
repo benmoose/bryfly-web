@@ -52,7 +52,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className="bg-black antialiased">
+      <body className="bg-stone-950 antialiased">
         <ImagesProvider groups={groups}>
           {modal}
           {children}
