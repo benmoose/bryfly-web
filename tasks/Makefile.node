@@ -16,7 +16,6 @@ node_modules: node/check package.json pnpm-lock.yaml
 .PHONY: node/update
 node/update: node/check ## Update version of node used by the project
 	./scripts/update-node.sh --write
-	pnpm update
 
 .PHONY: node/check
 node/check: corepack

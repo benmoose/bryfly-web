@@ -22,7 +22,7 @@ const nextConfig: NextConfig = {
     },
   },
   experimental: {
-    serverComponentsHmrCache: false,
+    serverComponentsHmrCache: true,
   },
 }
 

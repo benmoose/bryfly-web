@@ -1,0 +1,73 @@
+{
+  "resources": [
+    {
+      "asset_id": "6870c4303562c360f0bbbaedae179733",
+      "public_id": "bx14s1dhyowzzy93rmyg",
+      "format": "jpg",
+      "version": 1744029343,
+      "resource_type": "image",
+      "type": "private",
+      "created_at": "2025-04-07T12:35:43Z",
+      "bytes": 1642624,
+      "width": 2063,
+      "height": 1541,
+      "asset_folder": "hero",
+      "display_name": "Wildwoods 2024, Photo by Elliot Hingston",
+      "url": "http://res.cloudinary.com/bryfly/image/private/s--m-NZi_MX--/v1744029343/bx14s1dhyowzzy93rmyg.jpg",
+      "secure_url": "https://res.cloudinary.com/bryfly/image/private/s--m-NZi_MX--/v1744029343/bx14s1dhyowzzy93rmyg.jpg"
+    },
+    {
+      "asset_id": "84482191203439bbed9ad6b475a4a08a",
+      "public_id": "alk4bjzkxu3cipyv1pd2",
+      "format": "jpg",
+      "version": 1744029341,
+      "resource_type": "image",
+      "type": "private",
+      "created_at": "2025-04-07T12:35:41Z",
+      "bytes": 362898,
+      "width": 1256,
+      "height": 1574,
+      "asset_folder": "hero",
+      "display_name": "Disco Cock at Homobloc",
+      "url": "http://res.cloudinary.com/bryfly/image/private/s--jvfuSBJp--/v1744029341/alk4bjzkxu3cipyv1pd2.jpg",
+      "secure_url": "https://res.cloudinary.com/bryfly/image/private/s--jvfuSBJp--/v1744029341/alk4bjzkxu3cipyv1pd2.jpg"
+    },
+    {
+      "asset_id": "117129eeb448765bac8f3179824fe940",
+      "public_id": "lnvroyn6oigmkec0apxg",
+      "format": "jpg",
+      "version": 1744029340,
+      "resource_type": "image",
+      "type": "private",
+      "created_at": "2025-04-07T12:35:40Z",
+      "bytes": 2328985,
+      "width": 2600,
+      "height": 1733,
+      "asset_folder": "hero",
+      "display_name": "The abstract and organic Flange",
+      "url": "http://res.cloudinary.com/bryfly/image/private/s--9jBkR6MI--/v1744029340/lnvroyn6oigmkec0apxg.jpg",
+      "secure_url": "https://res.cloudinary.com/bryfly/image/private/s--9jBkR6MI--/v1744029340/lnvroyn6oigmkec0apxg.jpg"
+    },
+    {
+      "asset_id": "85fbd7e92041e38e414b8a559d952a84",
+      "public_id": "e05ge9lxatuw575lwheq",
+      "format": "jpg",
+      "version": 1744029337,
+      "resource_type": "image",
+      "type": "private",
+      "created_at": "2025-04-07T12:35:37Z",
+      "bytes": 716328,
+      "width": 1440,
+      "height": 1800,
+      "asset_folder": "hero",
+      "display_name": "Beyon-NEIGGHH's Horse",
+      "url": "http://res.cloudinary.com/bryfly/image/private/s--x4gOq9h7--/v1744029337/e05ge9lxatuw575lwheq.jpg",
+      "secure_url": "https://res.cloudinary.com/bryfly/image/private/s--x4gOq9h7--/v1744029337/e05ge9lxatuw575lwheq.jpg"
+    }
+  ],
+  "total_count": 4,
+  "next_cursor": null,
+  "rate_limit_allowed": 500,
+  "rate_limit_reset_at": "2025-04-16T06:00:00.000Z",
+  "rate_limit_remaining": 460
+}

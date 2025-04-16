@@ -1,9 +1,8 @@
-import { Montserrat_Alternates, DM_Serif_Text } from "next/font/google"
+import { DM_Serif_Text, Finger_Paint } from "next/font/google"
 
-export const subtitle = Montserrat_Alternates({
+export const subtitle = Finger_Paint({
   display: "auto",
-  weight: "700",
-  style: "italic",
+  weight: "400",
   subsets: ["latin"],
 })
 

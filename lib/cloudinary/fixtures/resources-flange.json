@@ -1,0 +1,73 @@
+{
+  "resources": [
+    {
+      "asset_id": "3d556e1410319cc291839a42fa519303",
+      "public_id": "fvqipfgqbsefd41ziful",
+      "format": "jpg",
+      "version": 1744372079,
+      "resource_type": "image",
+      "type": "private",
+      "created_at": "2025-04-11T11:47:59Z",
+      "bytes": 555972,
+      "width": 1416,
+      "height": 2216,
+      "asset_folder": "FLAAAAANGE",
+      "display_name": "IMG_8011 copy",
+      "url": "http://res.cloudinary.com/bryfly/image/private/s--NtJ0sJKt--/v1744372079/fvqipfgqbsefd41ziful.jpg",
+      "secure_url": "https://res.cloudinary.com/bryfly/image/private/s--NtJ0sJKt--/v1744372079/fvqipfgqbsefd41ziful.jpg"
+    },
+    {
+      "asset_id": "774d63b6606f9738f72ee70f44ac6fd3",
+      "public_id": "onck9osxx0prowtgxvkk",
+      "format": "jpg",
+      "version": 1744372004,
+      "resource_type": "image",
+      "type": "private",
+      "created_at": "2025-04-11T11:46:44Z",
+      "bytes": 621640,
+      "width": 2496,
+      "height": 1664,
+      "asset_folder": "Flange",
+      "display_name": "IMG_8017 copy",
+      "url": "http://res.cloudinary.com/bryfly/image/private/s--740BWmJz--/v1744372004/onck9osxx0prowtgxvkk.jpg",
+      "secure_url": "https://res.cloudinary.com/bryfly/image/private/s--740BWmJz--/v1744372004/onck9osxx0prowtgxvkk.jpg"
+    },
+    {
+      "asset_id": "b352abcf32eb6b26ae38f132ce901ed9",
+      "public_id": "c0cyrs4ty1d6p52jcql5",
+      "format": "jpg",
+      "version": 1744371905,
+      "resource_type": "image",
+      "type": "private",
+      "created_at": "2025-04-11T11:45:05Z",
+      "bytes": 871771,
+      "width": 2808,
+      "height": 1872,
+      "asset_folder": "Flange",
+      "display_name": "IMG_8016 copy",
+      "url": "http://res.cloudinary.com/bryfly/image/private/s--fT5YnlW6--/v1744371905/c0cyrs4ty1d6p52jcql5.jpg",
+      "secure_url": "https://res.cloudinary.com/bryfly/image/private/s--fT5YnlW6--/v1744371905/c0cyrs4ty1d6p52jcql5.jpg"
+    },
+    {
+      "asset_id": "0e2e967ae7e0e0606d898094f37066ae",
+      "public_id": "shsad78hxuvdttfksle3",
+      "format": "jpg",
+      "version": 1744371831,
+      "resource_type": "image",
+      "type": "private",
+      "created_at": "2025-04-11T11:43:51Z",
+      "bytes": 155625,
+      "width": 1347,
+      "height": 1013,
+      "asset_folder": "Flange",
+      "display_name": "IMG_8010 copy",
+      "url": "http://res.cloudinary.com/bryfly/image/private/s--tXvHKQF0--/v1744371831/shsad78hxuvdttfksle3.jpg",
+      "secure_url": "https://res.cloudinary.com/bryfly/image/private/s--tXvHKQF0--/v1744371831/shsad78hxuvdttfksle3.jpg"
+    }
+  ],
+  "total_count": 4,
+  "next_cursor": null,
+  "rate_limit_allowed": 500,
+  "rate_limit_reset_at": "2025-04-16T05:00:00.000Z",
+  "rate_limit_remaining": 424
+}

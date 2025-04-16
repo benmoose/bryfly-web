@@ -7,18 +7,18 @@ all: node/update fmt build
 
 .PHONY: dev
 dev: node/check  ## Start local development server
-	@pnpm dev
+	pnpm dev
 
 .PHONY: deps
 deps: node_modules  ## Update project dependencies
-	@pnpm update
+	pnpm update
 
 .PHONY: start
 start: docker/start  ## Start project in production mode
 
 .PHONY: build
 build: docker/build  ## Build project Docker image
-	@pnpm build .
+	pnpm build .
 
 .PHONY: fmt
 fmt: node/fmt node/lint  ## Format and lint application code

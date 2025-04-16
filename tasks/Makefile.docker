@@ -1,7 +1,7 @@
 .PHONY: docker/start
 docker/start: docker/build
-	@docker run -p 8000:8000 bryfly-web
+	docker run -p 8000:8000 bryfly-web
 
 .PHONY: docker/build
 docker/build:
-	@docker build --tag bryfly-web .
+	docker build --tag bryfly-web .

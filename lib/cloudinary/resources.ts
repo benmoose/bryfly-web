@@ -6,8 +6,9 @@ import {
   type ResourceType,
   type VideoFormat,
 } from "cloudinary"
-import { unstable_cache } from "next/cache"
+import { isDev } from "lib/utils"
 import getClient from "./client"
+import { fixture } from "./mock"
 
 type DataUrl = `data:image/${string}`
 
@@ -56,26 +57,30 @@ type RootFolder = {
 }
 
 async function getRootFolders(): Promise<RootFolder[]> {
-  type RootFoldersResponse = { folders: RootFolder[]; total_count: number }
-  const response: RootFoldersResponse = await client.api.root_folders()
+  if (isDev()) {
+    return fixture("root-folders.json").folders
+  }
+  const response: { folders: RootFolder[]; total_count: number } =
+    await client.api.root_folders()
   return response.folders
 }
 
-const twoHours = 2 * 60 * 60
-const getResources = unstable_cache(
-  async function _getResources(group: string): Promise<ResourceCommon[]> {
-    // TODO: implement pagination
-    const response = await client.api.resources_by_asset_folder(group, {
-      context: true,
-      direction: "desc",
-      image_metadata: true,
-      max_results: 250,
-    })
-    return response.resources.map(apiToInternal)
-  },
-  [],
-  { revalidate: twoHours },
-)
+const getResources = async function _getResources(
+  group: string,
+): Promise<ResourceCommon[]> {
+  if (isDev()) {
+    return fixture(`resources-${group}.json`).resources.map(apiToInternal)
+  }
+
+  // TODO: implement pagination
+  const response = await client.api.resources_by_asset_folder(group, {
+    context: true,
+    direction: "desc",
+    image_metadata: true,
+    max_results: 250,
+  })
+  return response.resources.map(apiToInternal)
+}
 
 export const getImages = async function getImages(
   group: string,

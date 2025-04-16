@@ -4,7 +4,7 @@ import BryFlyLogo from "public/bryfly-logo-1.png"
 
 export default function BrandHeader() {
   return (
-    <div className="grid gap-1 pt-3 pb-1.5">
+    <div className="grid gap-3 pt-3 pb-1.5">
       <Image
         loading="eager"
         src={BryFlyLogo}
@@ -13,10 +13,10 @@ export default function BrandHeader() {
         sizes="398px"
       />
       <h2
-        className="text-center text-3xl tracking-wide text-pink-100"
+        className="text-center text-3xl tracking-wider text-pink-100"
         style={subtitle.style}
       >
-        Where light takes flight
+        where light takes flight
       </h2>
     </div>
   )
@@ -34,7 +34,7 @@ export function BrandAbout() {
 
 export function BrandSocialLinks() {
   return (
-    <div className="flex justify-center items-center gap-2 text-2xl tracking-wide">
+    <div className="flex justify-center items-center gap-2 text-xl tracking-wide">
       <a
         className="px-4 pt-1 pb-1.5 text-stone-100
         transition rounded-lg hover:rounded-md
