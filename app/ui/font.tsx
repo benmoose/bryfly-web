@@ -1,4 +1,4 @@
-import { DM_Serif_Text, Finger_Paint } from "next/font/google"
+import { Bangers, Averia_Libre, Finger_Paint } from "next/font/google"
 
 export const subtitle = Finger_Paint({
   display: "auto",
@@ -6,7 +6,7 @@ export const subtitle = Finger_Paint({
   subsets: ["latin"],
 })
 
-export const display = DM_Serif_Text({
+export const display = Bangers({
   display: "auto",
   weight: "400",
   subsets: ["latin"],

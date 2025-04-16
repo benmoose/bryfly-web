@@ -2,29 +2,31 @@ import Image from "next/image"
 import { display, subtitle } from "app/ui/font"
 import BryFlyLogo from "public/bryfly-logo-1.png"
 
-export default function BrandHeader() {
+export default function PageHeader() {
   return (
-    <div className="grid gap-3 pt-3 pb-1.5">
+    <div className="grid gap-1 pb-1.5 pt-4 md:pt-6 xl:pt-9">
       <Image
         loading="eager"
         src={BryFlyLogo}
         alt="BryFly logo"
-        className="mx-auto w-[398px]"
-        sizes="398px"
+        className="mx-auto w-[288px] md:w-[320px] xl:w-[404px]"
+        sizes="(max-width: 768px) 288px,
+        (max-width: 1280px) 320px,
+        404px"
       />
       <h2
-        className="text-center text-3xl tracking-wider text-pink-100"
+        className="text-center uppercase text-lg sm:text-xl xl:text-2xl tracking-wider text-pink-50/70"
         style={subtitle.style}
       >
-        where light takes flight
+        Where light takes flight
       </h2>
     </div>
   )
 }
 
-export function BrandAbout() {
+export function About() {
   return (
-    <p className="text-xl text-pink-50">
+    <p className="text-lg md:text-2xl/8.5 text-pink-50">
       Bring any space to life and delight your audience or guests with a unique
       BryFly creation. Hire an existing design or commission a bespoke piece,
       designed with you, perfectly tailored to bring joy to your event.
@@ -32,13 +34,14 @@ export function BrandAbout() {
   )
 }
 
-export function BrandSocialLinks() {
+export function SocialLinks() {
   return (
-    <div className="flex justify-center items-center gap-2 text-xl tracking-wide">
+    <div className="flex flex-col lg:flex-row justify-center items-center gap-2 text-3xl tracking-wider">
       <a
-        className="px-4 pt-1 pb-1.5 text-stone-100
-        transition rounded-lg hover:rounded-md
-        bg-stone-900/70 hover:bg-stone-900 hover:bg-stone/5  hover:text-stone-50"
+        className="px-4 pt-1 pb-1.5 lg:text-2xl text-stone-200/80 hover:text-stone-50
+        border-2 border-transparent hover:border-stone-200/15
+        transition rounded-lg hover:rounded-sm
+        bg-stone-900/70 hover:bg-stone-900 hover:bg-stone/5"
         style={display.style}
         href="https://www.instagram.com/bryfly2000"
         target="_blank"
@@ -48,8 +51,9 @@ export function BrandSocialLinks() {
       </a>
       <a
         style={display.style}
-        className="border-2 border-pink-300/5 px-5 py-1.5 rounded-lg hover:rounded-md transition
-          text-pink-300 hover:text-pink-300 hover:border-pink-200 break-keep"
+        className="break-keep px-5 py-1.5 rounded-lg hover:rounded-sm
+        transition border-2 border-pink-400/5 hover:border-pink-200/55 text-pink-300/90 hover:text-pink-200
+        bg-pink-950/10 hover:bg-pink-800/20"
         href="https://github.com/benmoose/bryfly-web"
       >
         Hire me!

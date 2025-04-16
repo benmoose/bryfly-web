@@ -9,7 +9,6 @@ export function fixture(fixture: JsonString) {
     const data = readFileSync(filePath, { encoding: "utf-8" })
     return JSON.parse(data)
   } catch (err) {
-    console.error("error reading fixtures/%s: %s", fixture, err)
-    throw new Error(`error reading fixtures/${fixture}`)
+    throw new Error(`error reading fixture ${fixture}: ${err}`)
   }
 }
