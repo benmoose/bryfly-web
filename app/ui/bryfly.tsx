@@ -38,7 +38,7 @@ export function SocialLinks() {
   return (
     <div className="flex flex-col lg:flex-row justify-center items-center gap-2 text-3xl tracking-wider">
       <a
-        className="px-4 pt-1 pb-1.5 lg:text-2xl text-stone-200/80 hover:text-stone-50
+        className="px-4 py-1.5 lg:text-2xl text-stone-200/80 hover:text-stone-50
         border-2 border-transparent hover:border-stone-200/15
         transition rounded-lg hover:rounded-sm
         bg-stone-900/70 hover:bg-stone-900 hover:bg-stone/5"

@@ -1,4 +1,4 @@
-import { Bangers, Averia_Libre, Finger_Paint } from "next/font/google"
+import { Bangers, Finger_Paint } from "next/font/google"
 
 export const subtitle = Finger_Paint({
   display: "auto",

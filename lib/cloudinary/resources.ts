@@ -127,6 +127,7 @@ export async function getImage(publicId: string): Promise<ImageResource> {
     imagePromise,
     placeholderPromise,
   ])
+  console.log("IMAGE:", JSON.stringify(image, null, 2))
 
   return {
     ...apiToInternal(image),

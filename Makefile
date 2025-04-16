@@ -10,7 +10,7 @@ dev: node/check  ## Start local development server
 	pnpm dev
 
 .PHONY: deps
-deps: node_modules  ## Update project dependencies
+deps: node/update node_modules  ## Update project dependencies
 	pnpm update
 
 .PHONY: start

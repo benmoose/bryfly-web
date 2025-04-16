@@ -10,8 +10,8 @@ export default async function Page() {
       <PageHeader />
       <ImageGrid group="hero" showTitle={false}>
         <div
-          className="relative flex flex-col items-center justify-center
-          gap-6 rounded-xl px-6 py-12 text-center bg-slate-900 text-stone-50"
+          className="flex flex-col items-center justify-center gap-6
+          rounded-xl px-8 pb-12 text-center"
         >
           <SocialLinks />
           <About />

@@ -14,7 +14,7 @@ node_modules: node/check package.json pnpm-lock.yaml
 	pnpm install --fix-lockfile --no-frozen-lockfile
 
 .PHONY: node/update
-node/update: node/check ## Update version of node used by the project
+node/update: node/check ## Update the project's node version
 	./scripts/update-node.sh --write
 
 .PHONY: node/check
