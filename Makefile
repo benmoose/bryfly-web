@@ -1,4 +1,4 @@
-default: dev
+default: help
 
 -include tasks/Makefile.*
 
@@ -6,7 +6,7 @@ default: dev
 all: node/update fmt build
 
 .PHONY: dev
-dev: node/check  ## Start local development server
+dev: node/check  ## Start a local development server
 	pnpm dev
 
 .PHONY: deps
