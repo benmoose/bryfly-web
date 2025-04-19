@@ -27,4 +27,4 @@ fmt: node/fmt node/lint  ## Format and lint application code
 help:  ## Print this help message
 	@printf "Available targets:\n" && \
 		egrep -h '\s##\s' $(MAKEFILE_LIST) | \
-		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m\t%-20s\033[0m %s\n", $$1, $$2}'
+		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[1;34m\t%-20s\033[0m %s\n", $$1, $$2}'
