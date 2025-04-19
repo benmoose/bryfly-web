@@ -26,7 +26,7 @@ export default function PageHeader() {
 
 export function About() {
   return (
-    <p className="text-lg md:text-2xl/8.5 text-pink-50">
+    <p className="text-lg md:text-2xl/8.5 text-white/90">
       Bring any space to life and delight your audience or guests with a unique
       BryFly creation. Hire an existing design or commission a bespoke piece,
       designed with you, perfectly tailored to bring joy to your event.
@@ -56,7 +56,7 @@ export function SocialLinks() {
         scale-95 hover:scale-100 duration-75
         text-transparent
         bg-clip-text bg-gradient-to-br from-pink-500 to-purple-300"
-        href="https://github.com/benmoose/bryfly-web"
+        href="/hire"
       >
         Hire me!
       </a>

@@ -55,26 +55,25 @@ export default function ImageGrid({
           group-hover:brightness-115 group-focus:brightness-115"
           sizes="(max-width: 448px) 100vw,
           (max-width: 672px) 50vw,
-          (max-width: 1152px) 33vw,
           640px"
           alt={`Photo ${image.key}`}
         />
       </MotionLink>
     ))
   return (
-    <div className="@container">
+    <article className="@container">
       {showTitle && (
-        <h1
-          className="text-3xl md:text-5xl tracking-widest uppercase mb-3 text-stone-100"
+        <h2
+          className="text-3xl md:text-5xl tracking-wider uppercase mb-3 text-stone-100"
           style={display.style}
         >
           {group}
-        </h1>
+        </h2>
       )}
       <div className="columns-1 @xl:columns-2 @4xl:columns-3 gap-3 mb-8 *:mb-3">
         {children}
         {grid}
       </div>
-    </div>
+    </article>
   )
 }
