@@ -56,7 +56,7 @@ export function SocialLinks() {
         scale-95 hover:scale-100 duration-75
         text-transparent
         bg-clip-text bg-gradient-to-br from-pink-500 to-purple-300"
-        href="https://github.com/benmoose/bryfly-web"
+        href="/hire"
       >
         Hire me!
       </a>
