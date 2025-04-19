@@ -51,9 +51,11 @@ export function SocialLinks() {
       </a>
       <a
         style={display.style}
-        className="break-keep px-5 py-1.5 rounded-lg hover:rounded-sm
-        transition border-2 border-pink-400/5 hover:border-pink-200/55 text-pink-300/90 hover:text-pink-200
-        bg-pink-950/10 hover:bg-pink-800/20"
+        className="break-keep px-5 py-1.5 rounded-md
+        transition border-2 border-pink-400/40 hover:border-pink-300/90
+        scale-95 hover:scale-100 duration-75
+        text-transparent
+        bg-clip-text bg-gradient-to-br from-pink-500 to-purple-300"
         href="https://github.com/benmoose/bryfly-web"
       >
         Hire me!

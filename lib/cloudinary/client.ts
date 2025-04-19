@@ -11,11 +11,11 @@ interface CloudinaryClient {
   url: typeof cloudinary.url
 }
 
-let clientInstance: CloudinaryClient
+let client: CloudinaryClient
 
 export default function getClient(): CloudinaryClient {
-  if (clientInstance) {
-    return clientInstance
+  if (client) {
+    return client
   }
 
   cloudinary.config({
@@ -25,8 +25,8 @@ export default function getClient(): CloudinaryClient {
     secure: true,
     urlAnalytics: false,
   })
-  clientInstance = isDev() ? new MockCloudinaryClient() : cloudinary
-  return clientInstance
+  client = isDev() ? new MockCloudinaryClient() : cloudinary
+  return client
 }
 
 class MockCloudinaryClient implements CloudinaryClient {
