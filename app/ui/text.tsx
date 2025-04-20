@@ -1,67 +1,50 @@
-import type { ReactNode } from "react"
+import type { ReactNode, JSX } from "react"
 import cn from "classnames"
 import { fonts } from "./font"
 
-const baseHeading = [
-  "tracking-wider mb-3 text-stone-100",
-  fonts.heading.className,
-].join(" ")
+type HeadingLevel = 1 | 2 | 3
 
-export function H1({
+const headingClass: Record<HeadingLevel, string> = {
+  1: "text-4xl md:text-6xl",
+  2: "text-3xl md:text-5xl",
+  3: "text-2xl md:text-4xl",
+}
+
+function H({
   children,
   className,
+  level,
   ...props
 }: {
   children: ReactNode
   className?: string
+  level: HeadingLevel
 }) {
+  const HeadingTag = `h${level}` as keyof JSX.IntrinsicElements
   return (
-    <h1
+    <HeadingTag
       {...props}
-      className={cn(baseHeading, "text-4xl md:text-6xl", className)}
+      className={cn(
+        "tracking-wider mb-3 text-orange-200",
+        fonts.heading.className,
+        headingClass[level],
+        className,
+      )}
     >
       {children}
-    </h1>
+    </HeadingTag>
   )
 }
 
-export function H2({
-  children,
-  className,
-  ...props
-}: {
-  children: ReactNode
-  className?: string
-}) {
-  return (
-    <h2
-      {...props}
-      className={cn(baseHeading, "text-3xl md:text-5xl", className)}
-    >
-      {children}
-    </h2>
+function createHeading(level: HeadingLevel) {
+  return (props: { children: ReactNode; className?: string }) => (
+    <H {...props} level={level} />
   )
 }
 
-export function H3({
-  children,
-  className,
-  ...props
-}: {
-  children: ReactNode
-  className?: string
-}) {
-  return (
-    <h3
-      {...props}
-      className={cn(baseHeading, "text-2xl md:text-4xl", className)}
-    >
-      {children}
-    </h3>
-  )
-}
-
-const baseP = "mb-3 tracking-wide font-medium text-stone-100"
+export const H1 = createHeading(1)
+export const H2 = createHeading(2)
+export const H3 = createHeading(3)
 
 export function P({
   children,
@@ -72,7 +55,14 @@ export function P({
   className?: string
 }) {
   return (
-    <p {...props} className={cn(baseP, "text-lg xl:text-xl", className)}>
+    <p
+      {...props}
+      className={cn(
+        "mb-3 tracking-wide font-medium text-stone-100",
+        "text-lg xl:text-xl",
+        className,
+      )}
+    >
       {children}
     </p>
   )

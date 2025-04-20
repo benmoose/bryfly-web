@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 import { fonts } from "app/ui/font"
 import { P } from "app/ui/text"
 import BryFlyLogo from "public/bryfly-logo-1.png"
@@ -10,7 +11,7 @@ export default function PageHeader() {
         loading="eager"
         src={BryFlyLogo}
         alt="BryFly logo"
-        className="mx-auto w-[288px] md:w-[320px] xl:w-[404px]"
+        className="mx-auto w-[288px] sm:w-[334px] xl:w-[424px]"
         sizes="(max-width: 768px) 288px,
         (max-width: 1280px) 320px,
         404px"
@@ -27,46 +28,51 @@ export default function PageHeader() {
 
 export function About() {
   return (
-    <P className="text-xl lg:text-2xl 2xl:text-3xl">
-      <span
-        className="font-bold inline-block px-1 text-transparent
+    <div className="text-center sm:text-left antialiased">
+      <P
+        className="font-bold text-transparent text-pretty
         bg-clip-text bg-gradient-to-tr from-pink-500 to-purple-300"
       >
-        Bring any space to life
-      </span>{" "}
-      and delight your audience or guests with a unique BryFly creation. Hire an
-      existing design or commission a bespoke piece, designed with you,
-      perfectly tailored to bring joy to your event.
-    </P>
+        <span className="text-[1.5rem]">Bring any space to life</span>
+      </P>
+      <P>
+        Delight your audience with a unique BryFly creation. Hire an existing
+        design or commission a bespoke piece, designed with you, perfectly
+        tailored to bring joy to your event.
+      </P>
+    </div>
   )
 }
 
 export function SocialLinks() {
   return (
-    <div className="flex flex-col lg:flex-row justify-center items-center gap-2 text-3xl tracking-wider">
-      <a
-        className="px-4 py-1.5 lg:text-2xl text-stone-200/80 hover:text-stone-50
-        border-2 border-transparent hover:border-stone-200/15
-        transition rounded-lg hover:rounded-sm
-        bg-stone-900/70 hover:bg-stone-900 hover:bg-stone/5"
-        style={fonts.heading.style}
+    <div
+      className="flex flex-row justify-center items-center gap-3 md:gap-4
+      text-lg xl:text-xl text-center
+      *:inline-block tracking-wide"
+    >
+      <Link
+        className="text-stone-200/80 hover:text-stone-50 border-none
+        transition break-keep underline underline-offset-6
+        decoration-2 decoration-stone-500 hover:decoration-stone-400
+        font-medium"
         href="https://www.instagram.com/bryfly2000"
         target="_blank"
         rel="noreferrer"
       >
-        Insta
-      </a>
-      <a
-        style={fonts.heading.style}
-        className="break-keep px-5 py-1.5 rounded-md
-        transition border-2 border-pink-400/40 hover:border-pink-300/90
-        scale-95 hover:scale-100 duration-75
-        text-transparent
-        bg-clip-text bg-gradient-to-bl from-pink-600 to-pink-300"
+        Contact
+      </Link>
+      <Link
+        prefetch
+        className="transition px-3 font-bold border-0
+        underline underline-offset-6
+        decoration-2 hover:decoration-4 decoration-pink-400 hover:decoration-pink-300
+        text-transparent bg-clip-text bg-gradient-to-bl from-pink-600/90 to-pink-300
+        border-pink-400/80 hover:border-pink-300 hover:from-pink-500 hover:to-pink-100"
         href="/hire"
       >
-        Hire me!
-      </a>
+        Disco ball hire
+      </Link>
     </div>
   )
 }

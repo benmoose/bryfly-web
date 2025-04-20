@@ -5,15 +5,14 @@ import PageHeader, { About, SocialLinks } from "./components/bryfly"
 export default async function Page() {
   const groups = await getGroupNames()
   return (
-    <main className="grid gap-3 md:gap-12 w-full max-w-[1920px] mx-auto p-4">
-      <PageHeader />
-      <SocialLinks />
+    <main className="w-full max-w-[1920px] mx-auto p-4">
+      <div className="grid gap-2 xl:gap-3 mb-12">
+        <PageHeader />
+      </div>
       <ImageGrid group="hero" showTitle={false}>
-        <div
-          className="flex flex-col items-center justify-center gap-6
-          rounded-xl px-8 pb-12 text-center"
-        >
+        <div className="flex flex-col gap-3 px-3 md:px-6 pb-9 items-center sm:items-start">
           <About />
+          <SocialLinks />
         </div>
       </ImageGrid>
       {groups.map(group => (
