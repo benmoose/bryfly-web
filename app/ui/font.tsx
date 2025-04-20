@@ -1,13 +1,18 @@
 import { Bangers, Finger_Paint } from "next/font/google"
 
-export const subtitle = Finger_Paint({
+const handwritten = Finger_Paint({
   display: "auto",
   weight: "400",
   subsets: ["latin"],
 })
 
-export const display = Bangers({
+const comic = Bangers({
   display: "auto",
   weight: "400",
   subsets: ["latin"],
 })
+
+export const fonts = {
+  heading: comic,
+  handwritten: handwritten,
+}

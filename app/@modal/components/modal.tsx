@@ -15,8 +15,8 @@ import {
   notSelectedVariant,
   pressedVariant,
   selectedVariant,
-} from "app/ui/button"
-import { CdnThumbnail } from "app/ui/cdn-image"
+} from "app/components/button"
+import { CdnThumbnail } from "app/components/cdn-image"
 import type { ImageResource, Ordered } from "lib/cloudinary"
 import { motion } from "motion/react"
 import { useRouter, useSelectedLayoutSegment } from "next/navigation"

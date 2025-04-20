@@ -2,10 +2,10 @@
 
 import { type ReactNode, useContext } from "react"
 import Link from "next/link"
-import { ImagesContext } from "app/context"
-import { display } from "app/ui/font"
-import { CdnImage } from "app/ui/cdn-image"
 import { motion } from "motion/react"
+import { ImagesContext } from "app/context"
+import { CdnImage } from "app/components/cdn-image"
+import { H2 } from "app/ui/text"
 
 const MotionLink = motion.create(Link)
 
@@ -62,14 +62,7 @@ export default function ImageGrid({
     ))
   return (
     <article className="@container">
-      {showTitle && (
-        <h2
-          className="text-3xl md:text-5xl tracking-wider uppercase mb-3 text-stone-100"
-          style={display.style}
-        >
-          {group}
-        </h2>
-      )}
+      {showTitle && <H2 className="mb-3 text-stone-100">{group}</H2>}
       <div className="columns-1 @xl:columns-2 @4xl:columns-3 gap-3 mb-8 *:mb-3">
         {children}
         {grid}

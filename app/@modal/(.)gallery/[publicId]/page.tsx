@@ -2,7 +2,7 @@
 
 import { ImagesContext } from "app/context"
 import { DialogTitle } from "@headlessui/react"
-import { CdnImage } from "app/ui/cdn-image"
+import { CdnImage } from "app/components/cdn-image"
 import { notFound, useParams } from "next/navigation"
 import { use } from "react"
 
@@ -21,6 +21,7 @@ export default function Page() {
     <>
       <CdnImage
         priority
+        loading="eager"
         key={image.key}
         image={image}
         className="w-fit rounded-xl
@@ -32,10 +33,7 @@ export default function Page() {
       />
       <div className="relative">
         {image.displayName && (
-          <DialogTitle
-            className="flex-initial
-            text-lg md:text-xl font-bold tracking-wide text-slate-50"
-          >
+          <DialogTitle className="flex-initial text-lg md:text-xl font-bold tracking-wide text-slate-50">
             {image.displayName}
           </DialogTitle>
         )}

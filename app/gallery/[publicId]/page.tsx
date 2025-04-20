@@ -1,4 +1,4 @@
-import { CdnImage } from "app/ui/cdn-image"
+import { CdnImage } from "app/components/cdn-image"
 import { getImages, getImage } from "lib/cloudinary"
 import { notFound } from "next/navigation"
 
