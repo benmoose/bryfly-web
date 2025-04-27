@@ -17,9 +17,9 @@ export default function Page() {
 
       <main className="@container grid gap-3 columns-1 @xl:columns-2 @4xl:columns-3">
         <div className="columns-1 @xl:columns-2 @4xl:columns-3 *:mb-3">
-          <HireLink href="/" image="" text="Foo bar fas" title="Flange" />
+          <HireLink href="/flange" image="" text="Foo bar fas" title="Flange" />
           <HireLink
-            href="/"
+            href="/disco-dick"
             image=""
             text="Foo bar fas"
             title="The Disco Dick"
