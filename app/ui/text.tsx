@@ -37,9 +37,9 @@ function H({
 }
 
 function createHeading(level: HeadingLevel) {
-  return (props: { children: ReactNode; className?: string }) => (
-    <H {...props} level={level} />
-  )
+  return function Heading(props: { children: ReactNode; className?: string }) {
+    return <H {...props} level={level} />
+  }
 }
 
 export const H1 = createHeading(1)
