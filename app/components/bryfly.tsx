@@ -60,7 +60,7 @@ export function SocialLinks() {
         target="_blank"
         rel="noreferrer"
       >
-        Contact
+        Commissions
       </Link>
       <Link
         prefetch
@@ -71,7 +71,7 @@ export function SocialLinks() {
         border-pink-400/80 hover:border-pink-300 hover:from-pink-500 hover:to-pink-100"
         href="/hire"
       >
-        Disco ball hire
+        Hiring
       </Link>
     </div>
   )
