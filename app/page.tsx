@@ -1,9 +1,7 @@
 import ImageGrid from "app/components/image-grid"
-import { getGroupNames } from "lib/cloudinary"
 import PageHeader, { About, SocialLinks } from "./components/bryfly"
 
 export default async function Page() {
-  const groups = await getGroupNames()
   return (
     <main className="w-full max-w-[1920px] mx-auto p-4">
       <div className="grid gap-2 xl:gap-3 mb-12">
@@ -15,9 +13,6 @@ export default async function Page() {
           <SocialLinks />
         </div>
       </ImageGrid>
-      {groups.map(group => (
-        <ImageGrid key={group} group={group} />
-      ))}
     </main>
   )
 }

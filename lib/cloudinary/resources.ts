@@ -65,24 +65,7 @@ async function getRootFolders(): Promise<RootFolder[]> {
   return response.folders
 }
 
-const getResources = async function _getResources(
-  group: string,
-): Promise<ResourceCommon[]> {
-  if (isDev()) {
-    return fixture(`resources-${group}.json`).resources.map(apiToInternal)
-  }
-
-  // TODO: implement pagination
-  const response = await client.api.resources_by_asset_folder(group, {
-    context: true,
-    direction: "desc",
-    image_metadata: true,
-    max_results: 250,
-  })
-  return response.resources.map(apiToInternal)
-}
-
-export const getImages = async function getImages(
+export async function getImages(
   group: string,
 ): Promise<Ordered<ImageResource>[]> {
   if (!group || group.trim() === "") {
@@ -111,6 +94,21 @@ type ApiResource = ResourceApiResponse["resources"][number] & {
   asset_id?: string
 }
 
+async function getResources(group: string): Promise<ResourceCommon[]> {
+  if (isDev()) {
+    return fixture(`resources-${group}.json`).resources.map(apiToInternal)
+  }
+
+  // TODO: implement pagination
+  const response = await client.api.resources_by_asset_folder(group, {
+    context: true,
+    direction: "desc",
+    image_metadata: true,
+    max_results: 250,
+  })
+  return response.resources.map(apiToInternal)
+}
+
 export async function getImage(publicId: string): Promise<ImageResource> {
   const imagePromise: Promise<ApiResource> = client.api.resource(publicId, {
     context: true,
@@ -127,8 +125,6 @@ export async function getImage(publicId: string): Promise<ImageResource> {
     imagePromise,
     placeholderPromise,
   ])
-  console.log("IMAGE:", JSON.stringify(image, null, 2))
-
   return {
     ...apiToInternal(image),
     placeholderUrl,
