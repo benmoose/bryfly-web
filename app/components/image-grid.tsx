@@ -19,6 +19,7 @@ export default function ImageGrid({
   showTitle?: boolean
 }) {
   const { repo, groups } = useContext(ImagesContext)
+
   if (!groups[group]) {
     return null
   }

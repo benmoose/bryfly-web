@@ -1,45 +1,36 @@
 import Image from "next/image"
+import font from "app/ui/font"
 import Link from "next/link"
-import { fonts } from "app/ui/font"
-import { P } from "app/ui/text"
 import BryFlyLogo from "public/bryfly-logo-1.png"
 
-export default function PageHeader() {
+type MastheadProps = {
+  tagline?: boolean
+  large?: boolean
+}
+
+export function Masthead({ large = false, tagline = false }: MastheadProps) {
+  const sizeClassNames = large
+    ? "w-[288px] sm:w-[334px] xl:w-[424px]"
+    : "max-w-[264px] w-[180px] md:w-[210px]"
   return (
     <div className="grid gap-1 pb-1.5 pt-4 md:pt-6 xl:pt-9">
       <Image
         loading="eager"
         src={BryFlyLogo}
         alt="BryFly logo"
-        className="mx-auto w-[288px] sm:w-[334px] xl:w-[424px]"
+        className={`mx-auto ${sizeClassNames}`}
         sizes="(max-width: 768px) 288px,
         (max-width: 1280px) 320px,
         404px"
       />
-      <h2
-        className="text-center uppercase text-lg sm:text-xl xl:text-2xl tracking-wider text-pink-50/70"
-        style={fonts.handwritten.style}
-      >
-        Where light takes flight
-      </h2>
-    </div>
-  )
-}
-
-export function About() {
-  return (
-    <div className="text-center sm:text-left antialiased">
-      <P
-        className="font-bold text-transparent text-pretty
-        bg-clip-text bg-gradient-to-tr from-pink-500 to-purple-300"
-      >
-        <span className="text-[1.5rem]">Bring any space to life</span>
-      </P>
-      <P>
-        Delight your audience with a unique BryFly creation. Hire an existing
-        design or commission a bespoke piece, designed with you, perfectly
-        tailored to bring joy to your event.
-      </P>
+      {tagline && (
+        <h2
+          className="text-center uppercase text-lg sm:text-xl xl:text-2xl tracking-wider text-pink-50/70"
+          style={font.handwritten.style}
+        >
+          Where light takes flight
+        </h2>
+      )}
     </div>
   )
 }

@@ -12,7 +12,7 @@ const comic = Bangers({
   subsets: ["latin"],
 })
 
-export const fonts = {
+export default {
   heading: comic,
   handwritten: handwritten,
 }
