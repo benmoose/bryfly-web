@@ -3,29 +3,27 @@ import font from "app/ui/font"
 import Link from "next/link"
 import BryFlyLogo from "public/bryfly-logo-1.png"
 
-type MastheadProps = {
+export function Masthead({
+  className,
+  tagline = false,
+}: {
+  className?: string
   tagline?: boolean
-  large?: boolean
-}
-
-export function Masthead({ large = false, tagline = false }: MastheadProps) {
-  const sizeClassNames = large
-    ? "w-[288px] sm:w-[334px] xl:w-[424px]"
-    : "max-w-[264px] w-[180px] md:w-[210px]"
-  return (
-    <div className="grid gap-1 pb-1.5 pt-4 md:pt-6 xl:pt-9">
+}) {
+  const bryflyLogo = (
+    <div className="flex flex-col">
       <Image
         loading="eager"
         src={BryFlyLogo}
         alt="BryFly logo"
-        className={`mx-auto ${sizeClassNames}`}
+        className="max-w-md w-full"
         sizes="(max-width: 768px) 288px,
         (max-width: 1280px) 320px,
         404px"
       />
       {tagline && (
         <h2
-          className="text-center uppercase text-lg sm:text-xl xl:text-2xl tracking-wider text-pink-50/70"
+          className="pt-0.5 text-center uppercase text-lg sm:text-xl xl:text-2xl tracking-wider text-pink-50/70"
           style={font.handwritten.style}
         >
           Where light takes flight
@@ -33,6 +31,7 @@ export function Masthead({ large = false, tagline = false }: MastheadProps) {
       )}
     </div>
   )
+  return className ? <div className={className}>{bryflyLogo}</div> : bryflyLogo
 }
 
 export function SocialLinks() {

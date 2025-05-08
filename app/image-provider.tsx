@@ -1,6 +1,6 @@
 "use client"
 
-import { useReducer, type ReactNode } from "react"
+import { type ReactNode, useReducer } from "react"
 import { ImagesContext } from "app/context"
 import { initialiseState, reducer } from "app/reducer"
 import type { ImageResource } from "lib/cloudinary"

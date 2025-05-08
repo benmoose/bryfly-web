@@ -8,7 +8,7 @@ import {
 } from "cloudinary"
 import { isDev } from "lib/utils"
 import getClient from "./client"
-import { fixture } from "./mock"
+import { fixture } from "./fixtures"
 
 type DataUrl = `data:image/${string}`
 
@@ -43,11 +43,21 @@ export interface ImageResource extends Resource<"image"> {
 
 const client = getClient()
 
-export async function getGroupNames(): Promise<string[]> {
-  const rootFolders = await getRootFolders()
-  return rootFolders
+export async function getImageGroups(): Promise<{
+  [group: string]: Ordered<ImageResource>[]
+}> {
+  const publicFolders = (await getRootFolders())
     .map(folder => folder.name)
-    .filter(name => name.match(/^[A-Z].*/) !== null)
+    .filter(name => /^[A-Z]\w*/.test(name))
+  const images = await Promise.all(publicFolders.map(getImages))
+
+  return publicFolders.reduce(
+    (acc, group, i) => ({
+      ...acc,
+      [group]: images[i],
+    }),
+    {},
+  )
 }
 
 type RootFolder = {
@@ -60,9 +70,7 @@ async function getRootFolders(): Promise<RootFolder[]> {
   if (isDev()) {
     return fixture("root-folders.json").folders
   }
-  const response: { folders: RootFolder[]; total_count: number } =
-    await client.api.root_folders()
-  return response.folders
+  return client.api.root_folders().then(res => res.folders)
 }
 
 export async function getImages(

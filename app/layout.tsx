@@ -2,7 +2,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { type ReactNode } from "react"
 import type { Metadata, Viewport } from "next"
-import { getGroupNames, getImages } from "lib/cloudinary"
+import { getImageGroups } from "lib/cloudinary"
 import ImagesProvider from "app/image-provider"
 
 import "./global.css"
@@ -38,19 +38,7 @@ export default async function RootLayout({
   children: ReactNode
   modal: ReactNode
 }) {
-  const groupNames = await getGroupNames()
-  const hero = await getImages("hero")
-  const groupImages = await Promise.all(groupNames.map(getImages))
-  const groups = groupNames.reduce(
-    (acc, group, index) => {
-      return {
-        ...acc,
-        [group]: groupImages[index],
-      }
-    },
-    { hero },
-  )
-
+  const groups = await getImageGroups()
   return (
     <html lang="en">
       <body className="bg-stone-950 antialiased selection:bg-pink-300 selection:text-pink-950">

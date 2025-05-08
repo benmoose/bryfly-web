@@ -64,10 +64,7 @@ export function P({ children, className, ...props }: BaseProps) {
 
 export function GradientText({ children, className }: BaseProps) {
   return (
-    <P
-      className="inline-block text-transparent tracking-wider text-pretty font-semibold
-              text-[1.5rem] bg-clip-text bg-gradient-to-tr from-pink-500 to-purple-300"
-    >
+    <P className="inline-block text-transparent tracking-wider text-pretty font-semibold bg-clip-text bg-gradient-to-tr from-pink-500 to-purple-300">
       {className?.trim() ? (
         <span className={className}>{children}</span>
       ) : (

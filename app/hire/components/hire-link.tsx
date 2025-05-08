@@ -3,33 +3,54 @@
 import { useContext } from "react"
 import Link from "next/link"
 import { CdnImage } from "app/components/cdn-image"
-import { H3 } from "app/ui/text"
+import { H3, P, GradientText } from "app/ui/text"
 import { ImagesContext } from "app/context"
+import type { ImageResource } from "lib/cloudinary"
 
-export default function HireLink({
+export default function HireLinks() {
+  const { repo, groups } = useContext(ImagesContext)
+  const groupNames = Object.keys(groups)
+  return (
+    <div className="@container columns-1 @xl:columns-2 @4xl:columns-3">
+      <div className="columns-1 @xl:columns-2 @4xl:columns-3 *:mb-3">
+        {groupNames.map(name => (
+          <HireLink
+            key={`${name}-${groups[name].length}`}
+            title={name}
+            image={repo[groups[name][0]]}
+            href=""
+            text={`Placeholder text for ${name}...`}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function HireLink({
   title,
   href,
+  image,
   text,
 }: {
   title: string
   href: string
-  image?: string
+  image?: ImageResource
   text: string
 }) {
-  const { repo } = useContext(ImagesContext)
-  const images = Object.values(repo)
-  const r = Math.floor(Math.random() * images.length)
   return (
     <div className="flex flex-col items-start">
       <H3 className="mb-3">{title}</H3>
       <div className="relative w-full px-3 py-6">
-        <div className="-z-50 absolute inset-0 bg-amber-50 overflow-hidden rounded-md">
-          <CdnImage image={images[r]} />
-        </div>
-        <p className="text-stone-200 text-lg font-medium">{text}</p>
-        <Link href={href} className="text-pink-500 font-bold">
-          More info ▶︎
-        </Link>
+        {image && (
+          <div className="absolute -z-50 bg-gradient-to-br from-sky-950/85 to-slate-900/70 inset-0 overflow-hidden rounded-md">
+            <CdnImage image={image} />
+          </div>
+        )}
+        <P className="text-stone-200 text-lg font-medium">{text}</P>
+        <GradientText>
+          <Link href={href}>More info</Link>
+        </GradientText>
       </div>
     </div>
   )

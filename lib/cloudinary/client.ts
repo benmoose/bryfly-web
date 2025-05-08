@@ -1,6 +1,6 @@
 import { type ResourceApiResponse, v2 as cloudinary } from "cloudinary"
 import { isDev } from "lib/utils"
-import { fixture } from "lib/cloudinary/mock"
+import { fixture } from "lib/cloudinary/fixtures"
 
 interface CloudinaryClient {
   api: {
