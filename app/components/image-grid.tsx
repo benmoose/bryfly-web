@@ -1,6 +1,7 @@
 "use client"
 
 import { type ReactNode, useContext } from "react"
+import classNames from "classnames"
 import Link from "next/link"
 import { motion } from "motion/react"
 import { ImagesContext } from "app/context"
@@ -45,10 +46,13 @@ export default function ImageGrid({
           damping: 10,
         }}
         href={`/gallery/${image.publicId}`}
-        className="group relative block w-full cursor-zoom-in rounded-lg
-        overflow-x-hidden transition-[outline] outline-2 outline-offset-4
-        outline-transparent scale-98
-        focus:outline-slate-100/95"
+        className={classNames(
+          `group relative block w-full cursor-zoom-in rounded-lg
+          overflow-x-hidden transition-[outline] outline-2 outline-offset-4
+          outline-transparent scale-98
+        focus:outline-slate-100/95`,
+          { "order-1": image.index === 2 },
+        )}
       >
         <CdnImage
           image={image}
@@ -61,13 +65,15 @@ export default function ImageGrid({
         />
       </MotionLink>
     ))
+
   return (
-    <article className="@container">
+    <section className="container">
       {showTitle && <H2 className="mb-3 text-stone-100">{group}</H2>}
-      <div className="columns-1 @xl:columns-2 @4xl:columns-3 gap-3 mb-8 *:mb-3">
-        {children}
+      {children}
+      <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 grid-flow-dense gap-3">
         {grid}
       </div>
-    </article>
+    </section>
   )
 }
+//columns-1 @xl:columns-2 @4xl:columns-3

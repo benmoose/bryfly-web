@@ -10,8 +10,8 @@ export function Masthead({
   className?: string
   tagline?: boolean
 }) {
-  const bryflyLogo = (
-    <div className="flex flex-col">
+  const logo = (
+    <div className="block">
       <Image
         loading="eager"
         src={BryFlyLogo}
@@ -23,7 +23,8 @@ export function Masthead({
       />
       {tagline && (
         <h2
-          className="pt-0.5 text-center uppercase text-lg sm:text-xl xl:text-2xl tracking-wider text-pink-50/70"
+          className="pt-0.5 text-center uppercase text-base md:text-xl xl:text-2xl
+            tracking-wider text-pink-50/70"
           style={font.handwritten.style}
         >
           Where light takes flight
@@ -31,7 +32,7 @@ export function Masthead({
       )}
     </div>
   )
-  return className ? <div className={className}>{bryflyLogo}</div> : bryflyLogo
+  return className ? <div className={className}>{logo}</div> : logo
 }
 
 export function SocialLinks() {

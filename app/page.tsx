@@ -11,7 +11,7 @@ export default async function Page() {
     <main className="w-full max-w-[1920px] mx-auto p-4">
       <div
         className="flex flex-row justify-center
-          pb-1.5 pt-4 md:pt-6 xl:pt-9 mb-12"
+          pb-6 pt-4 sm:pb-12 xl:pt-6 xl:mb-12"
       >
         <Masthead tagline />
       </div>
