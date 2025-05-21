@@ -1,18 +1,9 @@
-import { Bangers, Finger_Paint } from "next/font/google"
+import { Finger_Paint } from "next/font/google"
 
-const handwritten = Finger_Paint({
+const fingerPaint = Finger_Paint({
   display: "auto",
   weight: "400",
   subsets: ["latin"],
 })
 
-const comic = Bangers({
-  display: "auto",
-  weight: "400",
-  subsets: ["latin"],
-})
-
-export default {
-  heading: comic,
-  handwritten: handwritten,
-}
+export { fingerPaint }

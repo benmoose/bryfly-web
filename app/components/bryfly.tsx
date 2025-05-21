@@ -1,8 +1,7 @@
 import Image from "next/image"
-import { H3 } from "app/ui/text"
 import Link from "next/link"
+import { H3 } from "app/ui/text"
 import BryFlyLogo from "public/bryfly-logo-1.png"
-import font from "app/ui/font"
 
 export function Masthead({ tagline = false }: { tagline?: boolean }) {
   return (
@@ -18,7 +17,6 @@ export function Masthead({ tagline = false }: { tagline?: boolean }) {
         <H3
           className="pt-0 mx-3 text-center uppercase tracking-wider
             text-pink-50/70 text-[1.05rem] md:text-[1.6rem]"
-          style={font.handwritten.style}
         >
           Where light takes flight
         </H3>

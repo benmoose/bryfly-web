@@ -1,6 +1,6 @@
 import type { ReactElement, ReactNode, JSX } from "react"
 import classnames from "classnames"
-import font from "./font"
+import { fingerPaint } from "./font"
 
 interface BaseProps {
   children?: ReactNode
@@ -16,16 +16,6 @@ const headingClass: Record<HeadingLevel, string> = {
   3: "text-2xl md:text-3xl",
 }
 
-export const H1 = createHeading(1)
-export const H2 = createHeading(2)
-export const H3 = createHeading(3)
-
-function createHeading(level: HeadingLevel) {
-  return function Heading(props: BaseProps): JSX.Element {
-    return <H {...props} level={level} />
-  }
-}
-
 function H({
   children,
   className,
@@ -38,7 +28,7 @@ function H({
       {...props}
       className={classnames(
         "tracking-wider mb-3 text-stone-200",
-        font.handwritten.className,
+        fingerPaint.className,
         headingClass[level],
         className,
       )}
@@ -48,7 +38,17 @@ function H({
   )
 }
 
-export function P({ children, className, ...props }: BaseProps) {
+function createHeading(level: HeadingLevel) {
+  return function Heading(props: BaseProps): JSX.Element {
+    return <H {...props} level={level} />
+  }
+}
+
+const H1 = createHeading(1)
+const H2 = createHeading(2)
+const H3 = createHeading(3)
+
+function P({ children, className, ...props }: BaseProps) {
   return (
     <p
       {...props}
@@ -63,7 +63,7 @@ export function P({ children, className, ...props }: BaseProps) {
   )
 }
 
-export function Gradient({ children, className }: BaseProps) {
+function Gradient({ children, className }: BaseProps) {
   return (
     <P
       className={classnames(
@@ -76,3 +76,5 @@ export function Gradient({ children, className }: BaseProps) {
     </P>
   )
 }
+
+export { H1, H2, H3, P, Gradient }
