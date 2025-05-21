@@ -1,0 +1,25 @@
+{
+  "resources": [
+    {
+      "asset_id": "6ce77c0fca194e816b3837c0a155b218",
+      "public_id": "qovphwvlsnlobpcfoqbt",
+      "format": "jpg",
+      "version": 1746679576,
+      "resource_type": "image",
+      "type": "private",
+      "created_at": "2025-05-08T04:46:16Z",
+      "bytes": 1653589,
+      "width": 1733,
+      "height": 2600,
+      "asset_folder": "Disco Cock",
+      "display_name": "Disco Cock",
+      "url": "https://res.cloudinary.com/bryfly/image/private/s--NJGQFZDK--/v1746679758/vvozkytfpy96z4jzhbfk.jpg",
+      "secure_url": "https://res.cloudinary.com/bryfly/image/private/s--NJGQFZDK--/v1746679758/vvozkytfpy96z4jzhbfk.jpg"
+    }
+  ],
+  "total_count": 1,
+  "next_cursor": null,
+  "rate_limit_allowed": 500,
+  "rate_limit_reset_at": "2025-05-10T17:00:00.000Z",
+  "rate_limit_remaining": 436
+}

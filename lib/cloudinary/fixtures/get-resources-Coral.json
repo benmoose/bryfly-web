@@ -1,0 +1,25 @@
+{
+  "resources": [
+    {
+      "asset_id": "1ed524b5c16e5229b0b56066cc061294",
+      "public_id": "gv2h1rscelcmcmsfn4nh",
+      "format": "jpg",
+      "version": 1746679750,
+      "resource_type": "image",
+      "type": "private",
+      "created_at": "2025-05-08T04:49:10Z",
+      "bytes": 2172678,
+      "width": 2600,
+      "height": 1733,
+      "asset_folder": "Coral",
+      "display_name": "Coral",
+      "url": "http://res.cloudinary.com/bryfly/image/private/s--pHTrtF94--/v1746679750/gv2h1rscelcmcmsfn4nh.jpg",
+      "secure_url": "https://res.cloudinary.com/bryfly/image/private/s--pHTrtF94--/v1746679750/gv2h1rscelcmcmsfn4nh.jpg"
+    }
+  ],
+  "total_count": 1,
+  "next_cursor": null,
+  "rate_limit_allowed": 500,
+  "rate_limit_reset_at": "2025-05-10T17:00:00.000Z",
+  "rate_limit_remaining": 436
+}

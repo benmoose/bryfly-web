@@ -1,24 +1,34 @@
 {
   "folders": [
     {
-      "name": "Earworm",
-      "path": "Earworm",
-      "external_id": "ca23fa75d589092ab2ab2dde4e4c81f9c0"
+      "name": "Bobble",
+      "path": "Bobble",
+      "external_id": "cb571979ba0952bb00ab636338622e9163"
     },
     {
-      "name": "Flange",
-      "path": "Flange",
-      "external_id": "cb1253276c893be2f34406d6e679a1725b"
+      "name": "Coral",
+      "path": "Coral",
+      "external_id": "cb57194cb709362fa9d0bfd1d5b0c1b7c6"
+    },
+    {
+      "name": "Disco Cock",
+      "path": "Disco Cock",
+      "external_id": "cb571941c8093f0939d2d5153138bb984e"
     },
     {
       "name": "hero",
       "path": "hero",
       "external_id": "cb082012730937346578818e5b1cd7c653"
+    },
+    {
+      "name": "Infinity Worm",
+      "path": "Infinity Worm",
+      "external_id": "cb57195ed109006ab0bc0ce8094b1993cb"
     }
   ],
   "next_cursor": null,
-  "total_count": 4,
+  "total_count": 5,
   "rate_limit_allowed": 500,
-  "rate_limit_reset_at": "2025-04-16T06:00:00.000Z",
-  "rate_limit_remaining": 474
+  "rate_limit_reset_at": "2025-05-10T17:00:00.000Z",
+  "rate_limit_remaining": 499
 }

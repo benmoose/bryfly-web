@@ -1,0 +1,25 @@
+{
+  "resources": [
+    {
+      "asset_id": "889e58582839fdfb08135ff94fd2ec0b",
+      "public_id": "bvio0txjb77zvj1ghwly",
+      "format": "jpg",
+      "version": 1746679359,
+      "resource_type": "image",
+      "type": "private",
+      "created_at": "2025-05-08T04:42:39Z",
+      "bytes": 2376655,
+      "width": 2600,
+      "height": 1733,
+      "asset_folder": "Infinity Worm",
+      "display_name": "Infinity Worm",
+      "url": "http://res.cloudinary.com/bryfly/image/private/s--FN2z9z40--/v1746679359/bvio0txjb77zvj1ghwly.jpg",
+      "secure_url": "https://res.cloudinary.com/bryfly/image/private/s--FN2z9z40--/v1746679359/bvio0txjb77zvj1ghwly.jpg"
+    }
+  ],
+  "total_count": 1,
+  "next_cursor": null,
+  "rate_limit_allowed": 500,
+  "rate_limit_reset_at": "2025-05-10T17:00:00.000Z",
+  "rate_limit_remaining": 436
+}

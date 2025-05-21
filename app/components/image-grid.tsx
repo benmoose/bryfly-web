@@ -47,10 +47,9 @@ export default function ImageGrid({
         }}
         href={`/gallery/${image.publicId}`}
         className={classNames(
-          `group relative block w-full cursor-zoom-in rounded-lg
+          `group relative w-full cursor-zoom-in rounded-lg
           overflow-x-hidden transition-[outline] outline-2 outline-offset-4
-          outline-transparent scale-98
-        focus:outline-slate-100/95`,
+          outline-transparent scale-98 focus:outline-slate-100/95`,
           { "order-1": image.index === 2 },
         )}
       >
@@ -67,13 +66,13 @@ export default function ImageGrid({
     ))
 
   return (
-    <section className="container">
+    <>
       {showTitle && <H2 className="mb-3 text-stone-100">{group}</H2>}
       {children}
-      <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 grid-flow-dense gap-3">
+      <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 xl:grid-cols-4">
         {grid}
       </div>
-    </section>
+    </>
   )
 }
 //columns-1 @xl:columns-2 @4xl:columns-3

@@ -1,33 +1,9 @@
-"use client"
-
-import { useContext } from "react"
 import Link from "next/link"
 import { CdnImage } from "app/components/cdn-image"
-import { H3, P, GradientText } from "app/ui/text"
-import { ImagesContext } from "app/context"
+import { H3, P, Gradient } from "app/ui/text"
 import type { ImageResource } from "lib/cloudinary"
 
-export default function HireLinks() {
-  const { repo, groups } = useContext(ImagesContext)
-  const groupNames = Object.keys(groups)
-  return (
-    <div className="@container columns-1 @xl:columns-2 @4xl:columns-3">
-      <div className="columns-1 @xl:columns-2 @4xl:columns-3 *:mb-3">
-        {groupNames.map(name => (
-          <HireLink
-            key={`${name}-${groups[name].length}`}
-            title={name}
-            image={repo[groups[name][0]]}
-            href=""
-            text={`Placeholder text for ${name}...`}
-          />
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function HireLink({
+export default function HireLink({
   title,
   href,
   image,
@@ -35,22 +11,27 @@ function HireLink({
 }: {
   title: string
   href: string
-  image?: ImageResource
+  image: ImageResource
   text: string
 }) {
   return (
-    <div className="flex flex-col items-start">
-      <H3 className="mb-3">{title}</H3>
-      <div className="relative w-full px-3 py-6">
-        {image && (
-          <div className="absolute -z-50 bg-gradient-to-br from-sky-950/85 to-slate-900/70 inset-0 overflow-hidden rounded-md">
-            <CdnImage image={image} />
-          </div>
-        )}
-        <P className="text-stone-200 text-lg font-medium">{text}</P>
-        <GradientText>
-          <Link href={href}>More info</Link>
-        </GradientText>
+    <div className="@container flex items-start break-inside-avoid">
+      <CdnImage
+        image={image}
+        className="flex-2/5 overflow-hidden bg-slate-800 mr-6 @xs:flex-1/3 @sm:flex-1/3
+          box-border object-cover object-center aspect-square rounded-full
+          border-2 ring-2  border-black/80 ring-slate-500/35 max-w-[200px]"
+      />
+      <div className="flex-1/2">
+        <H3 className="mb-3 text-balance">{title}</H3>
+        <P className="text-stone-200 text-pretty line-clamp-3">{text}</P>
+
+        <Gradient className="group brightness-100 hover:brightness-135 transition duration-75">
+          <Link href={href} className="static">
+            More info{" "}
+            <span className="inline-block pl-3 group-hover:scale-115">→</span>
+          </Link>
+        </Gradient>
       </div>
     </div>
   )

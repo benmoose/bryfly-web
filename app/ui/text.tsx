@@ -1,6 +1,12 @@
-import type { ReactNode, JSX } from "react"
+import type { ReactElement, ReactNode, JSX } from "react"
 import classnames from "classnames"
 import font from "./font"
+
+interface BaseProps {
+  children?: ReactNode
+  className?: string
+  style?: React.CSSProperties
+}
 
 type HeadingLevel = 1 | 2 | 3
 
@@ -10,9 +16,14 @@ const headingClass: Record<HeadingLevel, string> = {
   3: "text-2xl md:text-3xl",
 }
 
-type BaseProps = {
-  children: ReactNode
-  className?: string
+export const H1 = createHeading(1)
+export const H2 = createHeading(2)
+export const H3 = createHeading(3)
+
+function createHeading(level: HeadingLevel) {
+  return function Heading(props: BaseProps): JSX.Element {
+    return <H {...props} level={level} />
+  }
 }
 
 function H({
@@ -20,14 +31,14 @@ function H({
   className,
   level,
   ...props
-}: BaseProps & { level: HeadingLevel }) {
+}: BaseProps & { level: HeadingLevel }): ReactElement {
   const HeadingTag = `h${level}` as keyof JSX.IntrinsicElements
   return (
     <HeadingTag
       {...props}
       className={classnames(
         "tracking-wider mb-3 text-stone-200",
-        font.heading.className,
+        font.handwritten.className,
         headingClass[level],
         className,
       )}
@@ -37,23 +48,13 @@ function H({
   )
 }
 
-function createHeading(level: HeadingLevel) {
-  return function Heading(props: BaseProps) {
-    return <H {...props} level={level} />
-  }
-}
-
-export const H1 = createHeading(1)
-export const H2 = createHeading(2)
-export const H3 = createHeading(3)
-
 export function P({ children, className, ...props }: BaseProps) {
   return (
     <p
       {...props}
       className={classnames(
-        "mb-3 tracking-wide font-medium text-stone-100",
-        "text-lg xl:text-xl",
+        "mb-3 font-medium text-stone-100 tracking-wide text-pretty",
+        "text-base xl:text-lg",
         className,
       )}
     >
@@ -62,14 +63,16 @@ export function P({ children, className, ...props }: BaseProps) {
   )
 }
 
-export function GradientText({ children, className }: BaseProps) {
+export function Gradient({ children, className }: BaseProps) {
   return (
-    <P className="inline-block text-transparent tracking-wider text-pretty font-semibold bg-clip-text bg-gradient-to-tr from-pink-500 to-purple-300">
-      {className?.trim() ? (
-        <span className={className}>{children}</span>
-      ) : (
-        children
+    <P
+      className={classnames(
+        "text-transparent tracking-wider text-pretty font-semibold",
+        "bg-clip-text bg-gradient-to-tr from-pink-500 to-purple-300",
+        className,
       )}
+    >
+      {children}
     </P>
   )
 }

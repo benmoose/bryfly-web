@@ -26,6 +26,7 @@ export default function getClient(): CloudinaryClient {
     urlAnalytics: false,
   })
   client = isDev() ? new MockCloudinaryClient() : cloudinary
+
   return client
 }
 
@@ -38,13 +39,13 @@ class MockCloudinaryClient implements CloudinaryClient {
     resources_by_asset_folder: (
       group: string,
     ): Promise<ResourceApiResponse> => {
-      const contents = fixture(`resources-${group}.json`)
+      const contents = fixture(`get-resources-${group}.json`)
       return new Promise(resolve => resolve(contents))
     },
 
     resource: (key: string) => {
       const resources = ["earworm", "hero", "flange"]
-        .map(group => fixture(`resources-${group}.json`))
+        .map(group => fixture(`get-resources-${group}.json`))
         .map(res => res.resources)
         .flat()
       return resources.find(resource => resource["public_id"] === key)

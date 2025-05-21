@@ -104,7 +104,7 @@ type ApiResource = ResourceApiResponse["resources"][number] & {
 
 async function getResources(group: string): Promise<ResourceCommon[]> {
   if (isDev()) {
-    return fixture(`resources-${group}.json`).resources.map(apiToInternal)
+    return fixture(`get-resources-${group}.json`).resources.map(apiToInternal)
   }
 
   // TODO: implement pagination

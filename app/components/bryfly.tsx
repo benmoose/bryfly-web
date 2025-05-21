@@ -1,38 +1,30 @@
 import Image from "next/image"
-import font from "app/ui/font"
+import { H3 } from "app/ui/text"
 import Link from "next/link"
 import BryFlyLogo from "public/bryfly-logo-1.png"
+import font from "app/ui/font"
 
-export function Masthead({
-  className,
-  tagline = false,
-}: {
-  className?: string
-  tagline?: boolean
-}) {
-  const logo = (
-    <div className="block">
+export function Masthead({ tagline = false }: { tagline?: boolean }) {
+  return (
+    <Link href="/" className="block">
       <Image
         loading="eager"
         src={BryFlyLogo}
         alt="BryFly logo"
         className="max-w-md w-full"
-        sizes="(max-width: 768px) 288px,
-        (max-width: 1280px) 320px,
-        404px"
+        sizes="(max-width: 448px) 100w, 448px"
       />
       {tagline && (
-        <h2
-          className="pt-0.5 text-center uppercase text-base md:text-xl xl:text-2xl
-            tracking-wider text-pink-50/70"
+        <H3
+          className="pt-0 mx-3 text-center uppercase tracking-wider
+            text-pink-50/70 text-[1.05rem] md:text-[1.6rem]"
           style={font.handwritten.style}
         >
           Where light takes flight
-        </h2>
+        </H3>
       )}
-    </div>
+    </Link>
   )
-  return className ? <div className={className}>{logo}</div> : logo
 }
 
 export function SocialLinks() {
@@ -43,10 +35,10 @@ export function SocialLinks() {
       *:inline-block tracking-wide"
     >
       <Link
-        className="text-stone-200/80 hover:text-stone-50 border-none
-        transition break-keep underline underline-offset-6
-        decoration-2 decoration-stone-500 hover:decoration-stone-400
-        font-medium"
+        className="text-stone-200/80 hover:text-stone-50 font-medium
+        transition break-keep border-none tracking-wider
+        underline underline-offset-9 decoration-2 hover:decoration-4
+        decoration-stone-500 hover:decoration-stone-400"
         href="https://www.instagram.com/bryfly2000"
         target="_blank"
         rel="noreferrer"
@@ -56,13 +48,13 @@ export function SocialLinks() {
       <Link
         prefetch
         className="transition px-3 font-bold border-0
-        underline underline-offset-6
-        decoration-2 hover:decoration-4 decoration-pink-400 hover:decoration-pink-300
+        underline underline-offset-9 tracking-wider hover:scale-105
+        decoration-2 hover:decoration-4 decoration-pink-400/60 hover:decoration-pink-300
         text-transparent bg-clip-text bg-gradient-to-bl from-pink-600/90 to-pink-300
         border-pink-400/80 hover:border-pink-300 hover:from-pink-500 hover:to-pink-100"
         href="/hire"
       >
-        Hiring
+        Available to Hire
       </Link>
     </div>
   )

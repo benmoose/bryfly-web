@@ -18,7 +18,7 @@ export default async function Page({ params }: { params: Promise<Params> }) {
   }
 
   return (
-    <main className="relative mt-8 px-8 w-full max-w-(--breakpoint-xl) mx-auto">
+    <article className="relative mt-8 px-8 w-full max-w-(--breakpoint-xl) mx-auto">
       <div className="flex items-center justify-center max-h-full rounded-xl">
         <CdnImage
           priority
@@ -27,7 +27,7 @@ export default async function Page({ params }: { params: Promise<Params> }) {
           sizes="(max-width: 1280px) 100vw, 1280px"
         />
       </div>
-    </main>
+    </article>
   )
 }
 
