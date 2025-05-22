@@ -1,30 +1,36 @@
-import { getImageGroups, getImages } from "lib/cloudinary"
+import { Masthead } from "app/components/bryfly"
 import ImageGrid from "app/components/image-grid"
+import { getImageGroups, getImages } from "lib/cloudinary"
 
 type Params = { group: string }
 
-export async function generateStaticParams(): Promise<Params[]> {
-  const groups = await getImageGroups().then(Object.keys)
-  return groups.map(group => ({ group }))
-}
-
 export default async function Page({ params }: { params: Promise<Params> }) {
   const { group } = await params
-  const images = await getImages(group)
+  const groupDecoded = decodeURIComponent(group)
+  const images = await getImages(groupDecoded)
 
   return (
-    <div className="container mx-auto">
-      <pre className="text-stone-200">
-        Info page for <strong>{group}</strong> <em>({images.length} images)</em>
-        .
-      </pre>
+    <>
+      <Masthead />
+      <div className="container mx-auto">
+        <pre className="text-stone-200">
+          Info page for <strong>{groupDecoded}</strong>{" "}
+          <em>({images.length} image(s))</em>.
+        </pre>
 
-      <ImageGrid group={group} showTitle={false} />
-    </div>
+        <ImageGrid group={groupDecoded} />
+      </div>
+    </>
   )
 }
 
-// drop requests for groups that are not pre-generated at build time
+export async function generateStaticParams(): Promise<Params[]> {
+  const groups = await getImageGroups().then(Object.keys)
+  return groups.map(group => ({
+    group: encodeURIComponent(group),
+  }))
+}
+
 export const dynamicParams = false
 
 export const dynamic = "force-static"

@@ -29,10 +29,10 @@ export default function HireLink({
         <H3 className="mb-3 text-balance flex-1">{title}</H3>
         <P className="text-stone-300 text-pretty line-clamp-2">{text}</P>
         <Gradient className="brightness-100 group-hover:brightness-135 transition duration-75 flex-initial">
-          <Link href={href} className="whitespace-nowrap">
+          <span className="whitespace-nowrap">
             More info&nbsp;
             <span className="inline-block pl-1.5 invisible @sm:visible">→</span>
-          </Link>
+          </span>
         </Gradient>
       </div>
     </Link>

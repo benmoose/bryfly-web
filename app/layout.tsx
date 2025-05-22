@@ -41,7 +41,7 @@ export default async function RootLayout({
   const groups = await getImageGroups()
   return (
     <html lang="en">
-      <body className="bg-stone-950 antialiased selection:bg-pink-300 selection:text-pink-950">
+      <body className="bg-stone-950 antialiased selection:bg-pink-300 selection:text-purple-950">
         <ImagesProvider groups={groups}>
           {modal}
           {children}
