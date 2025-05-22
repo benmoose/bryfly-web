@@ -15,24 +15,26 @@ export default function HireLink({
   text: string
 }) {
   return (
-    <div className="@container flex items-start break-inside-avoid">
-      <CdnImage
-        image={image}
-        className="flex-2/5 overflow-hidden bg-slate-800 mr-6 @xs:flex-1/3 @sm:flex-1/3
-          box-border object-cover object-center aspect-square rounded-full
-          border-2 ring-2  border-black/80 ring-slate-500/35 max-w-[200px]"
-      />
-      <div className="flex-1/2">
-        <H3 className="mb-3 text-balance">{title}</H3>
-        <P className="text-stone-200 text-pretty line-clamp-3">{text}</P>
-
-        <Gradient className="group brightness-100 hover:brightness-135 transition duration-75">
-          <Link href={href} className="static">
-            More info{" "}
-            <span className="inline-block pl-3 group-hover:scale-115">→</span>
+    <Link
+      href={href}
+      className="@container flex group justify-start self-start items-stretch gap-x-4 md:gap-x-6
+        border-2 border-transparent rounded-2xl p-y-2 p-x-3 box-border
+      hover:bg-slate-800/50 hover:border-slate-700/30
+      transition-colors duration-125 ease-in-out"
+    >
+      <div className="flex-initial w-1/2 @md:w-1/3 relative grow-0 overflow-hidden rounded-2xl">
+        <CdnImage image={image} className="absolute h-fit w-fit" />
+      </div>
+      <div className="flex-auto w-1/2 @sm:w-2/3">
+        <H3 className="mb-3 text-balance flex-1">{title}</H3>
+        <P className="text-stone-300 text-pretty line-clamp-2">{text}</P>
+        <Gradient className="brightness-100 group-hover:brightness-135 transition duration-75 flex-initial">
+          <Link href={href} className="whitespace-nowrap">
+            More info&nbsp;
+            <span className="inline-block pl-1.5 invisible @sm:visible">→</span>
           </Link>
         </Gradient>
       </div>
-    </div>
+    </Link>
   )
 }

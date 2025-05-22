@@ -7,7 +7,7 @@ const FIXTURES_DIR = path.resolve("lib/cloudinary/fixtures")
 
 export function fixture(fixture: JsonString) {
   try {
-    const fixturePath = path.join(FIXTURES_DIR, fixture)
+    const fixturePath = path.join(FIXTURES_DIR, fixture.replace(" ", "_"))
     const data = readFileSync(fixturePath, { encoding: "utf-8" })
     return JSON.parse(data)
   } catch (err) {
