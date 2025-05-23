@@ -46,31 +46,43 @@ const client = getClient()
 export async function getImageGroups(): Promise<{
   [group: string]: Ordered<ImageResource>[]
 }> {
-  const publicFolders = (await getRootFolders())
-    .map(folder => folder.name)
-    .filter(name => /^[A-Z]\w*/.test(name))
-  const images = await Promise.all(publicFolders.map(getImages))
-
-  return publicFolders.reduce(
-    (acc, group, i) => ({
+  const folders = await getProductFolders()
+  const images = await Promise.all(
+    folders.map(folder => getImages(folder.path)),
+  )
+  return folders.reduce(
+    (acc, folder, i) => ({
       ...acc,
-      [group]: images[i],
+      [folder.path]: images[i],
     }),
     {},
   )
 }
 
-type RootFolder = {
+type Folder = {
   name: string
   path: string
-  external_id: string
 }
 
-async function getRootFolders(): Promise<RootFolder[]> {
+async function getProductFolders(): Promise<Folder[]> {
   if (isDev()) {
     return fixture("root-folders.json").folders
   }
-  return client.api.root_folders().then(res => res.folders)
+  return client.api
+    .root_folders()
+    .then(response =>
+      response.folders.filter((folder: Folder) =>
+        /^[A-Z]\w*/.test(folder.name),
+      ),
+    )
+}
+
+export async function getGroupDisplayName(
+  path: string,
+): Promise<string | null> {
+  const folders = await getProductFolders()
+  const folder = folders.find(folder => folder.path === path)
+  return folder?.name ?? null
 }
 
 export async function getImages(

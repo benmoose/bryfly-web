@@ -1,24 +1,22 @@
 import { Masthead } from "app/components/bryfly"
 import ImageGrid from "app/components/image-grid"
-import { getImageGroups, getImages } from "lib/cloudinary"
+import { getImageGroups, getGroupDisplayName } from "lib/cloudinary"
 
 type Params = { group: string }
 
 export default async function Page({ params }: { params: Promise<Params> }) {
   const { group } = await params
-  const groupDecoded = decodeURIComponent(group)
-  const images = await getImages(groupDecoded)
+  const groupName = await getGroupDisplayName(group)
 
   return (
     <>
       <Masthead />
       <div className="container mx-auto">
         <pre className="text-stone-200">
-          Info page for <strong>{groupDecoded}</strong>{" "}
-          <em>({images.length} image(s))</em>.
+          Info page for <strong>{groupName}</strong>
         </pre>
 
-        <ImageGrid group={groupDecoded} />
+        <ImageGrid group={group} />
       </div>
     </>
   )
@@ -26,9 +24,7 @@ export default async function Page({ params }: { params: Promise<Params> }) {
 
 export async function generateStaticParams(): Promise<Params[]> {
   const groups = await getImageGroups().then(Object.keys)
-  return groups.map(group => ({
-    group: encodeURIComponent(group),
-  }))
+  return groups.map(group => ({ group }))
 }
 
 export const dynamicParams = false
