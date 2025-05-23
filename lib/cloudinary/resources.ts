@@ -66,7 +66,7 @@ type Folder = {
 
 async function getProductFolders(): Promise<Folder[]> {
   if (isDev()) {
-    return fixture("root-folders.json").folders
+    return fixture("product-folders.json").folders
   }
   return client.api
     .root_folders()

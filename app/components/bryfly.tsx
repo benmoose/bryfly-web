@@ -15,7 +15,7 @@ export function Masthead({ tagline = false }: { tagline?: boolean }) {
       />
       {tagline && (
         <H3
-          className="pt-0 mx-3 text-center uppercase tracking-wider
+          className="inline-block w-full text-center uppercase tracking-wide
             text-pink-50/70 text-[1.05rem] md:text-[1.6rem]"
         >
           Where light takes flight

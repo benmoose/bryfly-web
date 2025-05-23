@@ -11,8 +11,8 @@ export default function Page() {
   const { repo, groups } = useContext(ImagesContext)
 
   return (
-    <div className="w-full max-w-[1920px] mx-auto p-4 md:px-9 lg:px-12">
-      <div className="flex flex-row justify-center mb-12 mt-6">
+    <>
+      <div className="flex justify-center">
         <Masthead />
       </div>
       <div className="w-full max-w-2xl mx-auto mb-20 px-3">
@@ -41,16 +41,16 @@ export default function Page() {
       >
         {Object.keys(groups)
           .sort()
-          .map(name => (
+          .map(group => (
             <HireLink
-              key={`${name}-${groups[name].length}`}
-              href={`/hire/${name}`}
-              title={name}
+              key={group}
+              href={`/hire/${group}`}
+              title={group}
               text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-              image={repo[groups[name][0]]}
+              image={repo[groups[group][0]]}
             />
           ))}
       </div>
-    </div>
+    </>
   )
 }

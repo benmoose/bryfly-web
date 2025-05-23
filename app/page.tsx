@@ -8,7 +8,7 @@ export default async function Page() {
   const hero = await getImages("hero")
 
   return (
-    <div className="container mx-auto pt-6 grid gap-9 lg:gap-12">
+    <div className="container grid gap-9 lg:gap-12 mx-auto pt-6">
       <div className="inline-block mx-auto">
         <Masthead tagline />
       </div>
