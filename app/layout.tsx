@@ -4,24 +4,36 @@ import { type ReactNode } from "react"
 import type { Metadata, Viewport } from "next"
 import { getImageGroups } from "lib/cloudinary"
 import ImagesProvider from "app/image-provider"
+import { siteUrl } from "app/utils"
 
 import "./global.css"
 
 export const metadata: Metadata = {
-  title: "BryFly",
-  description: "Bespoke disco balls.",
-  keywords: ["disco", "balls", "sculpture", "portfolio", "artist", "london"],
-  openGraph: {
-    title: "BryFly: Bespoke Disco Balls",
-    siteName: "BryFly: Bespoke Disco Balls",
-    description: "Bespoke disco balls.",
+  title: {
+    default: "Disco Balls | BryFly",
+    template: "%s | BryFly",
   },
-  creator: "Ben Hadfield",
-  applicationName: "BryFly: Bespoke Disco Balls",
+  description: "Unique disco ball sculptures available to commission or hire.",
+  keywords: ["disco", "balls", "sculpture", "portfolio", "artist", "london"],
+  metadataBase: siteUrl(),
+  applicationName: "BryFly",
+  openGraph: {
+    title: "Disco Balls | BryFly",
+    siteName: "BryFly",
+    description:
+      "Unique disco ball sculptures available to commission or hire.",
+  },
+  twitter: {
+    title: "BryFly",
+    description:
+      "Unique disco ball sculptures available to commission or hire.",
+  },
+  alternates: { canonical: "/" },
   authors: [
     { name: "Ben Hadfield", url: "https://github.com/benmoose" },
     { name: "Bryony Conroy", url: "https://instagram.com/bryfly2000" },
   ],
+  creator: "Ben Hadfield",
   robots: "index, follow",
 }
 

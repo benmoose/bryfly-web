@@ -1,8 +1,14 @@
+import type { Metadata } from "next"
 import ImageGrid from "app/components/image-grid"
 import { Masthead, SocialLinks } from "./components/bryfly"
 import { P, Gradient } from "app/ui/text"
 import { getImages } from "lib/cloudinary"
 import ImagesProvider from "app/image-provider"
+import { siteUrl } from "app/utils"
+
+export const metadata: Metadata = {
+  bookmarks: siteUrl().href,
+}
 
 export default async function Page() {
   const hero = await getImages("hero")
