@@ -2,6 +2,7 @@
 
 import { Cloudinary } from "@cloudinary/url-gen"
 import { name } from "@cloudinary/url-gen/actions/namedTransformation"
+import classNames from "classnames"
 import {
   default as NextImage,
   type ImageProps,
@@ -46,7 +47,7 @@ export function CdnImage({ image, alt, className, ...props }: Props) {
       blurDataURL={image.placeholderUrl}
       placeholder="blur"
       alt={alt ?? ""}
-      className={`object-contain ${className ?? ""}`}
+      className={classNames("object-contain", className)}
     />
   )
 }
@@ -60,7 +61,7 @@ export function CdnThumbnail({ image, alt, className, ...props }: Props) {
       loader={thumbnailLoader}
       src={image.publicId}
       placeholder={image.placeholderUrl}
-      className={`object-cover ${className ?? ""}`}
+      className={classNames("object-cover", className)}
       alt={alt ?? ""}
     />
   )
