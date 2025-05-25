@@ -11,7 +11,7 @@ export function Masthead({ tagline = false }: { tagline?: boolean }) {
         src={BryFlyLogo}
         alt="BryFly logo"
         className="w-full px-6 sm:px-0"
-        sizes="(max-width: 320px) 100w, 320px"
+        sizes="(max-width: 320px) 100vw, 320px"
       />
       {tagline && (
         <H3
@@ -47,7 +47,7 @@ export function SocialLinks() {
       <Link
         prefetch
         className="transition px-3 font-bold border-0
-        underline underline-offset-9 tracking-wider hover:scale-105
+        underline underline-offset-9 tracking-wider
         decoration-2 hover:decoration-4 decoration-pink-400/60 hover:decoration-pink-300
         text-transparent bg-clip-text bg-gradient-to-bl from-pink-600/90 to-pink-300
         border-pink-400/80 hover:border-pink-300 hover:from-pink-500 hover:to-pink-100"

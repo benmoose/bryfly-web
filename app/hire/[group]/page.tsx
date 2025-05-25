@@ -3,7 +3,7 @@ import { Masthead } from "app/components/bryfly"
 import ImageGrid from "app/components/image-grid"
 import { siteUrl } from "app/utils"
 import { Gradient, P } from "app/ui/text"
-import { getImageGroups, groupDisplayName } from "lib/cloudinary"
+import { groupDisplayName, getGroups } from "lib/cloudinary"
 
 type Params = { group: string }
 
@@ -47,12 +47,8 @@ export default async function Page({ params }: { params: Promise<Params> }) {
 }
 
 export async function generateStaticParams(): Promise<Params[]> {
-  const groups = await getImageGroups().then(Object.keys)
-  return groups.map(group => ({ group }))
+  const groups = await getGroups()
+  return groups.map(group => ({ group: group.path }))
 }
 
 export const dynamicParams = false
-
-export const dynamic = "force-static"
-
-export const fetchCache = "only-cache"

@@ -12,7 +12,7 @@ export default async function Page() {
       <div className="flex justify-center">
         <Masthead />
       </div>
-      <div className="w-full max-w-2xl mx-auto mb-20 px-3">
+      <div className="w-full max-w-2xl mx-auto mb-12 px-3">
         <Gradient className="text-[1.5rem]">Disco Ball Hire</Gradient>
         <P>
           BryFly&apos;s unique reflective artwork has delighted audiences at

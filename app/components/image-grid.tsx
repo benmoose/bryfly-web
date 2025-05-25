@@ -57,9 +57,9 @@ export default function ImageGrid({
           image={image}
           className="transition transform brightness-85 will-change-auto
           group-hover:brightness-115 group-focus:brightness-115"
-          sizes="(max-width: 448px) 100vw,
-          (max-width: 672px) 50vw,
-          640px"
+          sizes="(max-width: 640px) 50vw,
+          (max-width: 1280px) 33vw,
+          384px"
           alt={`Photo ${image.key}`}
         />
       </MotionLink>
