@@ -35,7 +35,7 @@ const enum Direction {
   NEXT = "next",
 }
 
-export default memo(function Modal({ children }: { children: ReactNode }) {
+function Modal({ children }: { children: ReactNode }) {
   const publicId = useSelectedLayoutSegment()
   const { groups, repo } = use(ImagesContext)
   const { group, index } = repo[publicId!]
@@ -155,9 +155,9 @@ export default memo(function Modal({ children }: { children: ReactNode }) {
       </div>
     </Dialog>
   )
-})
+}
 
-const ModalNavigation = memo(function ModalNavigation({
+function ModalNavigation({
   createHandler,
   index,
   group,
@@ -167,16 +167,25 @@ const ModalNavigation = memo(function ModalNavigation({
   group: string
 }) {
   const { repo, groups } = use(ImagesContext)
+  const disableNav = groups[group].length < 2
   const PrevButton = memo(function PrevButton() {
     return (
-      <IconButton action={createHandler(index - 1)} aria-label="Previous">
+      <IconButton
+        action={createHandler(index - 1)}
+        aria-label="Previous"
+        disabled={disableNav}
+      >
         <ArrowLeftIcon className="size-7" />
       </IconButton>
     )
   })
   const NextButton = memo(function NextButton() {
     return (
-      <IconButton action={createHandler(index + 1)} aria-label="Next">
+      <IconButton
+        action={createHandler(index + 1)}
+        aria-label="Next"
+        disabled={disableNav}
+      >
         <ArrowRightIcon className="size-7" />
       </IconButton>
     )
@@ -208,7 +217,7 @@ const ModalNavigation = memo(function ModalNavigation({
       <NextButton />
     </div>
   )
-})
+}
 
 const ThumbnailButton = memo(function ThumbnailButton({
   image,
@@ -272,6 +281,8 @@ const ThumbnailButton = memo(function ThumbnailButton({
     </motion.button>
   )
 })
+
+export default memo(Modal)
 
 // function surrounding<T>(list: T[], n: number, centre: number): T[] {
 //   const lowerIndex = centre - n > 0 ? centre - n : list.length - (n - centre)

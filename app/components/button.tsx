@@ -68,7 +68,7 @@ export function IconButton({
         hover:bg-slate-400/40 hover:text-white hover:opacity-100 hover:backdrop-blur-sm
         hover:outline-slate-200/85
         focus:bg-slate-400/40 focus:outline-slate-200/85 focus:opacity-100 focus:backdrop-blur-sm
-        disabled:bg-neutral-600/60 disabled:cursor-default disabled:text-neutral-500`}
+        disabled:outline-0 disabled:bg-neutral-600/60 disabled:cursor-default disabled:text-neutral-600/85`}
       tabIndex={disabled ? -1 : 0}
     >
       {label && (
