@@ -1,5 +1,5 @@
-// siteUrl returns the base URL for the deployment.
-export function siteUrl(): URL {
+// siteUrl is the base URL for a deployment.
+export const siteUrl: URL = (() => {
   // Info on these env vars can be found at
   // https://vercel.com/docs/environment-variables/system-environment-variables
   if (!process.env.VERCEL) {
@@ -10,4 +10,4 @@ export function siteUrl(): URL {
       ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
       : `https://${process.env.VERCEL_URL}`
   return new URL(url)
-}
+})()

@@ -1,14 +1,11 @@
-"use client"
-
-import { useContext } from "react"
 import Link from "next/link"
 import { Masthead } from "app/components/bryfly"
-import { ImagesContext } from "app/context"
 import { Gradient, P } from "app/ui/text"
+import { getGroups, getImages } from "lib/cloudinary"
 import HireLink from "./components/hire-link"
 
-export default function Page() {
-  const { repo, groups } = useContext(ImagesContext)
+export default async function Page() {
+  const groups = await getGroups()
 
   return (
     <>
@@ -39,17 +36,15 @@ export default function Page() {
         className="grid grid-flow-row grid-cols-1 sm:grid-cols-2
           gap-3 sm:gap-6 md:gap-9 lg:gap-12"
       >
-        {Object.keys(groups)
-          .sort()
-          .map(group => (
-            <HireLink
-              key={group}
-              href={`/hire/${group}`}
-              title={group}
-              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-              image={repo[groups[group][0]]}
-            />
-          ))}
+        {groups.map(group => (
+          <HireLink
+            key={group.path}
+            href={`/hire/${group.path}`}
+            title={group.name}
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+            image={getImages(group.path)}
+          />
+        ))}
       </div>
     </>
   )

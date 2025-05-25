@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { use } from "react"
 import { CdnImage } from "app/components/cdn-image"
 import { H3, P, Gradient } from "app/ui/text"
 import type { ImageResource } from "lib/cloudinary"
@@ -11,9 +12,10 @@ export default function HireLink({
 }: {
   title: string
   href: string
-  image: ImageResource
+  image: Promise<ImageResource[]>
   text: string
 }) {
+  const images = use(image)
   return (
     <Link
       href={href}
@@ -23,7 +25,7 @@ export default function HireLink({
       transition-colors duration-125 ease-in-out"
     >
       <div className="flex-initial w-1/2 @md:w-1/3 relative grow-0 overflow-hidden rounded-2xl">
-        <CdnImage image={image} className="absolute h-fit w-fit" />
+        <CdnImage image={images[0]} className="absolute h-fit w-fit" />
       </div>
       <div className="flex-auto w-1/2 @sm:w-2/3">
         <H3 className="mb-3 text-balance flex-1">{title}</H3>

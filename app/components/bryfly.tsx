@@ -5,18 +5,19 @@ import BryFlyLogo from "public/bryfly-logo-1.png"
 
 export function Masthead({ tagline = false }: { tagline?: boolean }) {
   return (
-    <Link href="/" className="block">
+    <Link href="/" className="inline-block w-full max-w-xs">
       <Image
         loading="eager"
         src={BryFlyLogo}
         alt="BryFly logo"
-        className="max-w-md w-full"
-        sizes="(max-width: 448px) 100w, 448px"
+        className="w-full px-6 sm:px-0"
+        sizes="(max-width: 320px) 100w, 320px"
       />
       {tagline && (
         <H3
           className="inline-block w-full text-center uppercase tracking-wide
-            text-pink-50/70 text-[1.05rem] md:text-[1.6rem]"
+            px-4 sm:px-0
+          text-pink-50/70 text-[1.15rem] sm:text-xl"
         >
           Where light takes flight
         </H3>

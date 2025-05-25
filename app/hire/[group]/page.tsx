@@ -1,8 +1,9 @@
 import type { Metadata } from "next"
 import { Masthead } from "app/components/bryfly"
 import ImageGrid from "app/components/image-grid"
-import { getImageGroups, getGroupDisplayName } from "lib/cloudinary"
 import { siteUrl } from "app/utils"
+import { Gradient, P } from "app/ui/text"
+import { getImageGroups, groupDisplayName } from "lib/cloudinary"
 
 type Params = { group: string }
 
@@ -12,28 +13,36 @@ export async function generateMetadata({
   params: Promise<Params>
 }): Promise<Metadata> {
   const { group } = await params
-  const pageUrl = new URL(`/hire/${group}`, siteUrl())
+  const pageUrl = new URL(`/hire/${group}`, siteUrl)
   return {
-    title: `Hire ${decodeURIComponent(group)}`,
+    title: await groupDisplayName(group),
     bookmarks: pageUrl.href,
   }
 }
 
 export default async function Page({ params }: { params: Promise<Params> }) {
   const { group } = await params
-  const groupName = await getGroupDisplayName(group)
-
+  const groupName = await groupDisplayName(group)
   return (
-    <>
-      <Masthead />
-      <div className="container mx-auto">
-        <pre className="text-stone-200">
-          Info page for <strong>{groupName}</strong>
-        </pre>
-
-        <ImageGrid group={group} />
+    <div className="container mx-auto">
+      <div className="flex justify-center mb-12">
+        <Masthead />
       </div>
-    </>
+      <div className="mb-12">
+        <Gradient className="mb-12">
+          <span className="text-4xl">{groupName}</span>
+        </Gradient>
+        <P>
+          Info page full of{" "}
+          <strong>
+            <em>really</em> interesting
+          </strong>{" "}
+          information...
+        </P>
+      </div>
+
+      <ImageGrid group={group} />
+    </div>
   )
 }
 

@@ -12,12 +12,12 @@ const MotionLink = motion.create(Link)
 
 export default function ImageGrid({
   children,
+  title,
   group,
-  showTitle = true,
 }: {
   children?: ReactNode
+  title?: string
   group: string
-  showTitle?: boolean
 }) {
   const { repo, groups } = useContext(ImagesContext)
 
@@ -67,7 +67,7 @@ export default function ImageGrid({
 
   return (
     <>
-      {showTitle && <H2 className="mb-3 text-stone-100">{group}</H2>}
+      {title && <H2 className="mb-3 text-stone-100">{title}</H2>}
       {children}
       <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 xl:grid-cols-4">
         {grid}
@@ -75,4 +75,3 @@ export default function ImageGrid({
     </>
   )
 }
-//columns-1 @xl:columns-2 @4xl:columns-3

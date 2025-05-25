@@ -11,9 +11,9 @@ interface BaseProps {
 type HeadingLevel = 1 | 2 | 3
 
 const headingClass: Record<HeadingLevel, string> = {
-  1: "text-4xl md:text-6xl",
-  2: "text-3xl md:text-5xl",
-  3: "text-2xl md:text-3xl",
+  1: "text-4xl",
+  2: "text-3xl",
+  3: "text-2xl",
 }
 
 function H({
@@ -27,9 +27,9 @@ function H({
     <HeadingTag
       {...props}
       className={classnames(
+        headingClass[level],
         "tracking-wider mb-3 text-stone-200",
         fingerPaint.className,
-        headingClass[level],
         className,
       )}
     >

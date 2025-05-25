@@ -1,5 +1,6 @@
 "use server"
 
+import { cache } from "react"
 import {
   type ImageFormat,
   type ResourceApiResponse,
@@ -46,7 +47,7 @@ const client = getClient()
 export async function getImageGroups(): Promise<{
   [group: string]: Ordered<ImageResource>[]
 }> {
-  const folders = await getProductFolders()
+  const folders = await getGroups()
   const images = await Promise.all(
     folders.map(folder => getImages(folder.path)),
   )
@@ -64,7 +65,7 @@ type Folder = {
   path: string
 }
 
-async function getProductFolders(): Promise<Folder[]> {
+export async function getGroups(): Promise<Folder[]> {
   if (isDev()) {
     return fixture("product-folders.json").folders
   }
@@ -77,13 +78,14 @@ async function getProductFolders(): Promise<Folder[]> {
     )
 }
 
-export async function getGroupDisplayName(
+// groupDisplayName takes a group path and returns its display name.
+export const groupDisplayName = cache(async function _groupDisplayName(
   path: string,
-): Promise<string | null> {
-  const folders = await getProductFolders()
+): Promise<string | undefined> {
+  const folders = await getGroups()
   const folder = folders.find(folder => folder.path === path)
-  return folder?.name ?? null
-}
+  return folder?.name
+})
 
 export async function getImages(
   group: string,

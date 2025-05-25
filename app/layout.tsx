@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   },
   description: "Unique disco ball sculptures available to commission or hire.",
   keywords: ["disco", "balls", "sculpture", "portfolio", "artist", "london"],
-  metadataBase: siteUrl(),
+  metadataBase: siteUrl,
   applicationName: "BryFly",
   openGraph: {
     title: "Disco Balls | BryFly",
