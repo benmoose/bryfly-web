@@ -49,7 +49,7 @@ export function SocialLinks() {
         transition break-keep border-none tracking-wider
         underline underline-offset-9 decoration-2 hover:decoration-4
         decoration-stone-500 hover:decoration-stone-400"
-        href="https://www.instagram.com/bryfly2000"
+        href="/commissions"
         target="_blank"
         rel="noreferrer"
       >
