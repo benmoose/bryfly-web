@@ -34,17 +34,6 @@ export function SocialLinks() {
       *:inline-block tracking-wide"
     >
       <Link
-        className="text-stone-200/80 hover:text-stone-50 font-medium
-        transition break-keep border-none tracking-wider
-        underline underline-offset-9 decoration-2 hover:decoration-4
-        decoration-stone-500 hover:decoration-stone-400"
-        href="https://www.instagram.com/bryfly2000"
-        target="_blank"
-        rel="noreferrer"
-      >
-        Commissions
-      </Link>
-      <Link
         prefetch
         className="transition px-3 font-bold border-0
         underline underline-offset-9 tracking-wider
@@ -54,6 +43,17 @@ export function SocialLinks() {
         href="/hire"
       >
         Available to Hire
+      </Link>
+      <Link
+        className="text-stone-200/80 hover:text-stone-50 font-medium
+        transition break-keep border-none tracking-wider
+        underline underline-offset-9 decoration-2 hover:decoration-4
+        decoration-stone-500 hover:decoration-stone-400"
+        href="https://www.instagram.com/bryfly2000"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Commissions
       </Link>
     </div>
   )
