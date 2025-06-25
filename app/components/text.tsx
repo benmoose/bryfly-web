@@ -1,6 +1,6 @@
-import type { ReactElement, ReactNode, JSX } from "react"
 import classnames from "classnames"
-import { fingerPaint } from "./font"
+import type { ReactElement, ReactNode, JSX } from "react"
+import { fingerPaint, mansalva } from "app/components/font"
 
 interface BaseProps {
   children?: ReactNode
@@ -9,12 +9,6 @@ interface BaseProps {
 }
 
 type HeadingLevel = 1 | 2 | 3
-
-const headingClass: Record<HeadingLevel, string> = {
-  1: "text-4xl",
-  2: "text-3xl",
-  3: "text-2xl",
-}
 
 function H({
   children,
@@ -27,7 +21,6 @@ function H({
     <HeadingTag
       {...props}
       className={classnames(
-        headingClass[level],
         "tracking-wider mb-3 text-stone-200",
         fingerPaint.className,
         className,
@@ -53,8 +46,8 @@ function P({ children, className, ...props }: BaseProps) {
     <p
       {...props}
       className={classnames(
-        "mb-3 font-medium text-stone-100 tracking-wide text-pretty",
-        "text-base xl:text-lg",
+        "mb-3 font-medium/9 text-stone-100 tracking-wide text-pretty",
+        "text-base",
         className,
       )}
     >
@@ -65,15 +58,16 @@ function P({ children, className, ...props }: BaseProps) {
 
 function Gradient({ children, className }: BaseProps) {
   return (
-    <P
+    <span
       className={classnames(
-        "text-transparent tracking-wider text-pretty font-semibold",
+        "text-transparent text-pretty",
         "bg-clip-text bg-gradient-to-tr from-pink-500 to-purple-300",
+        mansalva.className,
         className,
       )}
     >
       {children}
-    </P>
+    </span>
   )
 }
 
