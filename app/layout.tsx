@@ -5,6 +5,7 @@ import type { Metadata, Viewport } from "next"
 import { getImageGroups } from "lib/cloudinary"
 import ImagesProvider from "app/image-provider"
 import { siteUrl } from "app/utils"
+import Nav from "app/components/nav"
 
 import "./global.css"
 
@@ -53,7 +54,8 @@ export default async function RootLayout({
   const groups = await getImageGroups()
   return (
     <html lang="en">
-      <body className="bg-stone-950 antialiased selection:bg-pink-300 selection:text-purple-950">
+      <body className="antialiased bg-stone-950 text-stone-50 selection:bg-pink-300 selection:text-purple-950">
+        <Nav />
         <ImagesProvider groups={groups}>
           {modal}
           {children}

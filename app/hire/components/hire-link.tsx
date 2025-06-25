@@ -1,7 +1,7 @@
 import { use } from "react"
 import Link from "next/link"
 import { CdnImage } from "app/components/cdn-image"
-import { H3, P, Gradient } from "app/ui/text"
+import { H3, P, Gradient } from "app/components/text"
 import type { ImageResource } from "lib/cloudinary"
 
 export default function HireLink({
