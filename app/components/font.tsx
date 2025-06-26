@@ -1,13 +1,14 @@
-import { Finger_Paint, Mansalva } from "next/font/google"
+import { Aladin, Darumadrop_One } from "next/font/google"
 
-export const fingerPaint = Finger_Paint({
-  display: "auto",
-  weight: "400",
+export const darumadrop = Darumadrop_One({
+  preload: true,
+  display: "swap",
   subsets: ["latin"],
+  weight: "400",
 })
 
-export const mansalva = Mansalva({
-  display: "swap",
+export const aladin = Aladin({
+  display: "auto",
   subsets: ["latin"],
   weight: "400",
 })

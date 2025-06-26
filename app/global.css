@@ -12,6 +12,16 @@
   h3 {
     font-size: var(--text-2xl);
   }
+
+  a {
+    color: var(--color-pink-400);
+
+    font-weight: 600;
+  }
+
+  a:hover {
+    color: var(--color-pink-500);
+  }
 }
 
 @theme {

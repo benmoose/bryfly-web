@@ -4,6 +4,33 @@ import { CdnImage } from "app/components/cdn-image"
 import { H3, P, Gradient } from "app/components/text"
 import type { ImageResource } from "lib/cloudinary"
 
+export function Foo({
+  title,
+  href,
+  image,
+}: {
+  title: string
+  href: string
+  image: Promise<ImageResource[]>
+  text: string
+}) {
+  const images = use(image)
+  return (
+    <Link
+      href={href}
+      className="flex flex-row rounded-full overflow-hidden border border-sky-500 bg-sky-800/10"
+    >
+      <CdnImage
+        image={images[0]}
+        className="absolute h-fit w-fit rounded-2xl object-contain"
+      />
+      <div>
+        <H3 className="my-3 text-balance flex-1">{title}</H3>
+      </div>
+    </Link>
+  )
+}
+
 export default function HireLink({
   title,
   href,

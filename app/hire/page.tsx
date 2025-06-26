@@ -10,7 +10,9 @@ export default async function Page() {
   return (
     <>
       <div className="w-full max-w-2xl mx-auto mb-12 px-3">
-        <Gradient className="text-[2rem]">{pageTitle}</Gradient>
+        <h1 className="text-4xl sm:text-5xl mb-6 text-center">
+          <Gradient className="text-center text-balance">{pageTitle}</Gradient>
+        </h1>
         <P>
           Hire unique reflective artwork to delight audiences at your event.
           some of the UK&apos;s best festivals and events, including Noisily,
