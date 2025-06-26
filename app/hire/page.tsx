@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { Gradient, P } from "app/components/text"
 import { getGroups, getImages } from "lib/cloudinary"
-import HireLink from "./components/hire-link"
+import HireLink, { Foo } from "./components/hire-link"
 
 export default async function Page() {
   const groups = await getGroups()
@@ -34,7 +34,7 @@ export default async function Page() {
         gap-3 sm:gap-6 md:gap-9 lg:gap-12"
       >
         {groups.map(group => (
-          <HireLink
+          <Foo
             key={group.path}
             href={`/hire/${group.path}`}
             title={group.name}
