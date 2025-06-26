@@ -6,7 +6,7 @@ import Link from "next/link"
 import { motion } from "motion/react"
 import { ImagesContext } from "app/context"
 import { CdnImage } from "app/components/cdn-image"
-import { H2 } from "app/ui/text"
+import { H2 } from "app/components/text"
 
 const MotionLink = motion.create(Link)
 
