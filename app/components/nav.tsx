@@ -1,3 +1,4 @@
+import classNames from "classnames"
 import Image from "next/image"
 import Link from "next/link"
 import { H3 } from "app/components/text"
@@ -10,7 +11,10 @@ export default function Nav({ tagline = false }: { tagline?: boolean }) {
   }
 
   return (
-    <nav className="flex w-full py-3 bg-white/7 mb-12">
+    <nav className="flex justify-between w-full px-6 py-9 mb-12">
+      <HeroLink href="/hire" primary>
+        Hire
+      </HeroLink>
       <Link
         href="/"
         className={`inline-flex flex-col items-stretch mx-auto
@@ -23,7 +27,15 @@ export default function Nav({ tagline = false }: { tagline?: boolean }) {
           className="w-full"
           sizes={`(max-width: 640px) ${logoSize.small}px, ${logoSize.big}px`}
         />
-        {tagline && (
+      </Link>
+      <HeroLink href="/commissions">Commissions</HeroLink>
+    </nav>
+  )
+}
+
+/**
+ * 
+ * {tagline && (
           <H3
             className="relative inline-block w-full text-center uppercase
               tracking-wide text-pink-100 text-[0.84rem] sm:text-base -top-1"
@@ -31,7 +43,31 @@ export default function Nav({ tagline = false }: { tagline?: boolean }) {
             Where light takes flight
           </H3>
         )}
-      </Link>
-    </nav>
+ */
+
+function HeroLink({
+  children,
+  href,
+  primary = false,
+}: {
+  children: React.ReactNode
+  href: string
+  primary?: boolean
+}) {
+  return (
+    <Link prefetch href={href} className="group transition">
+      <span
+        className={classNames(
+          "px-3 font-semibold text-[1.4rem] tracking-wider break-keep transition",
+          {
+            "text-transparent bg-clip-text bg-gradient-to-bl from-pink-600 to-pink-200 group-hover:from-pink-200 group-hover:to-pink-50":
+              primary,
+            "text-stone-100/80 group-hover:text-stone-50": !primary,
+          },
+        )}
+      >
+        {children}
+      </span>
+    </Link>
   )
 }
