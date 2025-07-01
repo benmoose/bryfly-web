@@ -1,8 +1,7 @@
 import type { Metadata } from "next"
-import Nav from "app/components/nav"
 import ImageGrid from "app/components/image-grid"
 import { siteUrl } from "app/utils"
-import { Gradient, P } from "app/components/text"
+import { H1, Gradient, P } from "app/components/text"
 import { groupDisplayName, getGroups } from "lib/cloudinary"
 
 type Params = { group: string }
@@ -25,13 +24,10 @@ export default async function Page({ params }: { params: Promise<Params> }) {
   const groupName = await groupDisplayName(group)
   return (
     <div className="container mx-auto">
-      <div className="flex justify-center mb-12">
-        <Nav />
-      </div>
       <div className="mb-12">
-        <Gradient className="mb-12">
-          <span className="text-4xl">{groupName}</span>
-        </Gradient>
+        <H1 className="text-4xl sm:text-5xl mb-6 text-center">
+          <Gradient className="text-center text-balance">{groupName}</Gradient>
+        </H1>
         <P>
           Info page full of{" "}
           <strong>

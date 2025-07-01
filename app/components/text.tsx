@@ -1,6 +1,6 @@
 import classnames from "classnames"
 import type { ReactElement, ReactNode, JSX } from "react"
-import { josefin, rubik, fingerPaint } from "app/components/font"
+import { darumadrop } from "app/components/font"
 
 interface BaseProps {
   children?: ReactNode
@@ -22,7 +22,7 @@ function H({
       {...props}
       className={classnames(
         "tracking-wider mb-3 text-stone-200",
-        fingerPaint.className,
+        darumadrop.className,
         className,
       )}
     >
@@ -62,7 +62,7 @@ function Gradient({ children, className }: BaseProps) {
       className={classnames(
         "text-transparent",
         "bg-clip-text bg-gradient-to-tr from-pink-500 to-purple-200",
-        rubik.className,
+        darumadrop.className,
         className,
       )}
     >

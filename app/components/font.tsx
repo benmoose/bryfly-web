@@ -1,30 +1,14 @@
-import {
-  Aladin,
-  Rubik_Iso,
-  Rubik_Mono_One,
-  Rubik_Maps,
-  Finger_Paint,
-  Darumadrop_One,
-} from "next/font/google"
+import { Aladin, Darumadrop_One } from "next/font/google"
 
-export const rubik = Darumadrop_One({
+export const darumadrop = Darumadrop_One({
+  preload: true,
   display: "swap",
-  weight: "400",
-})
-
-export const chelsea = Aladin({
-  display: "auto",
-  weight: "400",
-})
-
-export const fingerPaint = Finger_Paint({
-  display: "auto",
-  weight: "400",
   subsets: ["latin"],
+  weight: "400",
 })
 
-export const josefin = Darumadrop_One({
-  display: "swap",
+export const aladin = Aladin({
+  display: "auto",
   subsets: ["latin"],
   weight: "400",
 })
