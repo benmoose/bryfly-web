@@ -8,7 +8,6 @@ export function Foo({
   title,
   href,
   image,
-  text,
 }: {
   title: string
   href: string

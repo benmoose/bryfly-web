@@ -1,8 +1,8 @@
 import classNames from "classnames"
 import Image from "next/image"
 import Link from "next/link"
-import { H3 } from "app/components/text"
 import Logo from "public/bryfly-logo-1.png"
+import { H3 } from "app/components/text"
 
 export default function Nav({ tagline = false }: { tagline?: boolean }) {
   const logoSize = {
@@ -11,13 +11,10 @@ export default function Nav({ tagline = false }: { tagline?: boolean }) {
   }
 
   return (
-    <nav className="flex justify-between w-full px-6 py-9 mb-12">
-      <HeroLink href="/hire" primary>
-        Hire
-      </HeroLink>
+    <nav className="flex justify-between items-center w-full px-6 py-9 mb-12">
       <Link
         href="/"
-        className={`inline-flex flex-col items-stretch mx-auto
+        className={`flex flex-col items-stretch flex-initial
         max-w-[${logoSize.small}px] sm:max-w-[${logoSize.big}px]`}
       >
         <Image
@@ -27,23 +24,17 @@ export default function Nav({ tagline = false }: { tagline?: boolean }) {
           className="w-full"
           sizes={`(max-width: 640px) ${logoSize.small}px, ${logoSize.big}px`}
         />
+        {<Tagline />}
       </Link>
-      <HeroLink href="/commissions">Commissions</HeroLink>
+      <div className="flex justify-end gap-6 text-right flex-auto">
+        <HeroLink href="/hire" primary>
+          Hire
+        </HeroLink>
+        <HeroLink href="/commissions">Commissions</HeroLink>
+      </div>
     </nav>
   )
 }
-
-/**
- * 
- * {tagline && (
-          <H3
-            className="relative inline-block w-full text-center uppercase
-              tracking-wide text-pink-100 text-[0.84rem] sm:text-base -top-1"
-          >
-            Where light takes flight
-          </H3>
-        )}
- */
 
 function HeroLink({
   children,
@@ -55,10 +46,11 @@ function HeroLink({
   primary?: boolean
 }) {
   return (
-    <Link prefetch href={href} className="group transition">
+    <Link prefetch href={href} className="group">
       <span
         className={classNames(
-          "px-3 font-semibold text-[1.4rem] tracking-wider break-keep transition",
+          "scale-100 group-hover:scale-105",
+          "font-medium text-[1rem] sm:text-[1.18rem] tracking-wider break-keep transition",
           {
             "text-transparent bg-clip-text bg-gradient-to-bl from-pink-600 to-pink-200 group-hover:from-pink-200 group-hover:to-pink-50":
               primary,
@@ -69,5 +61,13 @@ function HeroLink({
         {children}
       </span>
     </Link>
+  )
+}
+
+function Tagline() {
+  return (
+    <H3 className="relative w-full text-center text-[0.86rem] -top-0.5">
+      Where Light Takes Flight
+    </H3>
   )
 }
