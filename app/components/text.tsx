@@ -2,13 +2,13 @@ import classnames from "classnames"
 import type { ReactElement, ReactNode, JSX } from "react"
 import { darumadrop } from "app/components/font"
 
+type HeadingLevel = 1 | 2 | 3
+
 interface BaseProps {
   children?: ReactNode
   className?: string
   style?: React.CSSProperties
 }
-
-type HeadingLevel = 1 | 2 | 3
 
 function H({
   children,
@@ -21,7 +21,7 @@ function H({
     <HeadingTag
       {...props}
       className={classnames(
-        "tracking-wider mb-3 text-stone-200",
+        "tracking-wider text-stone-200",
         darumadrop.className,
         className,
       )}
@@ -41,28 +41,17 @@ const H1 = createHeading(1)
 const H2 = createHeading(2)
 const H3 = createHeading(3)
 
-function P({ children, className, ...props }: BaseProps) {
-  return (
-    <p
-      {...props}
-      className={classnames(
-        "mb-3 font-medium/9 tracking-wide text-pretty",
-        "text-base",
-        className,
-      )}
-    >
-      {children}
-    </p>
-  )
-}
-
-function Gradient({ children, className }: BaseProps) {
+function Gradient({
+  children,
+  className,
+  bold = false,
+}: BaseProps & { bold?: boolean }) {
   return (
     <span
       className={classnames(
         "text-transparent",
         "bg-clip-text bg-gradient-to-tr from-pink-500 to-purple-200",
-        darumadrop.className,
+        { [darumadrop.className]: bold },
         className,
       )}
     >
@@ -71,4 +60,4 @@ function Gradient({ children, className }: BaseProps) {
   )
 }
 
-export { H1, H2, H3, P, Gradient }
+export { H1, H2, H3, Gradient }

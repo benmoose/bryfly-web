@@ -19,17 +19,16 @@ export default async function Page() {
     <div className="container flex flex-col mx-auto">
       <main className="flex flex-col gap-6 mb-18 items-center text-center mx-auto">
         <h1 className="text-4xl sm:text-5xl">
-          <Gradient className="text-center text-balance">
-            Dangerously Disco.
+          <Gradient bold className="text-center">
+            Disco Balls Like No Other
           </Gradient>
         </h1>
 
-        <p className="text-lg/8 sm:text-xl/8 font-medium text-pretty mx-auto max-w-2xl mb-3">
+        <p className="text-lg/8 sm:text-xl/8 font-medium mx-auto max-w-2xl mb-3">
           Delight your audience with a unique BryFly creation! Hire an existing
           design or commission a bespoke piece, designed with you, perfectly
           tailored to bring magic to your event.
         </p>
-
         <HeroLinks />
       </main>
 
@@ -44,9 +43,9 @@ function HeroLinks() {
   return (
     <div className="grid grid-cols-2 justify-center gap-4">
       <HeroLink href="/hire" primary>
-        Available to Hire
+        Hire
       </HeroLink>
-      <HeroLink href="/commissions">Commissions</HeroLink>
+      <HeroLink href="/commissions">Commission</HeroLink>
     </div>
   )
 }
