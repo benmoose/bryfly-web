@@ -47,7 +47,7 @@ export function CdnImage({ image, alt, className, ...props }: Props) {
       blurDataURL={image.placeholderUrl}
       placeholder="blur"
       alt={alt ?? ""}
-      className={classNames("object-contain", className)}
+      className={classNames(className)}
     />
   )
 }

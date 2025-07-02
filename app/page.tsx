@@ -19,8 +19,8 @@ export default async function Page() {
     <div className="container flex flex-col mx-auto">
       <main className="flex flex-col gap-6 mb-18 items-center text-center mx-auto">
         <h1 className="text-4xl sm:text-5xl">
-          <Gradient className="text-center text-balance">
-            Dangerously Disco.
+          <Gradient bold className="text-center text-balance">
+            Disco Dangerously.
           </Gradient>
         </h1>
 
