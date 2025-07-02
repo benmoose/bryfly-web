@@ -1,10 +1,10 @@
 "use client"
 
-import { ImagesContext } from "app/context"
 import { DialogTitle } from "@headlessui/react"
-import { CdnImage } from "app/components/cdn-image"
 import { notFound, useParams } from "next/navigation"
 import { use } from "react"
+import { CdnImage } from "app/components/cdn-image"
+import { ImagesContext } from "app/context"
 
 type Params = { publicId: string }
 
