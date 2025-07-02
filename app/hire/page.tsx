@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Gradient, P } from "app/components/text"
+import { Gradient } from "app/components/text"
 import { getGroups, getImages } from "lib/cloudinary"
 import HireLink from "./components/hire-link"
 
@@ -9,11 +9,13 @@ export default async function Page() {
 
   return (
     <>
-      <div className="w-full max-w-2xl mx-auto mb-12 px-3">
-        <h1 className="text-4xl sm:text-5xl mb-6 text-center">
-          <Gradient className="text-center text-balance">{pageTitle}</Gradient>
+      <div className="container max-w-2xl mx-auto mb-12 px-6">
+        <h1 className="text-center">
+          <Gradient bold className="text-center text-balance">
+            {pageTitle}
+          </Gradient>
         </h1>
-        <P>
+        <p>
           Hire unique reflective artwork to delight audiences at your event.
           some of the UK&apos;s best festivals and events, including Noisily,
           Homobloc and Wildwood Disco. My pieces have also featured in music
@@ -22,18 +24,18 @@ export default async function Page() {
             Extraordinary
           </Link>
           .
-        </P>
-        <P>
+        </p>
+        <p>
           Hiring costs depend on the individual requirements of the event or
           production, so please email for more information. All pieces will be
           packaged securely for transportation. Transportation arrangements are
           not included.
-        </P>
+        </p>
       </div>
 
       <div
-        className="grid grid-flow-row grid-cols-1 sm:grid-cols-2
-        gap-3 sm:gap-6 md:gap-9 lg:gap-12"
+        className="grid grid-flow-row grid-cols-2 sm:grid-cols-3 md:grid-cols-4 px-6
+        gap-6 md:gap-9 lg:gap-12"
       >
         {groups.map(group => (
           <HireLink
