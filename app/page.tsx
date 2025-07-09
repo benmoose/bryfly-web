@@ -2,7 +2,7 @@ import classNames from "classnames"
 import { type ReactNode } from "react"
 import type { Metadata } from "next"
 import Link from "next/link"
-import ImageGrid from "app/components/image-grid"
+import { ImageGrid2 } from "app/components/image-grid"
 import { Gradient } from "app/components/text"
 import ImagesProvider from "app/image-provider"
 import { siteUrl } from "app/utils"
@@ -17,7 +17,7 @@ export default async function Page() {
 
   return (
     <div className="container flex flex-col mx-auto">
-      <main className="flex flex-col gap-6 mb-18 items-center text-center mx-auto">
+      <main className="flex flex-col gap-6 mb-18 items-center text-center">
         <h1 className="text-4xl sm:text-5xl">
           <Gradient bold className="text-center">
             Disco Balls Like No Other
@@ -33,7 +33,7 @@ export default async function Page() {
       </main>
 
       <ImagesProvider groups={{ hero }}>
-        <ImageGrid group="hero" />
+        <ImageGrid2 group="hero" />
       </ImagesProvider>
     </div>
   )
