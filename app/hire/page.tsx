@@ -17,7 +17,7 @@ export default async function Page() {
         </h1>
         <p>
           Hire unique reflective artwork to delight audiences at your event.
-          some of the UK&apos;s best festivals and events, including Noisily,
+          Some of the UK&apos;s best festivals and events, including Noisily,
           Homobloc and Wildwood Disco. My pieces have also featured in music
           videos and in the Disney series&nbsp;
           <Link href="https://en.wikipedia.org/wiki/Extraordinary_(TV_series)">
