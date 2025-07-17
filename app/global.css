@@ -1,5 +1,46 @@
 @import "tailwindcss";
 
+@layer base {
+  h1 {
+    font-size: var(--text-5xl);
+    text-wrap: balance;
+
+    margin-bottom: --spacing(6);
+  }
+
+  h2 {
+    font-size: var(--text-3xl);
+    text-wrap: balance;
+
+    margin-bottom: --spacing(3);
+  }
+
+  h3 {
+    font-size: var(--text-2xl);
+    text-wrap: balance;
+
+    margin-bottom: --spacing(3);
+  }
+
+  a {
+    color: var(--color-pink-400);
+  }
+
+  a:hover {
+    color: var(--color-pink-500);
+  }
+
+  p {
+    font-weight: var(--font-weight-medium);
+    text-wrap: pretty;
+
+    margin-bottom: --spacing(3);
+
+    --tw-tracking: var(--tracking-wide);
+    letter-spacing: var(--tracking-wide);
+  }
+}
+
 @theme {
   --animate-bulge: bulge 1900ms ease-in-out infinite;
 

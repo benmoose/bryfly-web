@@ -6,7 +6,6 @@ export const selectedVariant = "selected" as const
 export const hoverVariant = "hover" as const
 export const pressedVariant = "pressed" as const
 export const defaultTransition = {
-  opacity: { type: "linear" },
   default: {
     type: "spring",
     stiffness: 900,
