@@ -1,4 +1,4 @@
-import { Gradient, P } from "app/ui/text"
+import { Gradient, P } from "app/components/text"
 
 export default async function Page() {
   return (
