@@ -20,6 +20,9 @@ start: docker/start  ## Start project in production mode
 build: docker/build  ## Build project Docker image
 	pnpm build .
 
+.PHONY: clean
+clean: node/clean docker/clean  ## Remove Docker containers and Node build artifacts
+
 .PHONY: fmt
 fmt: node/fmt node/lint  ## Format and lint application code
 

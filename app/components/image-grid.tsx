@@ -1,77 +1,65 @@
 "use client"
 
-import { type ReactNode, useContext } from "react"
-import classNames from "classnames"
+import { useContext } from "react"
 import Link from "next/link"
-import { motion } from "motion/react"
+import Image from "next/image"
+import { motion, type MotionNodeOptions } from "motion/react"
 import { ImagesContext } from "app/context"
-import { CdnImage } from "app/components/cdn-image"
-import { H2 } from "app/ui/text"
+import { imageLoader } from "app/components/cdn-image"
+
+const bounceAnimation: Partial<MotionNodeOptions> = {
+  transition: {
+    type: "spring",
+    stiffness: 900,
+    mass: 1.4,
+    damping: 10,
+  },
+  whileTap: {
+    scale: 0.93,
+    opacity: 0.55,
+    transition: { duration: 0.06 },
+  },
+  whileFocus: { scale: 1.02 },
+  whileHover: { scale: 1.02 },
+}
 
 const MotionLink = motion.create(Link)
 
-export default function ImageGrid({
-  children,
-  title,
-  group,
-}: {
-  children?: ReactNode
-  title?: string
-  group: string
-}) {
+export default function ImageGrid({ group }: { group: string }) {
   const { repo, groups } = useContext(ImagesContext)
 
   if (!groups[group]) {
     return null
   }
 
-  const grid = groups[group]
-    .map(id => repo[id])
-    .map(image => (
-      <MotionLink
-        key={image.key}
-        tabIndex={0}
-        initial={false}
-        whileTap={{
-          scale: 0.93,
-          opacity: 0.55,
-          transition: { duration: 0.06 },
-        }}
-        whileFocus={{ scale: 1.02 }}
-        whileHover={{ scale: 1.02 }}
-        transition={{
-          type: "spring",
-          stiffness: 900,
-          mass: 1.4,
-          damping: 10,
-        }}
-        href={`/gallery/${image.publicId}`}
-        className={classNames(
-          `group relative w-full cursor-zoom-in rounded-lg
-          overflow-x-hidden transition-[outline] outline-2 outline-offset-4
-          outline-transparent scale-98 focus:outline-slate-100/95`,
-          { "order-1": image.index === 2 },
-        )}
-      >
-        <CdnImage
-          image={image}
-          className="transition transform brightness-85 will-change-auto
-          group-hover:brightness-115 group-focus:brightness-115"
-          sizes="(max-width: 640px) 50vw,
-          (max-width: 1280px) 33vw,
-          384px"
-          alt={`Photo ${image.key}`}
-        />
-      </MotionLink>
-    ))
-
   return (
-    <>
-      {title && <H2 className="mb-3 text-stone-100">{title}</H2>}
-      {children}
-      <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 xl:grid-cols-4">
-        {grid}
-      </div>
-    </>
+    <ul className="@container flex flex-wrap items-start">
+      {groups[group]
+        .map(id => repo[id])
+        .map(image => (
+          <li
+            key={image.key}
+            className="relative flex-auto portrait:h-[30vh] landscape:h-[40vh] basis-1/2 sm:basis-1/3"
+          >
+            <MotionLink
+              {...bounceAnimation}
+              initial={false}
+              href={`/gallery/${image.publicId}`}
+              className="w-full h-full max-h-full min-w-full p-0.5 inline-block scale-95"
+            >
+              <Image
+                alt={image.key}
+                loader={imageLoader}
+                src={image.publicId}
+                placeholder="blur"
+                blurDataURL={image.placeholderUrl}
+                height={image.height}
+                width={image.width}
+                className="w-full h-full object-cover align-bottom rounded-xl"
+              />
+            </MotionLink>
+          </li>
+        ))}
+    </ul>
   )
 }
