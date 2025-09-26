@@ -2,25 +2,25 @@ PROJ_NODE := $(shell cat .nvmrc)
 
 .PHONY: node/fmt
 node/fmt: node_modules
-	pnpm --stream exec prettier . \
+	@pnpm --stream exec prettier . \
 		--cache --ignore-unknown --log-level warn --no-editorconfig --write
 
 .PHONY: node/lint
 node/lint: node_modules
-	pnpm --stream run lint . \
+	@pnpm --stream run lint . \
      		--error-on-unmatched-pattern --fix --quiet
 
 node_modules: node/check package.json pnpm-lock.yaml
-	pnpm install --fix-lockfile --no-frozen-lockfile
+	@pnpm install --fix-lockfile --no-frozen-lockfile
 
 .PHONY: node/update
 node/update: node/check ## Update to latest node version
-	./scripts/update-node.sh --write
+	@./scripts/update-node.sh --write
 
 .PHONY: node/check
 node/check: corepack
-	pnpx check-node-version --node $(PROJ_NODE)
+	@pnpx check-node-version --node $(PROJ_NODE)
 
 .PHONY: corepack
 corepack:
-	corepack enable pnpm
+	@corepack enable pnpm
