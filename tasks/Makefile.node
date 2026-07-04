@@ -10,6 +10,10 @@ node/lint: node_modules
 	@pnpm --stream run lint . \
      		--error-on-unmatched-pattern --fix --quiet
 
+.PHONY: node/clean
+node/clean:
+	rm -rf .next/
+
 node_modules: node/check package.json pnpm-lock.yaml
 	@pnpm install --fix-lockfile --no-frozen-lockfile
 
